@@ -1,0 +1,39 @@
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.info {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.info p {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--color-muted);
+}
+
+.info strong {
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  padding: 1.3rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: start;
+  }
+}

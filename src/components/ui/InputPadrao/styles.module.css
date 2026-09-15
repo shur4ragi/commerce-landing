@@ -1,0 +1,49 @@
+.inputField {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  gap: 0.35rem;
+}
+
+.inputLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  padding: 0.15rem 0.1rem;
+}
+
+.required {
+  color: var(--color-accent);
+}
+
+.inputPadrao {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  min-height: 48px;
+  font-size: 1rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--ease);
+}
+
+.inputPadrao:focus,
+.inputPadrao:focus-visible {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.inputPadrao:disabled {
+  background: var(--color-secondary);
+  color: var(--color-muted);
+}
+
+textarea.inputPadrao {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}

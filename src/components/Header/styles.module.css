@@ -1,0 +1,117 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--header-height);
+  background: color-mix(in srgb, var(--color-background) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+}
+
+.elevated {
+  border-bottom-color: var(--color-line);
+}
+
+.bar {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.brand img {
+  width: 36px;
+  height: 36px;
+}
+
+.desktop {
+  display: none;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.desktop a {
+  color: var(--color-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.desktop a:hover {
+  color: var(--color-primary);
+}
+
+.burger {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.burger span {
+  position: absolute;
+  left: 12px;
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-primary);
+  transition: transform var(--ease), opacity var(--ease);
+}
+
+.burger span:nth-child(1) { top: 15px; }
+.burger span:nth-child(2) { top: 21px; }
+.burger span:nth-child(3) { top: 27px; }
+
+.burgerOpen span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burgerOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerOpen span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile {
+  position: absolute;
+  inset: var(--header-height) 0 auto 0;
+  min-height: calc(100dvh - var(--header-height));
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-line);
+  padding: 1rem 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile a {
+  display: block;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-line);
+  font-weight: 600;
+}
+
+.mobile :global(a.button),
+.mobile :global(button) {
+  margin-top: 1rem;
+}
+
+@media (min-width: 900px) {
+  .desktop {
+    display: flex;
+  }
+
+  .burger,
+  .mobile {
+    display: none;
+  }
+}
