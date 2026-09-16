@@ -1,7 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button } from '../ui';
+import { Button, UseInputPadrao } from '../ui';
 import { buildLineKey, formatPrice, parsePrice } from '../../utils/order.js';
 import styles from './styles.module.css';
 
@@ -210,15 +210,15 @@ export default function ProductPanel({
             </div>
           ) : null}
 
-          <label className={styles.noteField}>
-            <span>{itemObservationLabel || 'Observação do item'}</span>
-            <textarea
-              rows={2}
-              value={observation}
-              onChange={(event) => setObservation(event.target.value)}
-              placeholder="Ex.: sem açúcar"
-            />
-          </label>
+          <UseInputPadrao
+            label={itemObservationLabel || 'Observação do item'}
+            identifier="item-observation"
+            type="textarea"
+            rows={2}
+            value={observation}
+            onChange={(event) => setObservation(event.target.value)}
+            placeholder="Ex.: sem açúcar"
+          />
 
           <div className={styles.panelActions}>
             <button

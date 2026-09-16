@@ -127,7 +127,7 @@
 .openHit {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: var(--z-base);
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -137,7 +137,7 @@
   position: absolute;
   top: 0.7rem;
   right: 0.7rem;
-  z-index: 2;
+  z-index: var(--z-raised);
   background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   backdrop-filter: blur(8px);
 }
@@ -156,7 +156,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  z-index: var(--z-modal);
   background: rgb(36 24 18 / 42%);
 }
 
@@ -179,7 +179,7 @@
   position: absolute;
   top: 0.9rem;
   right: 0.9rem;
-  z-index: 2;
+  z-index: var(--z-raised);
 }
 
 .panelMedia {
@@ -213,6 +213,7 @@
 
 .panelBody h2 {
   font-size: 1.7rem;
+  color: var(--color-accent-dark);
 }
 
 .panelPrice {
@@ -316,26 +317,6 @@
   color: var(--color-primary);
 }
 
-.noteField {
-  display: grid;
-  gap: 0.35rem;
-  color: var(--color-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.noteField textarea {
-  min-height: 72px;
-  padding: 0.7rem 0.85rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font: inherit;
-  font-weight: 500;
-  resize: vertical;
-}
-
 .panelActions {
   display: grid;
   gap: 0.7rem;
@@ -374,6 +355,7 @@
 
 .catalogHeader h2 {
   font-size: 1.3rem;
+  color: var(--color-accent-dark);
 }
 
 .catalogHeader .panelClose {

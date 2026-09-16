@@ -8,5 +8,7 @@ export {
   UseInputPadrao,
   InputPadrao,
   InputField,
+  UseInputMask,
+  applyMask,
 } from './InputPadrao/index.jsx';
-export { UseInputMask, useInputMask, applyMask } from '../../utils/mask.js';
+export { UseInputMask as useInputMask } from './InputPadrao/index.jsx';

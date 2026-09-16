@@ -66,6 +66,7 @@ export default function Contact() {
                 required
                 value={phone}
                 onChange={handlePhone}
+                placeholder="(11) 99999-9999"
               />
               <UseInputPadrao
                 label={contact.form.messageLabel}

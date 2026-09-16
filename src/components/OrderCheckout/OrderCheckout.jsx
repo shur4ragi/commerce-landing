@@ -1,11 +1,47 @@
 import PropTypes from 'prop-types';
-import { UseInputPadrao } from '../ui';
+import { UseInputMask, UseInputPadrao } from '../ui';
 import './OrderCheckout.css';
+
+function CheckoutField({ field, value, onChange, paymentMethods }) {
+  const [maskedValue, handleMasked, inputRef] = UseInputMask(
+    field.mask || null,
+    field.maskType || 'text',
+    value || '',
+    (event) => onChange({ [field.key]: event.target.value }),
+  );
+
+  return (
+    <div data-tour={field.tour}>
+      <UseInputPadrao
+        label={field.label}
+        identifier={`order-${field.id}`}
+        required={field.required}
+        type={field.type || 'text'}
+        value={maskedValue}
+        onChange={handleMasked}
+        inputRef={inputRef}
+        placeholder={field.placeholder}
+        options={
+          field.type === 'select'
+            ? paymentMethods.map((method) => ({ value: method, label: method }))
+            : undefined
+        }
+      />
+    </div>
+  );
+}
+
+CheckoutField.propTypes = {
+  field: PropTypes.object.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  paymentMethods: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default function OrderCheckout({
   fields,
   customer,
-  paymentMethods,
+  paymentMethods = [],
   onChange,
   onBack,
   backLabel,
@@ -14,43 +50,15 @@ export default function OrderCheckout({
   return (
     <form className="order-checkout" onSubmit={(event) => event.preventDefault()}>
       <div className="order-checkout__fields">
-        {fields.map((field) => {
-          if (field.type === 'select') {
-            return (
-              <label key={field.id} className="order-checkout__field" data-tour={field.tour}>
-                <span>
-                  {field.label}
-                  {field.required ? ' *' : ''}
-                </span>
-                <select
-                  value={customer[field.key] || ''}
-                  required={field.required}
-                  onChange={(event) => onChange({ [field.key]: event.target.value })}
-                  aria-label={field.label}
-                >
-                  <option value="">Selecione</option>
-                  {paymentMethods.map((method) => (
-                    <option key={method} value={method}>{method}</option>
-                  ))}
-                </select>
-              </label>
-            );
-          }
-
-          return (
-            <div key={field.id} data-tour={field.tour}>
-              <UseInputPadrao
-                label={field.label}
-                identifier={`order-${field.id}`}
-                required={field.required}
-                type={field.type || 'text'}
-                value={customer[field.key] || ''}
-                onChange={(event) => onChange({ [field.key]: event.target.value })}
-                aria-label={field.label}
-              />
-            </div>
-          );
-        })}
+        {fields.map((field) => (
+          <CheckoutField
+            key={field.id}
+            field={field}
+            value={customer[field.key] || ''}
+            onChange={onChange}
+            paymentMethods={paymentMethods}
+          />
+        ))}
       </div>
 
       <button type="button" className="order-checkout__back" onClick={onBack}>
@@ -69,6 +77,9 @@ OrderCheckout.propTypes = {
     type: PropTypes.string,
     required: PropTypes.bool,
     tour: PropTypes.string,
+    mask: PropTypes.string,
+    maskType: PropTypes.string,
+    placeholder: PropTypes.string,
   })).isRequired,
   customer: PropTypes.object.isRequired,
   paymentMethods: PropTypes.arrayOf(PropTypes.string),

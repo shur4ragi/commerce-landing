@@ -48,9 +48,9 @@ export default function Header() {
 
         <nav className={styles.desktop} aria-label="Principal">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href}>{item.label}</a>
+            <a key={item.href} className={styles.navLink} href={item.href}>{item.label}</a>
           ))}
-          <Button href={whatsappUrl} target="_blank">Reservar</Button>
+          <Button href={whatsappUrl} target="_blank" className={styles.reserve}>Reservar</Button>
         </nav>
 
         <button
@@ -70,9 +70,9 @@ export default function Header() {
         <div className={styles.mobile} role="dialog" aria-label="Menu">
           <Container>
             {navigation.map((item) => (
-              <a key={item.href} href={item.href} onClick={(event) => handleNavClick(event, item.href)}>{item.label}</a>
+              <a key={item.href} className={styles.navLink} href={item.href} onClick={(event) => handleNavClick(event, item.href)}>{item.label}</a>
             ))}
-            <Button href={whatsappUrl} target="_blank">Reservar</Button>
+            <Button href={whatsappUrl} target="_blank" className={styles.reserve}>Reservar</Button>
           </Container>
         </div>
       )}

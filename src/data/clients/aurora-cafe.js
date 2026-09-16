@@ -313,6 +313,7 @@ const content = {
         label: 'Nome',
         required: true,
         tour: 'customer-name',
+        placeholder: 'Como devemos te chamar',
         hint: 'Informe seu nome para que o estabelecimento saiba quem realizou o pedido.',
       },
       {
@@ -322,6 +323,9 @@ const content = {
         type: 'tel',
         required: true,
         tour: 'customer-phone',
+        mask: '(99) 9999-9999|(99) 99999-9999',
+        maskType: 'number',
+        placeholder: '(11) 99999-9999',
         hint: 'Informe um telefone para o estabelecimento confirmar o pedido.',
       },
       {
@@ -330,6 +334,7 @@ const content = {
         label: 'Endereço',
         required: true,
         tour: 'customer-address',
+        placeholder: 'Rua, avenida ou local de entrega',
         hint: 'Informe a rua ou o local de entrega.',
       },
       {
@@ -338,6 +343,8 @@ const content = {
         label: 'Número',
         required: true,
         tour: 'customer-number',
+        maskType: 'number',
+        placeholder: '123',
         hint: 'Informe o número do endereço.',
       },
       {
@@ -346,6 +353,7 @@ const content = {
         label: 'Complemento',
         required: false,
         tour: 'customer-complement',
+        placeholder: 'Apto, bloco ou referência',
         hint: 'Se quiser, acrescente complemento, bloco ou referência.',
       },
       {
@@ -364,6 +372,7 @@ const content = {
         type: 'textarea',
         required: false,
         tour: 'customer-observation',
+        placeholder: 'Ex.: sem açúcar, deixar na portaria',
         hint: 'Use este campo para pedidos especiais, como sem açúcar ou ponto da bebida.',
       },
     ],

@@ -1,49 +1,284 @@
 .inputField {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  width: 100%;
-  gap: 0.35rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 100%;
 }
 
 .inputLabel {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-muted);
-  padding: 0.15rem 0.1rem;
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary, var(--cinza-padrao));
+    padding: 0.25rem;
 }
 
 .required {
-  color: var(--color-accent);
+    font-size: 12px;
+    color: var(--erro);
+}
+
+.inputPadraoContent {
+    display: flex;
+}
+
+.inputPadraoField {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-grow: 1;
+}
+
+.inputPadraoField i {
+    position: absolute;
+    right: 1rem;
+    color: var(--cinza-padrao);
+    user-select: none;
+    pointer-events: none;
+}
+
+.iconsContainer {
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    user-select: none;
+    pointer-events: none;
+}
+
+.iconsContainer i {
+    position: relative;
+    right: unset;
+    color: var(--cinza-padrao);
+}
+
+.eyeIcon {
+    display: flex;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    user-select: all !important;
+}
+
+.fileActionIcon {
+    display: flex;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    user-select: all !important;
 }
 
 .inputPadrao {
-  appearance: none;
-  width: 100%;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
-  padding: 0.85rem 1rem;
-  min-height: 48px;
-  font-size: 1rem;
-  background: var(--color-surface);
-  color: var(--color-text);
-  transition: border-color var(--ease);
+    appearance: none;
+    border: 1px solid var(--border-color, var(--cinza-claro));
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+    height: 2.5rem;
+    font-size: 0.85rem;
+    line-height: unset;
+    background-color: var(--bg-card, var(--branco));
+    color: var(--text-primary, var(--cinza-escuro));
+    flex: 1;
+    cursor: text;
+
+    transition: border 0.2s ease-in-out;
+}
+
+.inputPadrao:-webkit-autofill,
+.inputPadrao:-webkit-autofill:hover,
+.inputPadrao:-webkit-autofill:focus,
+.inputPadrao:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--cinza-escuro);
+    background-color: var(--cinza-claro) !important;
+
 }
 
 .inputPadrao:focus,
-.inputPadrao:focus-visible {
-  border-color: var(--color-accent);
-  outline: none;
+.inputPadrao:focus-visible,
+.inputPadrao:focus-within {
+    border: 1px solid var(--cor-padrao);
+    outline: none;
 }
 
+.inputPadrao,
+.inputPadrao::placeholder {
+    text-transform: none;
+}
+
+.inputPadrao.symbolInlineRight {
+    padding-right: 3.25rem !important;
+}
+
+.inputPadrao.symbolInlineLeft {
+    padding-left: 3.25rem !important;
+}
+
+.upperCase {
+    text-transform: uppercase;
+}
+
+.lowerCase {
+    text-transform: lowercase;
+}
+
+.readOnly {
+    pointer-events: none;
+}
+
+.disabled {
+    pointer-events: none;
+    background-color: var(--cinza-claro);
+}
+
+input[type="date" i] {
+    font-family: sans-serif;
+}
+
+/* Data nativa (quando usada) + alinhamento ao tema */
+.inputPadraoField input[type="date"],
+.inputPadraoField input[type="datetime-local"],
+.inputPadraoField input[type="time"] {
+    color-scheme: light dark;
+    color: var(--text-primary, var(--cinza-escuro));
+    background-color: var(--bg-card, var(--branco));
+}
+
+.inputPadraoField input:disabled,
 .inputPadrao:disabled {
-  background: var(--color-secondary);
-  color: var(--color-muted);
+    border-color: var(--border-color, #dadbdd);
+    background-color: var(--surface-2, #fdfdff);
+    color: var(--text-muted, #99999b);
 }
 
-textarea.inputPadrao {
-  min-height: 120px;
-  resize: vertical;
-  line-height: 1.5;
+.inputPadraoField input:disabled+i,
+.inputPadrao:disabled+i {
+    color: var(--text-muted, #99999b);
+}
+
+textarea {
+    font-family: sans-serif;
+    resize: none;
+    margin-left: 0 !important;
+}
+
+.inputButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border-color, var(--cinza-claro));
+    padding: 0 1rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    font-size: 0.85rem;
+    line-height: normal;
+    background-color: var(--bg-card, var(--branco));
+    color: var(--text-primary, var(--cinza-escuro));
+    cursor: pointer;
+    transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.inputButton:hover {
+    border: 1px solid var(--cor-padrao);
+    color: var(--cor-padrao);
+    z-index: var(--z-base);
+}
+
+.inputButton:disabled {
+    border-color: var(--border-color, #dadbdd);
+    background-color: var(--surface-2, #fdfdff);
+    color: var(--text-muted, #99999b);
+}
+
+.inputButton.firstButton {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.inputButton.lastButton {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.inputButtonLeft {
+    margin-right: -1px;
+}
+
+.inputButtonRight {
+    margin-left: -1px;
+}
+
+.inputPadraoField input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
+.inputPadraoField input[type="number"]::-webkit-outer-spin-button,
+.inputPadraoField input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputPadraoField input[type="number"]::-webkit-inner-spin-button,
+.inputPadraoField input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.inputPadraoField input[type="number"]+i {
+    display: none;
+}
+
+.inputSuffixContainer {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    user-select: none;
+    pointer-events: none;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.inputSuffix {
+    position: relative;
+    background-color: var(--neutral-200);
+    color: var(--cinza-padrao);
+    font-size: 1rem;
+    pointer-events: none;
+    user-select: none;
+    width: 2.5rem;
+    height: calc(2.5rem - 2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputSuffixContainer.symbolInlineRight {
+    left: unset;
+    right: 1px;
+}
+
+.inputSuffixContainer.symbolInlineLeft {
+    left: 1px;
+    right: unset;
+}
+
+.inputSuffixContainer.symbolInlineRight .inputSuffix {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.inputSuffixContainer.symbolInlineLeft .inputSuffix {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+@media(min-width:768px) {
+    .inputLabel {
+        display: block;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--cinza-padrao);
+        padding: 0.25rem;
+    }
+
 }

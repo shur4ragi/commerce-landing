@@ -2,6 +2,7 @@
   --color-primary: #2c1a12;
   --color-secondary: #f6efe6;
   --color-accent: #d4652f;
+  --color-accent-dark: color-mix(in srgb, var(--color-accent) 68%, black);
   --color-text: #241812;
   --color-background: #fbf6f0;
   --color-surface: #ffffff;
@@ -32,4 +33,39 @@
   --container: 1120px;
   --header-height: 72px;
   --ease: 180ms ease;
+
+  /* Camadas 0–10 */
+  --z-ground: 0;
+  --z-base: 1;
+  --z-raised: 2;
+  --z-dropdown: 3;
+  --z-float: 4;
+  --z-header: 5;
+  --z-overlay: 6;
+  --z-modal: 7;
+  --z-popover: 8;
+  --z-tooltip: 9;
+  --z-tour: 10;
+  --z-tour-card: 10;
+
+  --cor-padrao: var(--color-accent);
+  --cinza-padrao: var(--color-muted);
+  --cinza-claro: var(--color-line);
+  --cinza-claro-2: var(--color-secondary);
+  --cinza-escuro: var(--color-text);
+  --branco: var(--color-surface);
+  --erro: var(--color-accent);
+  --border-color: var(--color-line);
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-muted);
+  --text-muted: var(--color-muted);
+  --bg-card: var(--color-surface);
+  --bg-hover: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+  --surface-2: var(--color-secondary);
+  --surface-3: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  --gray-100: var(--color-secondary);
+  --gray-150: var(--color-line);
+  --gray-300: var(--color-line);
+  --gray-400: var(--color-muted);
+  --neutral-200: var(--color-secondary);
 }
