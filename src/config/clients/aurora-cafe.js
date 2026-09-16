@@ -7,12 +7,13 @@ const siteConfig = {
     name: 'Aurora Café',
     legalName: 'Aurora Café LTDA',
     description: 'Café especial, brunch e doces artesanais no coração da cidade.',
-    phone: '(11) 98888-0101',
-    whatsapp: '5511988880101',
+    phone: '(12) 99193-9876',
+    whatsapp: '5512991939876',
     whatsappMessage: 'Olá, Aurora Café! Quero reservar uma mesa.',
     email: 'ola@auroracafe.example',
     address: 'Rua das Acácias, 120 — Vila Madalena, São Paulo',
     hours: 'Ter a Dom, das 8h às 19h',
+    coordinates: { lat: -23.5512, lng: -46.6905 },
   },
 
   branding: {
