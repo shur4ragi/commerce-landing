@@ -32,7 +32,9 @@
 }
 
 .ghost:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
 .whatsapp {
