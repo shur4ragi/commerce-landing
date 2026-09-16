@@ -1,0 +1,38 @@
+.order-checkout {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.order-checkout__fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.order-checkout__field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.order-checkout__field select {
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 500;
+}
+
+.order-checkout__back {
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  text-decoration: underline;
+}

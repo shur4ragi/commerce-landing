@@ -1,0 +1,15 @@
+.whatsapp-order {
+  width: 100%;
+}
+
+.whatsapp-order--disabled {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-muted) 35%, var(--color-line));
+  color: var(--color-muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: not-allowed;
+}

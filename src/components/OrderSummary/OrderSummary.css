@@ -1,0 +1,122 @@
+.order-summary {
+  display: grid;
+  gap: 1rem;
+}
+
+.order-summary__empty {
+  margin: 1.4rem 0;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.order-summary__list {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.order-summary__item {
+  display: grid;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.order-summary__item strong {
+  display: block;
+  color: var(--color-primary);
+}
+
+.order-summary__options,
+.order-summary__unit {
+  margin: 0.2rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.order-summary__side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.order-summary__qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 0.15rem;
+}
+
+.order-summary__qty button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.order-summary__qty span {
+  min-width: 1.2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.order-summary__line {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.order-summary__remove {
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.order-summary__totals {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.order-summary__totals div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-summary__totals dt {
+  color: var(--color-muted);
+}
+
+.order-summary__totals dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.order-summary__checkout {
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .order-summary__item {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+}

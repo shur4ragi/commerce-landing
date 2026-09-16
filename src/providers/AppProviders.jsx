@@ -5,6 +5,7 @@ import { applyTheme } from '../theme/applyTheme.js';
 import { applySeo } from '../utils/seo.js';
 import { buildWhatsappUrl } from '../utils/whatsapp.js';
 import { SiteContext } from './SiteContext.js';
+import OrderProvider from './OrderProvider.jsx';
 
 export default function AppProviders({ children }) {
   const client = useMemo(() => getActiveClient(), []);
@@ -28,7 +29,9 @@ export default function AppProviders({ children }) {
 
   return (
     <SiteContext.Provider value={value}>
-      {children}
+      <OrderProvider>
+        {children}
+      </OrderProvider>
     </SiteContext.Provider>
   );
 }
