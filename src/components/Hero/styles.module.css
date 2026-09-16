@@ -8,6 +8,22 @@
   gap: 2rem;
 }
 
+.locationMap {
+  margin-bottom: 0.9rem;
+  color: var(--color-accent);
+}
+
+.locationMap :global(.location-map__button--custom) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.locationMap:hover .mapIcon {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
 .eyebrow {
   color: var(--color-accent);
   font-weight: 700;
@@ -15,6 +31,25 @@
   text-transform: uppercase;
   font-size: 0.75rem;
   margin-bottom: 0.9rem;
+}
+
+.locationMap .eyebrow {
+  margin-bottom: 0;
+}
+
+.mapIcon {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  color: var(--color-accent);
+  transition: transform var(--ease), background var(--ease);
+}
+
+.mapIcon svg {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .hero h1 {

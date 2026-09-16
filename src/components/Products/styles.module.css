@@ -1,16 +1,539 @@
-.grid {
-  display: grid;
-  gap: 1.25rem;
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1.25rem;
 }
 
-@media (min-width: 600px) {
-  .grid {
+.toolbarActions,
+.carouselNav {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.toolbarButton,
+.navButton,
+.saveOnCard,
+.panelClose,
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: background var(--ease), color var(--ease), border-color var(--ease), transform var(--ease);
+}
+
+.toolbarButton {
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.toolbarButton svg,
+.saveOnCard svg,
+.saveButton svg,
+.panelClose svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.count {
+  min-width: 1.3rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.navButton,
+.panelClose,
+.saveOnCard {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.toolbarButton:hover,
+.navButton:hover,
+.saveOnCard:hover,
+.panelClose:hover,
+.saveButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+}
+
+.toolbarButton:active,
+.navButton:active,
+.saveOnCard:active,
+.panelClose:active,
+.saveButton:active {
+  transform: translateY(1px);
+  background: color-mix(in srgb, var(--color-accent) 22%, var(--color-surface));
+}
+
+.saveOnCardActive:hover,
+.saveButtonActive:hover {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.carousel {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.2rem;
+  padding: 0.35rem 0.2rem 1.1rem;
+  scrollbar-width: none;
+  outline: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 min(260px, 78vw);
+  scroll-snap-align: start;
+}
+
+.cardWrap {
+  position: relative;
+  height: 100%;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.cardWrap:hover {
+  transform: translate(-3px, -4px);
+}
+
+.cardWrap:hover :global(article) {
+  transform: none;
+  box-shadow: var(--shadow-card);
+}
+
+.openHit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.saveOnCard {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 2;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.saveOnCardActive,
+.saveButtonActive {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.cardActive :global(article) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgb(36 24 18 / 42%);
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100%);
+  background: var(--color-background);
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+  box-shadow: -18px 0 40px rgb(36 24 18 / 16%);
+  animation: slideIn 220ms ease;
+  overflow: auto;
+}
+
+.panelClose {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 2;
+}
+
+.panelMedia {
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border-radius: var(--radius-xl) 0 0 0;
+  background: var(--color-secondary);
+}
+
+.panelMedia img {
+  width: calc(100% + 28px);
+  max-width: none;
+  height: calc(100% + 28px);
+  margin: -14px;
+  object-fit: cover;
+}
+
+.panelBody {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.35rem 1.3rem 1.6rem;
+}
+
+.panelCategory {
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.panelBody h2 {
+  font-size: 1.7rem;
+}
+
+.panelPrice {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.panelText,
+.panelDetails,
+.empty {
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
+.panelDetails {
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.qtyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 0.45rem;
+  font-weight: 600;
+}
+
+.qtyControl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 0.15rem;
+}
+
+.qtyControl button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.qtyControl span {
+  min-width: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.options {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.optionGroup {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.optionGroup legend {
+  padding: 0 0 0.45rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.optionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.optionChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-surface);
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.optionChip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.optionChipActive {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  color: var(--color-primary);
+}
+
+.noteField {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.noteField textarea {
+  min-height: 72px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 500;
+  resize: vertical;
+}
+
+.panelActions {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.saveButton {
+  min-height: 48px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.orderButton {
+  width: 100%;
+}
+
+.catalog {
+  position: absolute;
+  inset: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-background);
+  border-radius: 24px;
+  animation: fadeUp 220ms ease;
+}
+
+.catalogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem 1rem 1.4rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.catalogHeader h2 {
+  font-size: 1.3rem;
+}
+
+.catalogHeader .panelClose {
+  position: static;
+}
+
+.catalogBody {
+  overflow: auto;
+  padding: 1.05rem 1.15rem 1.5rem;
+  display: grid;
+  gap: 1.55rem;
+}
+
+.catalogGroup {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.catalogGroup + .catalogGroup {
+  padding-top: 0.35rem;
+  border-top: 1px dashed color-mix(in srgb, var(--color-line) 82%, var(--color-accent) 18%);
+}
+
+.catalogDivider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.catalogDividerIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  border-radius: 14px;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-secondary));
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, var(--color-line));
+  box-shadow: 0 8px 0 color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+.catalogDividerIcon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.catalogDividerCopy {
+  display: grid;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.catalogDividerCopy h3 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.catalogDividerCount {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.catalogDividerLine {
+  flex: 1;
+  min-width: 1.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), transparent 92%);
+  opacity: 0.55;
+}
+
+.catalogGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.catalogCard :global(figure) {
+  aspect-ratio: 16 / 10;
+}
+
+.catalogCard :global(div) {
+  padding: 0.72rem 0.8rem 0.85rem;
+  gap: 0.28rem;
+}
+
+.catalogCard :global(h3) {
+  font-size: 0.95rem;
+}
+
+.catalogCard :global(p) {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.catalogCard :global(span) {
+  padding-top: 0.35rem;
+  font-size: 0.88rem;
+}
+
+.empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(24px); opacity: 0.6; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@media (min-width: 720px) {
+  .slide {
+    flex-basis: calc((100% - 2.5rem) / 3);
+  }
+
+  .catalog {
+    inset: 4vh 6vw;
+  }
+
+  .catalogGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .grid {
+  .slide {
+    flex-basis: calc((100% - 3.75rem) / 4);
+  }
+
+  .catalogGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .catalogGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 719px) {
+  .catalog {
+    inset: 0;
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .catalog {
+    animation: none;
   }
 }
