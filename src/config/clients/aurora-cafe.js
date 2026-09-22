@@ -19,7 +19,7 @@ const siteConfig = {
   branding: {
     logo,
     favicon,
-    ogImage: '/og-cover.svg',
+    ogImage: '/og-cover.png',
   },
 
   theme: {
@@ -47,7 +47,7 @@ const siteConfig = {
     description: 'Grãos de origem, brunch de casa e um espaço para ficar. Aurora Café, Vila Madalena.',
     ogTitle: 'Aurora Café',
     ogDescription: 'Café especial, do grão à xícara.',
-    ogImage: '/og-cover.svg',
+    ogImage: '/og-cover.png',
     locale: 'pt_BR',
     themeColor: '#2C1A12',
   },

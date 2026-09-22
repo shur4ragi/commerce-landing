@@ -14,7 +14,7 @@ export function applySeo(seo = {}, business = {}, branding = {}) {
   const description = seo.description || business.description || '';
   const ogTitle = seo.ogTitle || title;
   const ogDescription = seo.ogDescription || description;
-  const ogImage = seo.ogImage || branding.ogImage || '/og-cover.svg';
+  const ogImage = seo.ogImage || branding.ogImage || '/og-cover.png';
   const canonical = seo.canonical || window.location.origin;
 
   document.title = title;
