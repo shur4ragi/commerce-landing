@@ -26,6 +26,26 @@
   color: var(--color-primary);
 }
 
+@media (max-width: 767px) {
+  .grid {
+    gap: 0.65rem;
+  }
+
+  .card {
+    padding: 0.9rem 0.85rem;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .card footer {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+  }
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

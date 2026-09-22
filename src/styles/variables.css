@@ -69,3 +69,11 @@
   --gray-400: var(--color-muted);
   --neutral-200: var(--color-secondary);
 }
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: 56px;
+    --radius-lg: 12px;
+    --shadow-card: 4px 5px 0 color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+}

@@ -507,6 +507,117 @@
 }
 
 @media (max-width: 719px) {
+  .toolbar {
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .toolbarActions {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toolbarButton {
+    min-height: 36px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .carouselNav {
+    display: none;
+  }
+
+  .carousel {
+    gap: 0.5rem;
+    padding: 0.15rem 0 0.55rem;
+  }
+
+  .slide {
+    flex: 0 0 calc((100% - 0.5rem) / 2.12);
+  }
+
+  .slide :global(figure) {
+    aspect-ratio: 1 / 1;
+  }
+
+  .slide :global(p) {
+    display: none;
+  }
+
+  .saveOnCard {
+    width: 32px;
+    height: 32px;
+    top: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .saveOnCard svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .panelMedia {
+    aspect-ratio: 16 / 9;
+    max-height: 168px;
+  }
+
+  .panelMedia img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  .panelBody {
+    padding: 0.95rem 1rem 1.15rem;
+    gap: 0.4rem;
+  }
+
+  .panelBody h2 {
+    font-size: 1.25rem;
+  }
+
+  .panelPrice {
+    font-size: 1rem;
+  }
+
+  .catalogHeader {
+    padding: 0.75rem 0.85rem 0.75rem 1rem;
+  }
+
+  .catalogHeader h2 {
+    font-size: 1.1rem;
+  }
+
+  .catalogBody {
+    padding: 0.8rem 0.85rem 1.15rem;
+    gap: 1.1rem;
+  }
+
+  .catalogGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .catalogCard :global(figure) {
+    aspect-ratio: 1 / 1;
+  }
+
+  .catalogCard :global(p) {
+    display: none;
+  }
+
+  .catalogDividerIcon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .catalogDividerCopy h3 {
+    font-size: 0.88rem;
+  }
+
   .catalog {
     inset: 0;
     border-radius: 0;

@@ -151,6 +151,18 @@
   margin-top: 1rem;
 }
 
+@media (max-width: 767px) {
+  .brand {
+    gap: 0.5rem;
+    font-size: 0.92rem;
+  }
+
+  .brand img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 @media (min-width: 900px) {
   .desktop {
     display: flex;

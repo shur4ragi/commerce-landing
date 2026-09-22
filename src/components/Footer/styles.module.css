@@ -40,6 +40,26 @@
   font-size: 0.88rem;
 }
 
+@media (max-width: 767px) {
+  .footer {
+    padding: 1.6rem 0 1.1rem;
+  }
+
+  .grid {
+    gap: 1.05rem;
+    padding-bottom: 1.15rem;
+  }
+
+  .grid strong {
+    font-size: 1.1rem;
+  }
+
+  .copy {
+    padding-top: 0.85rem;
+    font-size: 0.8rem;
+  }
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: 1.4fr 1fr 1fr;

@@ -36,6 +36,41 @@
   box-shadow: var(--shadow-card);
 }
 
+@media (max-width: 767px) {
+  .grid {
+    gap: 1.05rem;
+  }
+
+  .text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .facts li {
+    padding: 0.55rem 0;
+  }
+
+  .facts strong {
+    font-size: 0.92rem;
+  }
+
+  .facts span {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .grid img {
+    max-height: 188px;
+    object-fit: cover;
+  }
+}
+
 @media (min-width: 768px) {
   .facts {
     grid-template-columns: repeat(3, minmax(0, 1fr));

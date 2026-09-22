@@ -26,6 +26,31 @@
   color: color-mix(in srgb, var(--color-secondary) 72%, transparent);
 }
 
+@media (max-width: 767px) {
+  .list {
+    gap: 0;
+  }
+
+  .list li {
+    gap: 0.7rem;
+    padding: 0.75rem 0;
+  }
+
+  .list span {
+    font-size: 0.92rem;
+  }
+
+  .list h3 {
+    font-size: 1rem;
+    margin-bottom: 0.18rem;
+  }
+
+  .list p {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+}
+
 @media (min-width: 768px) {
   .list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
