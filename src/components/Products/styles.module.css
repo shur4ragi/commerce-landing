@@ -557,9 +557,19 @@
     height: 0.85rem;
   }
 
+  .panel {
+    top: 0.55rem;
+    right: 0.55rem;
+    bottom: 0.55rem;
+    width: calc(100% - 3.25rem);
+    max-width: 360px;
+    border-radius: var(--radius-lg);
+  }
+
   .panelMedia {
     aspect-ratio: 16 / 9;
     max-height: 168px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .panelMedia img {
