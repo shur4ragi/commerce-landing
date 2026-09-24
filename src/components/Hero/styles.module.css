@@ -99,9 +99,18 @@
 
 .visual {
   border-radius: var(--radius-xl);
-  overflow: hidden;
+  overflow: visible; /* Permite que sombras da animação se estendam */
   box-shadow: var(--shadow-card);
   background: var(--color-secondary);
+
+  /* Otimização para animação scroll-driven */
+  will-change: transform;
+  contain: layout style paint;
+}
+
+.visual > * {
+  width: 100%;
+  height: 100%;
 }
 
 .visual img {
