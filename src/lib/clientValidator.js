@@ -105,10 +105,10 @@ export function validateClientConfig(client) {
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const formattedErrors = error.errors.map((err) => ({
-        path: err.path.join('.'),
-        message: err.message,
-        type: err.code,
+      const formattedErrors = error.issues.map((issue) => ({
+        path: issue.path && issue.path.length > 0 ? issue.path.join('.') : 'root',
+        message: issue.message,
+        type: issue.code,
       }));
 
       return {
@@ -121,7 +121,11 @@ export function validateClientConfig(client) {
     return {
       success: false,
       data: null,
-      errors: [{ message: error.message, type: 'UNKNOWN_ERROR' }],
+      errors: [{
+        path: 'root',
+        message: error instanceof Error ? error.message : String(error),
+        type: 'UNKNOWN_ERROR'
+      }],
     };
   }
 }
