@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { buildLineKey, getOrderTotal } from '../utils/order.js';
+import { PAYMENT_METHODS } from '../lib/cartManager.js';
 import { OrderContext } from './OrderContext.js';
 
 const EMPTY_CUSTOMER = {
@@ -9,8 +10,18 @@ const EMPTY_CUSTOMER = {
   address: '',
   number: '',
   complement: '',
-  paymentMethod: '',
+  paymentMethod: PAYMENT_METHODS.WHATSAPP,
   observation: '',
+  // PIX payment fields
+  pixKey: '',
+  // Bank transfer fields
+  bankData: {
+    bank: '',
+    accountType: 'corrente',
+    agency: '',
+    account: '',
+    holder: '',
+  },
 };
 
 export default function OrderProvider({ children }) {
@@ -80,6 +91,18 @@ export default function OrderProvider({ children }) {
     setRequestedProductId(null);
   }, []);
 
+  const setPaymentMethod = useCallback((method) => {
+    updateCustomer({ paymentMethod: method });
+  }, [updateCustomer]);
+
+  const setPixKey = useCallback((pixKey) => {
+    updateCustomer({ pixKey });
+  }, [updateCustomer]);
+
+  const setBankData = useCallback((bankData) => {
+    updateCustomer({ bankData });
+  }, [updateCustomer]);
+
   const total = useMemo(() => getOrderTotal(items), [items]);
 
   const value = useMemo(() => ({
@@ -102,6 +125,11 @@ export default function OrderProvider({ children }) {
     requestedProductId,
     requestProduct,
     consumeProductRequest,
+    // Payment methods support
+    setPaymentMethod,
+    setPixKey,
+    setBankData,
+    availablePaymentMethods: Object.values(PAYMENT_METHODS),
   }), [
     items,
     total,
@@ -120,6 +148,9 @@ export default function OrderProvider({ children }) {
     requestedProductId,
     requestProduct,
     consumeProductRequest,
+    setPaymentMethod,
+    setPixKey,
+    setBankData,
   ]);
 
   return (
