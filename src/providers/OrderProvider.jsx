@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { buildLineKey, getOrderTotal } from '../utils/order.js';
 import { OrderContext } from './OrderContext.js';
@@ -13,10 +13,14 @@ const EMPTY_CUSTOMER = {
   observation: '',
 };
 
+const CART_BOOT_MS = 2000;
+
 export default function OrderProvider({ children }) {
   const [items, setItems] = useState([]);
   const [customer, setCustomer] = useState(EMPTY_CUSTOMER);
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartBooting, setCartBooting] = useState(false);
+  const bootTimer = useRef(0);
   const [view, setView] = useState('summary');
   const [tutorialActive, setTutorialActive] = useState(false);
   const [requestedProductId, setRequestedProductId] = useState(null);
@@ -54,15 +58,23 @@ export default function OrderProvider({ children }) {
     setCustomer((current) => ({ ...current, ...patch }));
   }, []);
 
-  const openCart = useCallback((nextView = 'summary') => {
+  // `boot`: abre mostrando o skeleton "Abrindo pedido" antes do conteúdo (aberturas pelo usuário).
+  const openCart = useCallback((nextView = 'summary', { boot = false } = {}) => {
     setView(nextView);
     setCartOpen(true);
+    window.clearTimeout(bootTimer.current);
+    setCartBooting(boot);
+    if (boot) bootTimer.current = window.setTimeout(() => setCartBooting(false), CART_BOOT_MS);
   }, []);
 
   const closeCart = useCallback(() => {
+    window.clearTimeout(bootTimer.current);
+    setCartBooting(false);
     setCartOpen(false);
     setView('summary');
   }, []);
+
+  useEffect(() => () => window.clearTimeout(bootTimer.current), []);
 
   const startTutorial = useCallback(() => {
     setTutorialActive(true);
@@ -91,6 +103,7 @@ export default function OrderProvider({ children }) {
     removeItem,
     updateCustomer,
     cartOpen,
+    cartBooting,
     setCartOpen,
     openCart,
     closeCart,
@@ -111,6 +124,7 @@ export default function OrderProvider({ children }) {
     removeItem,
     updateCustomer,
     cartOpen,
+    cartBooting,
     openCart,
     closeCart,
     view,

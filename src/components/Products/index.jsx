@@ -6,6 +6,7 @@ import { Card, Reveal, Section } from '../ui';
 import CatalogModal from './CatalogModal.jsx';
 import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
+import { CartButton } from '../OrderCart';
 
 function BookmarkIcon({ filled }) {
   return (
@@ -120,6 +121,7 @@ export default function Products() {
           >
             {orderCopy.simulateLabel || 'Simular pedido'}
           </button>
+          <CartButton variant="pill" className={styles.toolbarButton} />
         </div>
         <div className={styles.carouselNav}>
           <button type="button" className={styles.navButton} onClick={() => scrollBy(-1)} aria-label="Itens anteriores">

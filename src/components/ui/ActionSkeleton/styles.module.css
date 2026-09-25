@@ -1,0 +1,442 @@
+.screen,
+.panel {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-4);
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--color-background) 94%, transparent);
+}
+
+.panel {
+  min-height: 240px;
+  padding: var(--space-5);
+}
+
+.bone {
+  display: block;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    100deg,
+    var(--color-secondary) 20%,
+    color-mix(in srgb, var(--color-accent) 22%, var(--color-surface)) 48%,
+    var(--color-line) 72%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.caption {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+
+.cart,
+.menu,
+.catalog,
+.chat,
+.route {
+  width: min(420px, 92%);
+}
+
+.cart {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.cartRow {
+  display: grid;
+  grid-template-columns: 52px 1fr 48px;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+}
+
+.cartCopy {
+  display: grid;
+  gap: 8px;
+}
+
+.line { height: 12px; width: 100%; }
+.lineShort { height: 10px; width: 58%; }
+.price { height: 14px; width: 48px; }
+.total { height: 44px; border-radius: 999px; margin-top: var(--space-2); }
+
+.menu {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.menuLink { height: 18px; }
+.menuLink:nth-child(2) { width: 72%; }
+.menuLink:nth-child(3) { width: 84%; }
+.menuLink:nth-child(4) { width: 64%; }
+.menuCta { height: 46px; width: 46%; border-radius: 999px; margin-top: var(--space-2); }
+
+/* ---------- Cardápio: xícara enchendo, grãos e prévia dos cards ---------- */
+
+.catalogVariant.panel {
+  width: 100%;
+  min-height: min(72vh, 620px);
+  gap: var(--space-5);
+}
+
+.catalogVariant .caption {
+  order: -1;
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.catalog {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  width: min(680px, 100%);
+}
+
+.cup {
+  width: clamp(150px, 22vw, 210px);
+  overflow: visible;
+}
+
+.cupBody {
+  fill: var(--color-surface);
+  stroke: var(--color-primary);
+  stroke-width: 4;
+}
+
+.handle {
+  stroke: var(--color-primary);
+}
+
+.saucer {
+  fill: color-mix(in srgb, var(--color-line) 70%, var(--color-surface));
+  stroke: var(--color-primary);
+  stroke-width: 3;
+}
+
+/* O café sobe até a borda e recomeça, como uma xícara sendo servida. */
+.coffee,
+.crema {
+  animation: pour 2.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+.coffee {
+  fill: color-mix(in srgb, var(--color-primary) 72%, var(--color-accent));
+}
+
+.crema {
+  fill: color-mix(in srgb, var(--color-accent) 55%, #f3d9b8);
+}
+
+.steam path {
+  stroke: color-mix(in srgb, var(--color-muted) 55%, transparent);
+  animation: steam 2.2s ease-in-out infinite;
+}
+
+.steam path:nth-child(2) { animation-delay: 0.35s; }
+.steam path:nth-child(3) { animation-delay: 0.7s; }
+
+/* Grãos de café no lugar dos pontinhos de carregamento. */
+.beans {
+  display: flex;
+  gap: 10px;
+  height: 22px;
+  align-items: flex-end;
+}
+
+.beans span {
+  position: relative;
+  width: 13px;
+  height: 18px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 80%, var(--color-accent));
+  rotate: 24deg;
+  animation: bean 0.9s ease-in-out infinite;
+}
+
+.beans span::after {
+  content: "";
+  position: absolute;
+  inset: 3px 5px;
+  border-left: 2px solid color-mix(in srgb, var(--color-accent) 45%, #f3d9b8);
+  border-radius: 50%;
+}
+
+.beans span:nth-child(2) { animation-delay: 0.15s; }
+.beans span:nth-child(3) { animation-delay: 0.3s; }
+
+/* Frases de preparo que se alternam sob os grãos. */
+.hints {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 1.4em;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.hints span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: hint 2.1s ease-in-out both;
+  animation-delay: calc(var(--i) * 0.7s);
+}
+
+.hints span:last-child {
+  animation-name: hintLast;
+}
+
+.menuPreview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+.catalogCard {
+  display: grid;
+  gap: 8px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  animation: cardIn 600ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+}
+
+.catalogCard:nth-child(2) { animation-delay: 120ms; }
+.catalogCard:nth-child(3) { animation-delay: 240ms; }
+
+.catalogPhoto {
+  height: clamp(90px, 12vw, 130px);
+  border-radius: var(--radius-md);
+}
+
+@keyframes pour {
+  0% { transform: translateY(60px); }
+  70%, 100% { transform: translateY(0); }
+}
+
+@keyframes steam {
+  0% { opacity: 0; transform: translateY(10px); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+
+@keyframes bean {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-9px); }
+}
+
+@keyframes hint {
+  0% { opacity: 0; transform: translateY(8px); }
+  12%, 30% { opacity: 1; transform: none; }
+  40%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes hintLast {
+  0% { opacity: 0; transform: translateY(8px); }
+  12%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+}
+
+@media (max-width: 767px) {
+  .catalogVariant.panel {
+    min-height: min(78vh, 560px);
+    padding-inline: var(--space-2);
+  }
+
+  .menuPreview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .menuPreview .catalogCard:nth-child(3) {
+    display: none;
+  }
+}
+
+.chat {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.whatsappVariant.screen {
+  background: color-mix(in srgb, #123524 88%, var(--color-background));
+}
+
+.whatsappVariant .caption { color: #f4efe6; }
+
+.chatHead {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: var(--space-3);
+  align-items: center;
+  width: 100%;
+}
+
+.avatar { width: 40px; height: 40px; border-radius: 50%; }
+
+.bubbleIn,
+.bubbleOut {
+  height: 42px;
+  border-radius: 16px;
+}
+
+.bubbleIn { width: 78%; }
+.bubbleOut { width: 62%; justify-self: end; background: linear-gradient(100deg, #1f6b45 20%, #3dbe7a 48%, #145c38 72%); background-size: 220% 100%; }
+
+.route { position: relative; }
+
+.map {
+  height: 180px;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(100deg, #d7e4d4 20%, #f3f7ef 48%, #c5d4c0 72%);
+  background-size: 220% 100%;
+}
+
+.pin {
+  position: absolute;
+  left: 46%;
+  top: 58px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--color-accent);
+  transform: rotate(-45deg);
+}
+
+.routePath {
+  position: absolute;
+  left: 18%;
+  top: 78px;
+  width: 46%;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  opacity: 0.7;
+}
+
+/* ---------- Troca de tela (tela cheia, ex.: indo para o WhatsApp) ---------- */
+
+/* A nova tela se abre em círculo a partir do ponto clicado, cobrindo a página. */
+.screen {
+  animation: screenIn 650ms cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+
+.screen > * {
+  animation: screenItemIn 600ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+  animation-delay: 380ms;
+}
+
+.screen .caption {
+  animation-delay: 900ms;
+}
+
+/* No chat, as "mensagens" chegam uma a uma: recebidas pela esquerda, enviadas pela direita. */
+.chatIcon {
+  justify-self: center;
+  margin-bottom: var(--space-2);
+  font-size: 2.6rem;
+  color: #3dbe7a;
+}
+
+.whatsappVariant.screen .chat > * {
+  animation:
+    messageIn 480ms cubic-bezier(0.22, 0.8, 0.2, 1) both,
+    shimmer 1.2s ease-in-out infinite;
+}
+
+.whatsappVariant.screen .chatIcon {
+  animation-name: iconIn;
+  animation-duration: 700ms;
+  animation-delay: 300ms;
+}
+
+.whatsappVariant.screen .chatHead { animation-delay: 480ms; }
+.whatsappVariant.screen .bubbleIn { --from: -28px; animation-delay: 640ms; }
+.whatsappVariant.screen .bubbleOut { --from: 28px; animation-delay: 820ms; transform-origin: right bottom; }
+.whatsappVariant.screen .bubbleIn:last-child { animation-delay: 1000ms; }
+
+@keyframes screenIn {
+  from { clip-path: circle(0 at var(--ox, 50%) var(--oy, 50%)); }
+  to { clip-path: circle(150vmax at var(--ox, 50%) var(--oy, 50%)); }
+}
+
+@keyframes screenItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    filter: blur(6px);
+  }
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--from, 0)) scale(0.92);
+  }
+}
+
+@keyframes iconIn {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-20deg);
+  }
+  60% {
+    transform: scale(1.12) rotate(4deg);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coffee,
+  .crema,
+  .steam path,
+  .beans span,
+  .catalogCard,
+  .hints span {
+    animation: none;
+  }
+
+  .hints span:first-child {
+    opacity: 1;
+  }
+
+  .screen,
+  .screen > *,
+  .whatsappVariant.screen .chat > * {
+    animation: none;
+  }
+
+  .bone,
+  .bubbleOut,
+  .map {
+    animation: none;
+  }
+}

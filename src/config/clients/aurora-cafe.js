@@ -33,6 +33,8 @@ const siteConfig = {
     lineColor: '#E8D9C8',
     fontPrimary: '"Figtree", system-ui, sans-serif',
     fontDisplay: '"Syne", system-ui, sans-serif',
+    fontSerif: '"Instrument Serif", Georgia, serif',
+    fontStylesheet: 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap',
   },
 
   social: {
@@ -71,14 +73,16 @@ const client = {
   config: siteConfig,
   content,
   sections: [
+    'intro',
     'hero',
     'about',
+    'statement',
+    'process',
     'services',
     'products',
     'gallery',
     'highlights',
     'testimonials',
-    'cta',
     'contact',
   ],
 };

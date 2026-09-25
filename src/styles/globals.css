@@ -11,6 +11,55 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  /* Reserva sempre o espaço da barra: travar o scroll (modais, painéis) não empurra a página de lado. */
+  scrollbar-gutter: stable;
+}
+
+/* ---------- Barra de rolagem própria (página e áreas internas) ---------- */
+
+:root {
+  --scrollbar-size: 10px;
+  --scrollbar-thumb: color-mix(in srgb, var(--color-primary) 34%, var(--color-background));
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--color-accent) 70%, var(--color-primary));
+  --scrollbar-track: var(--color-background);
+}
+
+html,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+html {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Safari e navegadores sem suporte a scrollbar-color. */
+::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--scrollbar-thumb) padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 body,
@@ -79,4 +128,21 @@ h3 {
 
 ::selection {
   background: color-mix(in srgb, var(--color-accent) 28%, white);
+}
+
+/* Tipografia mista: palavra em itálico serifado dentro de títulos em caixa display. */
+h1 em,
+h2 em,
+h3 em,
+.serif-em em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Abertura da página (componente Entrance): trava a rolagem enquanto a cortina está na tela. */
+html[data-entrance='loading'],
+html[data-entrance='loading'] body {
+  overflow: hidden;
 }

@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
 import { buildWhatsappUrl } from '../../utils/whatsapp.js';
 import {
+  ActionSkeleton,
   Button,
   CheckboxPadrao,
   Reveal,
@@ -19,6 +21,7 @@ export default function Contact() {
   const [message, setMessage] = useState('');
   const [consent, setConsent] = useState(false);
   const [phone, handlePhone] = useInputMask('(99) 99999-9999', 'number', '');
+  const outbound = usePendingAction();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,8 +31,11 @@ export default function Contact() {
       phone && `WhatsApp: ${phone}.`,
       message,
     ].filter(Boolean).join('\n');
+    const href = buildWhatsappUrl(business.whatsapp, text);
 
-    window.open(buildWhatsappUrl(business.whatsapp, text), '_blank', 'noopener,noreferrer');
+    outbound.run('Abrindo o WhatsApp', () => {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    });
   };
 
   return (
@@ -38,6 +44,7 @@ export default function Contact() {
       eyebrow={contact.eyebrow}
       title={contact.title}
       description={contact.description}
+      tone="accent"
     >
       <div className={styles.grid}>
         <Reveal>
@@ -88,6 +95,7 @@ export default function Contact() {
           </Reveal>
         )}
       </div>
+      {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
     </Section>
   );
 }

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { usePendingAction } from '../../hooks/usePendingAction.js';
+import { ActionSkeleton } from '../ui';
 import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -143,6 +145,7 @@ export default function LocationMap({
   const closeRef = useRef(null);
   const dialogRef = useRef(null);
   const [open, setOpen] = useState(Boolean(openByDefault));
+  const outbound = usePendingAction();
 
   const valid = isValidCoordinates(latitude, longitude);
   const lat = valid ? Number(latitude) : null;
@@ -266,18 +269,20 @@ export default function LocationMap({
               </p>
             ) : null}
             {showDirectionsButton ? (
-              <a
+              <button
+                type="button"
                 className="location-map__directions"
-                href={directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => outbound.run('Traçando a rota', () => {
+                  window.open(directionsUrl, '_blank', 'noopener,noreferrer');
+                })}
               >
                 <PinIcon />
                 Como chegar
-              </a>
+              </button>
             ) : null}
           </div>
         ) : null}
+        {outbound.pending ? <ActionSkeleton variant="route" label={outbound.label} /> : null}
       </div>
     </dialog>
   );

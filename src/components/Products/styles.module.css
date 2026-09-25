@@ -158,6 +158,7 @@
   inset: 0;
   z-index: var(--z-modal);
   background: rgb(36 24 18 / 42%);
+  animation: overlayIn 320ms ease both;
 }
 
 .panel {
@@ -171,9 +172,25 @@
   background: var(--color-background);
   border-radius: var(--radius-xl) 0 0 var(--radius-xl);
   box-shadow: -18px 0 40px rgb(36 24 18 / 16%);
-  animation: slideIn 220ms ease;
+  animation: slideIn 460ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
   overflow: auto;
 }
+
+/* Conteúdo do painel entra logo depois dele: a foto "assenta" e os textos sobem em sequência. */
+.panelMedia img {
+  animation: mediaIn 700ms cubic-bezier(0.22, 0.8, 0.2, 1) 80ms both;
+}
+
+.panelBody > * {
+  animation: fadeUp 420ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+}
+
+.panelBody > :nth-child(1) { animation-delay: 160ms; }
+.panelBody > :nth-child(2) { animation-delay: 200ms; }
+.panelBody > :nth-child(3) { animation-delay: 240ms; }
+.panelBody > :nth-child(4) { animation-delay: 280ms; }
+.panelBody > :nth-child(5) { animation-delay: 320ms; }
+.panelBody > :nth-child(n + 6) { animation-delay: 360ms; }
 
 .panelClose {
   position: absolute;
@@ -369,6 +386,11 @@
   gap: 1.55rem;
 }
 
+.catalogBodyLoading {
+  flex: 1;
+  place-items: center;
+}
+
 .catalogGroup {
   display: grid;
   gap: 0.85rem;
@@ -467,7 +489,17 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateX(24px); opacity: 0.6; }
+  from { transform: translateX(56px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes overlayIn {
+  from { background-color: rgb(36 24 18 / 0%); backdrop-filter: blur(0); }
+  to { backdrop-filter: blur(2px); }
+}
+
+@keyframes mediaIn {
+  from { transform: scale(1.08); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
 
@@ -635,7 +667,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .overlay,
   .panel,
+  .panelMedia img,
+  .panelBody > *,
   .catalog {
     animation: none;
   }

@@ -1,0 +1,218 @@
+.statement {
+  position: relative;
+  padding-bottom: var(--space-9);
+  background: var(--color-background);
+  overflow: clip;
+}
+
+.stage {
+  --gap: 16px;
+
+  position: relative;
+  height: 180svh;
+  /* clip (e não hidden) para não criar um contêiner de rolagem e o sticky do título funcionar. */
+  overflow: clip;
+}
+
+/* ---------- Cascatas de fotos ---------- */
+
+.columns {
+  position: absolute;
+  inset: -6% calc(var(--gap) * -1);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.column {
+  position: relative;
+  min-width: 0;
+}
+
+.track {
+  display: flex;
+  flex-direction: column;
+  animation: flowUp var(--duration, 50s) linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+.running .track {
+  animation-play-state: running;
+}
+
+.down .track {
+  animation-name: flowDown;
+}
+
+/* Deslocamento vertical entre colunas para as fotos não ficarem alinhadas em linha. */
+.column:nth-child(2) { margin-top: -18%; }
+.column:nth-child(3) { margin-top: -42%; }
+.column:nth-child(4) { margin-top: -8%; }
+.column:nth-child(5) { margin-top: -30%; }
+.column:nth-child(6) { margin-top: -52%; }
+
+/* margin-bottom (e não gap) para que -50% caia exatamente no início da cópia da lista. */
+.track img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin-bottom: var(--gap);
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  filter: blur(2.5px) saturate(0.85);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Funde o topo e a base das cascatas com o fundo da página. */
+.fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--color-background), transparent 12%, transparent 88%, var(--color-background)),
+    color-mix(in srgb, var(--color-background) 22%, transparent);
+}
+
+.pin {
+  --title-size: clamp(3.2rem, 10vw, 9rem);
+
+  /* A área presa vai do topo da tela até a base do título (título centrado na tela).
+     Assim o título só se solta quando o texto de apoio, logo abaixo das cascatas, encosta nele. */
+  position: sticky;
+  top: var(--header-height);
+  z-index: var(--z-base);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: calc((100svh - var(--header-height)) / 2 + var(--title-size) * 0.9);
+  pointer-events: none;
+}
+
+.title {
+  position: relative;
+  z-index: var(--z-base);
+  margin: 0;
+  padding-inline: 1.25rem;
+  text-align: center;
+  white-space: pre-line;
+  font-family: var(--font-display);
+  font-size: var(--title-size);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* Véu que acompanha o título: clareia as fotos atrás do texto para ele respirar. */
+.title::before {
+  content: '';
+  position: absolute;
+  inset: -45% -18%;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-background) 88%, transparent),
+    color-mix(in srgb, var(--color-background) 40%, transparent) 70%,
+    transparent
+  );
+}
+
+.title em {
+  text-transform: none;
+  font-size: 1.08em;
+  color: var(--color-accent);
+}
+
+/* ---------- Texto de apoio ---------- */
+
+.body {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  width: min(100% - 2.5rem, 38rem);
+  margin: var(--space-5) auto 0;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.text {
+  margin: 0 0 var(--space-3);
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+@keyframes flowUp {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
+
+@keyframes flowDown {
+  from { transform: translate3d(0, -50%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .column:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .statement {
+    padding-bottom: var(--space-8);
+  }
+
+  .stage {
+    --gap: 10px;
+    height: 150svh;
+  }
+
+  .columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .column:nth-child(n + 4) {
+    display: none;
+  }
+
+  .track img {
+    border-radius: var(--radius-md);
+    filter: blur(2px) saturate(0.85);
+  }
+
+  .pin {
+    --title-size: clamp(2.8rem, 15vw, 4.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

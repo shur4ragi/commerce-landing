@@ -2,27 +2,11 @@ import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useOrder } from '../../hooks/useOrder.js';
 import { useSite } from '../../hooks/useSite.js';
+import { ActionSkeleton } from '../ui';
 import OrderCheckout from '../OrderCheckout';
 import OrderSummary from '../OrderSummary';
 import WhatsAppOrder from '../WhatsAppOrder';
 import './OrderCart.css';
-
-function CartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path
-        d="M6.4 7.2h12.3l-1.1 8.2a2 2 0 0 1-2 1.7H9.4a2 2 0 0 1-2-1.6L6 5.2H3.6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="9.2" cy="19.2" r="1.15" fill="currentColor" />
-      <circle cx="16.4" cy="19.2" r="1.15" fill="currentColor" />
-    </svg>
-  );
-}
 
 export default function OrderCart() {
   const titleId = useId();
@@ -38,7 +22,7 @@ export default function OrderCart() {
     removeItem,
     updateCustomer,
     cartOpen,
-    openCart,
+    cartBooting,
     closeCart,
     view,
     setView,
@@ -67,16 +51,6 @@ export default function OrderCart() {
 
   return (
     <>
-      <button
-        type="button"
-        className="order-cart__fab"
-        data-tour="cart"
-        aria-label={orderCopy.cartLabel || 'Seu pedido'}
-        onClick={() => openCart('summary')}
-      >
-        <CartIcon />
-        {items.length > 0 ? <span className="order-cart__badge">{items.length}</span> : null}
-      </button>
 
       {cartOpen && typeof document !== 'undefined'
         ? createPortal(
@@ -103,7 +77,9 @@ export default function OrderCart() {
               </header>
 
               <div className="order-cart__body">
-                {view === 'checkout' ? (
+                {cartBooting ? (
+                  <ActionSkeleton variant="cart" label="Abrindo pedido" />
+                ) : view === 'checkout' ? (
                   <OrderCheckout
                     fields={fields}
                     customer={customer}

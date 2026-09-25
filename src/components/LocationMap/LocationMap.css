@@ -204,6 +204,10 @@
   font-weight: 600;
   text-decoration: none;
   width: fit-content;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .location-map__marker {

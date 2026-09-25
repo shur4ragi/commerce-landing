@@ -1,0 +1,127 @@
+.entrance {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-tour);
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse 50% 45% at 50% 50%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 70%),
+    color-mix(in srgb, var(--color-primary) 70%, black);
+  color: var(--color-secondary);
+  clip-path: inset(0 0 0 0);
+  cursor: progress;
+}
+
+/* A cortina sobe de baixo para cima revelando a página. */
+.leaving {
+  animation: lift 850ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  pointer-events: none;
+}
+
+.brand {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  padding-inline: 1.5rem;
+}
+
+.leaving .brand {
+  animation: brandOut 600ms cubic-bezier(0.6, 0, 0.9, 0.35) forwards;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  animation: logoIn 700ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+}
+
+.name {
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.name span {
+  display: inline-block;
+  animation: letterIn 800ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+  animation-delay: calc(180ms + var(--i) * 40ms);
+}
+
+.tagline {
+  max-width: 30ch;
+  margin: 0;
+  color: color-mix(in srgb, var(--color-secondary) 60%, transparent);
+  font-size: 0.95rem;
+  animation: fadeUp 700ms ease 650ms both;
+}
+
+.meter {
+  position: absolute;
+  left: clamp(1.25rem, 3vw, 2rem);
+  right: clamp(1.25rem, 3vw, 2rem);
+  bottom: clamp(1.25rem, 4vh, 2.5rem);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.count {
+  justify-self: end;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
+}
+
+.line {
+  display: block;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+}
+
+.line span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left center;
+}
+
+@keyframes lift {
+  to { clip-path: inset(0 0 100% 0); }
+}
+
+@keyframes brandOut {
+  to {
+    opacity: 0;
+    transform: translateY(-40px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-12deg);
+  }
+}
+
+@keyframes letterIn {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

@@ -9,6 +9,7 @@ const THEME_MAP = {
   lineColor: '--color-line',
   fontPrimary: '--font-primary',
   fontDisplay: '--font-display',
+  fontSerif: '--font-serif',
 };
 
 export function applyTheme(theme = {}, branding = {}) {
@@ -19,6 +20,15 @@ export function applyTheme(theme = {}, branding = {}) {
       root.style.setProperty(cssVar, theme[key]);
     }
   });
+
+  // Folha de fontes do cliente (ex.: Google Fonts), injetada uma única vez.
+  if (theme.fontStylesheet && !document.querySelector('link[data-theme-fonts]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = theme.fontStylesheet;
+    link.dataset.themeFonts = '';
+    document.head.appendChild(link);
+  }
 
   if (theme.primaryColor) {
     document.querySelector('meta[name="theme-color"]')

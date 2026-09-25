@@ -1,9 +1,11 @@
+import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
-import { Button, Reveal, Section } from '../ui';
+import { ActionSkeleton, Button, Emphasis, Reveal, Section } from '../ui';
 import styles from './styles.module.css';
 
 export default function CallToAction() {
   const { content, whatsappUrl } = useSite();
+  const outbound = usePendingAction();
   const cta = content.cta;
 
   return (
@@ -11,14 +13,21 @@ export default function CallToAction() {
       <Reveal>
         <div className={styles.banner}>
           <div>
-            <h2>{cta.title}</h2>
+            <h2><Emphasis>{cta.title}</Emphasis></h2>
             <p>{cta.description}</p>
           </div>
-          <Button href={whatsappUrl} target="_blank" variant="whatsapp">
+          <Button
+            type="button"
+            variant="whatsapp"
+            onClick={() => outbound.run('Abrindo o WhatsApp', () => {
+              window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            })}
+          >
             {cta.buttonLabel}
           </Button>
         </div>
       </Reveal>
+      {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
     </Section>
   );
 }

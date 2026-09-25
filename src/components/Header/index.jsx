@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
-import { Button, Container } from '../ui';
+import { ActionSkeleton, Button, Container } from '../ui';
+import { CartButton } from '../OrderCart';
 import styles from './styles.module.css';
 
 export default function Header() {
   const { config, navigation, whatsappUrl } = useSite();
   const [open, setOpen] = useState(false);
+  const [menuReady, setMenuReady] = useState(false);
   const [elevated, setElevated] = useState(false);
+  const outbound = usePendingAction();
 
   useEffect(() => {
     const onScroll = () => setElevated(window.scrollY > 8);
@@ -22,7 +26,23 @@ export default function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) {
+      setMenuReady(false);
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setMenuReady(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [open]);
+
   const close = () => setOpen(false);
+
+  const reserve = (event) => {
+    event.preventDefault();
+    outbound.run('Abrindo o WhatsApp', () => {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    });
+  };
 
   const handleNavClick = (event, href) => {
     close();
@@ -50,8 +70,10 @@ export default function Header() {
           {navigation.map((item) => (
             <a key={item.href} className={styles.navLink} href={item.href}>{item.label}</a>
           ))}
-          <Button href={whatsappUrl} target="_blank" className={styles.reserve}>Reservar</Button>
+          <Button type="button" className={styles.reserve} onClick={reserve}>Reservar</Button>
         </nav>
+
+        <CartButton className={styles.cart} data-tour="cart" />
 
         <button
           className={`${styles.burger} ${open ? styles.burgerOpen : ''}`}
@@ -69,13 +91,20 @@ export default function Header() {
       {open && (
         <div className={styles.mobile} role="dialog" aria-label="Menu">
           <Container>
-            {navigation.map((item) => (
-              <a key={item.href} className={styles.navLink} href={item.href} onClick={(event) => handleNavClick(event, item.href)}>{item.label}</a>
-            ))}
-            <Button href={whatsappUrl} target="_blank" className={styles.reserve}>Reservar</Button>
+            {menuReady ? (
+              <>
+                {navigation.map((item) => (
+                  <a key={item.href} className={styles.navLink} href={item.href} onClick={(event) => handleNavClick(event, item.href)}>{item.label}</a>
+                ))}
+                <Button type="button" className={styles.reserve} onClick={reserve}>Reservar</Button>
+              </>
+            ) : (
+              <ActionSkeleton variant="menu" label="Abrindo o menu" />
+            )}
           </Container>
         </div>
       )}
+      {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
     </header>
   );
 }

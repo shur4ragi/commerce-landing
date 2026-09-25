@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { Button } from '../ui';
+import { usePendingAction } from '../../hooks/usePendingAction.js';
+import { ActionSkeleton, Button } from '../ui';
 import { buildWhatsappUrl } from '../../utils/whatsapp.js';
 import { generateWhatsAppMessage, getOrderTotal } from '../../utils/order.js';
 import './WhatsAppOrder.css';
@@ -16,6 +17,7 @@ export default function WhatsAppOrder({
     total: order.total ?? getOrderTotal(order.items || []),
   });
   const href = buildWhatsappUrl(phone, message);
+  const outbound = usePendingAction();
 
   if (disabled) {
     return (
@@ -33,16 +35,21 @@ export default function WhatsAppOrder({
   }
 
   return (
-    <Button
-      href={href}
-      target="_blank"
-      variant="whatsapp"
-      className="whatsapp-order"
-      data-tour="whatsapp"
-      aria-label={label}
-    >
-      {label}
-    </Button>
+    <>
+      <Button
+        type="button"
+        variant="whatsapp"
+        className="whatsapp-order"
+        data-tour="whatsapp"
+        aria-label={label}
+        onClick={() => outbound.run('Abrindo o WhatsApp', () => {
+          window.open(href, '_blank', 'noopener,noreferrer');
+        })}
+      >
+        {label}
+      </Button>
+      {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
+    </>
   );
 }
 

@@ -17,6 +17,61 @@ import productBeans from '../../assets/images/product-beans.png';
 import productEggs from '../../assets/images/product-eggs.png';
 
 const content = {
+  intro: {
+    brand: 'Aurora Café',
+    eyebrow: 'Aurora Café · Vila Madalena',
+    cta: { label: 'Conhecer', target: '#inicio' },
+    slides: [
+      {
+        image: gallery1,
+        alt: 'Bancada de café com máquina espresso',
+        title: 'O counter *de* extração',
+        text: 'Água, tempo e grão alinhados. Cada espresso é puxado na hora, sem pressa no copo.',
+      },
+      {
+        image: productCortado,
+        alt: 'Cortado servido em copo baixo',
+        title: 'Cortado *na* medida',
+        text: 'Leite vaporizado na temperatura certa para não esconder a doçura do grão.',
+      },
+      {
+        image: gallery3,
+        alt: 'Bandeja de croissants recém-assados',
+        title: 'Folhados da manhã',
+        text: 'Pães e folhados saem do forno da casa logo cedo, antes da porta abrir.',
+      },
+      {
+        image: productColdbrew,
+        alt: 'Copo de cold brew com gelo',
+        title: 'Cold brew de 18 horas',
+        text: 'Extração a frio, lenta e paciente. Encorpado, pouco ácido e servido sempre gelado.',
+      },
+      {
+        image: productBeans,
+        alt: 'Pacote de café com grãos torrados espalhados na mesa',
+        title: 'Origem *rastreável*',
+        text: 'Cada lote chega com fazenda, processo e data de torra. Você sabe o que está bebendo.',
+      },
+      {
+        image: gallery5,
+        alt: 'Prato de brunch com ovos e pão',
+        title: 'Brunch *sem* relógio',
+        text: 'Ovos, pão de fermentação natural e café filtrado servidos até o meio da tarde.',
+      },
+      {
+        image: productPastry,
+        alt: 'Folhado dourado servido no prato',
+        title: 'Confeitaria da casa',
+        text: 'Massa laminada à mão, manteiga de verdade e fornadas pequenas ao longo do dia.',
+      },
+      {
+        image: gallery2,
+        alt: 'Mesa de madeira com xícara ao lado da janela',
+        title: 'Mesa *junto à* janela',
+        text: 'Sem couvert de tempo. O salão existe para ficar, e a xícara continua no centro.',
+      },
+    ],
+  },
   hero: {
     eyebrow: 'Vila Madalena · São Paulo',
     title: 'O dia começa quando o café encontra a luz.',
@@ -37,7 +92,7 @@ const content = {
   about: {
     id: 'sobre',
     eyebrow: 'A casa',
-    title: 'Um café que trata extração como ofício.',
+    title: 'Um café que trata extração como *ofício*.',
     text: 'Abrimos a porta para quem quer um espresso bem extraído, um filtro que respeita o terroir e um prato que não compete com a xícara. A Aurora nasceu da ideia de que hospitalidade também é técnica: água, temperatura, tempo e atenção.',
     image: aboutImage,
     imageAlt: 'Salão do Aurora Café com bancada de extração',
@@ -48,10 +103,69 @@ const content = {
     ],
   },
 
+  statement: {
+    id: 'manifesto',
+    eyebrow: 'Extração lenta',
+    title: 'Feito *sem*\npressa.',
+    // Fotos das colunas em cascata ao fundo (decorativas).
+    images: [
+      gallery1,
+      productBeans,
+      gallery3,
+      productCortado,
+      gallery5,
+      productFilter,
+      gallery2,
+      productPastry,
+      heroImage,
+      productColdbrew,
+      gallery6,
+      productEspresso,
+      aboutImage,
+      productCookie,
+      gallery4,
+      productBrunch,
+    ],
+    lead: 'Uma cafeteria que mede o tempo em gotas, não em minutos.',
+    text: 'Cada espresso é puxado na hora, cada filtro respeita a curva de extração do lote da semana. Quando a xícara chega à mesa, ela já passou por água tratada, moagem ajustada e alguém que prova antes de servir.',
+    cta: { label: 'Ver o cardápio', href: '#produtos' },
+  },
+
+  process: {
+    id: 'processo',
+    label: 'Do grão à xícara',
+    steps: [
+      {
+        lead: 'do',
+        word: 'grão,',
+        title: 'Grão',
+        text: 'Lotes de fazendas parceiras, com processo e data de torra impressos no pacote.',
+        image: productBeans,
+        alt: 'Pacote de café com grãos torrados espalhados na mesa',
+      },
+      {
+        lead: 'ao',
+        word: 'filtro,',
+        title: 'Filtro',
+        text: 'Moagem ajustada todo dia e água na temperatura certa para cada método.',
+        image: productFilter,
+        alt: 'Café sendo coado em filtro de vidro',
+      },
+      {
+        lead: 'à',
+        word: 'xícara.',
+        title: 'Xícara',
+        text: 'Servido na hora, provado antes de sair do counter.',
+        image: productEspresso,
+        alt: 'Xícara de espresso com crema sobre pires branco',
+      },
+    ],
+  },
+
   services: {
     id: 'servicos',
     eyebrow: 'Experiências',
-    title: 'Mais do que uma xícara.',
+    title: 'Mais do que *uma* xícara.',
     description: 'Do counter ao salão, cada serviço foi desenhado para um ritmo diferente do dia.',
     items: [
       {
@@ -80,7 +194,7 @@ const content = {
   products: {
     id: 'produtos',
     eyebrow: 'Cardápio',
-    title: 'O que está na xícara agora.',
+    title: 'O que está *na* xícara agora.',
     description: 'Seleção rotativa. Os métodos mudam com a safra; o cuidado, não.',
     viewAllLabel: 'Ver todos',
     savedLabel: 'Salvos',
@@ -381,7 +495,7 @@ const content = {
   gallery: {
     id: 'galeria',
     eyebrow: 'Galeria',
-    title: 'O salão, a luz e o counter.',
+    title: 'O salão, *a luz* e o counter.',
     items: [
       { title: 'Counter de extração', image: gallery1, alt: 'Bancada de café com máquina espresso' },
       { title: 'Mesa junto à janela', image: gallery2, alt: 'Mesa de madeira com xícara ao lado da janela' },
@@ -395,7 +509,7 @@ const content = {
   highlights: {
     id: 'diferenciais',
     eyebrow: 'Por que a Aurora',
-    title: 'O que não abre mão.',
+    title: 'O que *não* abre mão.',
     items: [
       { title: 'Origem rastreável', description: 'Cada lote chega com fazenda, processo e data de torra.' },
       { title: 'Água tratada', description: 'Receita de água ajustada para espresso e filtrados.' },
@@ -407,7 +521,7 @@ const content = {
   testimonials: {
     id: 'depoimentos',
     eyebrow: 'Quem volta',
-    title: 'O que dizem à mesa.',
+    title: 'O que dizem *à* mesa.',
     items: [
       {
         name: 'Marina Costa',
@@ -428,7 +542,7 @@ const content = {
   },
 
   cta: {
-    title: 'Reserve a mesa da janela.',
+    title: 'Reserve a mesa *da janela*.',
     description: 'Fins de semana esgotam cedo. Chame no WhatsApp e confirme horário.',
     buttonLabel: 'Falar no WhatsApp',
   },

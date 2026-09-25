@@ -1,7 +1,7 @@
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Card } from '../ui';
+import { ActionSkeleton, Card } from '../ui';
 import styles from './styles.module.css';
 
 function CloseIcon() {
@@ -109,6 +109,16 @@ export default function CatalogModal({
 }) {
   const titleId = useId();
   const closeRef = useRef(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setReady(false);
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setReady(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -148,8 +158,10 @@ export default function CatalogModal({
           </button>
         </header>
 
-        <div className={styles.catalogBody}>
-          {!hasItems ? (
+        <div className={`${styles.catalogBody} ${!ready ? styles.catalogBodyLoading : ''}`}>
+          {!ready ? (
+            <ActionSkeleton variant="catalog" label="Abrindo o cardápio" />
+          ) : !hasItems ? (
             <p className={styles.empty}>{emptyMessage}</p>
           ) : (
             groups.map((group) => (
