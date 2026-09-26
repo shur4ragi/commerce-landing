@@ -1,6 +1,7 @@
 import { useSite } from '../../hooks/useSite.js';
 import { useOrder } from '../../hooks/useOrder.js';
 import LocationMap from '../LocationMap';
+import ScrollAnimatedCoffee from './ScrollAnimatedCoffee';
 import { Button, Container, Reveal } from '../ui';
 import styles from './styles.module.css';
 
@@ -61,13 +62,12 @@ export default function Hero() {
             ))}
           </ul>
         </Reveal>
-        {hero.image && (
-          <Reveal>
-            <figure className={styles.visual}>
-              <img src={hero.image} alt={hero.imageAlt} />
-            </figure>
-          </Reveal>
-        )}
+        <Reveal>
+          {/* ScrollAnimatedCoffee substitui o visual estático */}
+          <figure className={styles.visual}>
+            <ScrollAnimatedCoffee />
+          </figure>
+        </Reveal>
       </Container>
     </section>
   );
