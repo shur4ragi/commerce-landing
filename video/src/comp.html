@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Aurora Café — vídeo de apresentação</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&display=block">
+<style>
+  :root {
+    --espresso: #2C1A12; --deep: #140C08; --cream: #F6EFE6; --paper: #FBF6F0;
+    --accent: #D4652F; --text: #241812; --muted: #8A7464; --line: #E8D9C8;
+    --syne: "Syne", sans-serif; --fig: "Figtree", sans-serif; --serif: "Instrument Serif", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+  body { font-family: var(--fig); -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; background: var(--deep); }
+  .scene { position: absolute; inset: 0; display: none; overflow: hidden; }
+  .abs { position: absolute; }
+  em, .it { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); letter-spacing: 0; }
+  .mask { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+  .mask > span { display: inline-block; will-change: transform; }
+
+  /* ---------- S1 opening ---------- */
+  #s1 { background: var(--deep); }
+  #s1 .glow { position: absolute; inset: -20%; }
+  #s1 canvas { position: absolute; inset: 0; }
+  #s1 .group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #s1 .logo { width: 150px; height: 150px; margin-bottom: 44px; }
+  #s1 .title { font-family: var(--syne); font-weight: 700; font-size: 150px; color: var(--cream); letter-spacing: -.02em; line-height: 1; display: flex; }
+  #s1 .title .ch { display: inline-block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+  #s1 .title .ch > span { display: inline-block; }
+  #s1 .eyebrow { margin-top: 38px; font-family: var(--fig); font-weight: 600; font-size: 20px; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 22px; }
+  #s1 .eyebrow i { display: block; width: 60px; height: 1.5px; background: var(--accent); transform-origin: center; }
+  #s1 .kicker { margin-top: 30px; font-family: var(--serif); font-style: italic; font-size: 46px; color: #E9D8C6; }
+
+  /* ---------- wipes ---------- */
+  .wipe { position: absolute; inset: 0; display: none; z-index: 50; }
+
+  /* ---------- S2 headline ---------- */
+  #s2 { background: var(--paper); }
+  #s2 .photo { position: absolute; left: 1100px; top: 120px; width: 640px; height: 840px; border-radius: 28px; overflow: hidden; box-shadow: 0 50px 120px rgba(44,26,18,.28); }
+  #s2 .photo img { width: 100%; height: 100%; object-fit: cover; }
+  #s2 .copy { position: absolute; left: 170px; top: 250px; width: 900px; }
+  .eyebrow2 { font-weight: 700; font-size: 19px; letter-spacing: .28em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 18px; }
+  .eyebrow2 i { width: 48px; height: 2px; background: var(--accent); display: block; transform-origin: left; }
+  #s2 h1 { margin-top: 36px; font-family: var(--syne); font-weight: 700; font-size: 104px; line-height: 1.02; letter-spacing: -.03em; color: var(--text); }
+  #s2 h1 em { font-size: 124px; line-height: .9; }
+  #s2 p { margin-top: 44px; font-size: 28px; line-height: 1.5; color: var(--muted); width: 700px; }
+  #s2 .chip { position: absolute; left: 1010px; top: 780px; background: var(--espresso); color: var(--cream); border-radius: 18px; padding: 22px 28px; box-shadow: 0 30px 60px rgba(20,12,8,.35); }
+  #s2 .chip b { display: block; font-family: var(--syne); font-size: 40px; }
+  #s2 .chip span { font-size: 17px; color: #CDB9A6; }
+
+  /* ---------- device scenes (S3–S6) ---------- */
+  #dev { background: linear-gradient(160deg, #F4EBE0 0%, #E7D8C5 100%); perspective: 2400px; }
+  #dev .bigword { position: absolute; top: 330px; left: 0; white-space: nowrap; font-family: var(--syne); font-weight: 800; font-size: 420px; letter-spacing: -.04em; color: rgba(44,26,18,.045); }
+  #browser { position: absolute; left: 200px; top: 92px; width: 1520px; height: 899px; border-radius: 20px; overflow: hidden; background: #fff;
+             box-shadow: 0 60px 140px rgba(44,26,18,.34), 0 12px 30px rgba(44,26,18,.16); transform-style: preserve-3d; will-change: transform; }
+  #browser .bar { height: 44px; background: #F7F1EA; border-bottom: 1px solid #E8DCCD; display: flex; align-items: center; padding: 0 20px; gap: 9px; position: relative; }
+  #browser .bar i { width: 13px; height: 13px; border-radius: 50%; background: #E2D3C2; display: block; }
+  #browser .url { position: absolute; left: 50%; transform: translateX(-50%); height: 28px; min-width: 420px; padding: 0 18px; border-radius: 9px; background: #EDE3D7; color: #6E5B4D; font-size: 15px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  #browser .screen { position: absolute; left: 0; top: 44px; width: 1520px; height: 855px; overflow: hidden; background: #fff; }
+  #browser .screen img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cap { position: absolute; left: 100px; top: 790px; background: var(--espresso); color: var(--cream); border-radius: 20px; padding: 26px 34px 28px; width: 520px; box-shadow: 0 30px 70px rgba(20,12,8,.35); z-index: 5; }
+  .cap .n { font-family: var(--syne); font-weight: 700; font-size: 20px; color: var(--accent); letter-spacing: .08em; }
+  .cap h3 { font-family: var(--syne); font-weight: 700; font-size: 38px; line-height: 1.08; letter-spacing: -.02em; margin-top: 8px; }
+  .cap h3 em { font-size: 44px; }
+  .cap p { margin-top: 12px; font-size: 19px; line-height: 1.5; color: #D5C3B1; }
+  .side { position: absolute; left: 130px; top: 340px; width: 600px; z-index: 5; }
+  .side .n { font-family: var(--syne); font-weight: 700; font-size: 22px; color: var(--accent); letter-spacing: .08em; display: flex; align-items: center; gap: 16px; }
+  .side .n i { width: 44px; height: 2px; background: var(--accent); display: block; }
+  .side h2 { margin-top: 26px; font-family: var(--syne); font-weight: 700; font-size: 76px; line-height: 1.02; letter-spacing: -.03em; color: var(--text); }
+  .side h2 em { font-size: 88px; line-height: .9; }
+  .side p { margin-top: 30px; font-size: 25px; line-height: 1.5; color: #6F5A4B; width: 520px; }
+  .dark .side h2 { color: var(--cream); }
+  .dark .side p { color: #CDB9A6; }
+
+  /* chat */
+  #chat { position: absolute; left: 1090px; top: 110px; width: 560px; height: 860px; border-radius: 34px; background: #EFE6DA; overflow: hidden; box-shadow: 0 60px 140px rgba(10,6,4,.55); z-index: 6; }
+  #chat .top { height: 104px; background: var(--espresso); display: flex; align-items: center; gap: 18px; padding: 0 28px; color: var(--cream); }
+  #chat .av { width: 58px; height: 58px; border-radius: 50%; background: #D4652F; display: grid; place-items: center; font-family: var(--syne); font-weight: 700; font-size: 22px; color: #fff; }
+  #chat .who b { display: block; font-size: 24px; font-weight: 600; }
+  #chat .who span { font-size: 16px; color: #BFA994; }
+  #chat .body { padding: 28px 26px; }
+  #chat .day { margin: 0 auto 22px; width: max-content; padding: 6px 16px; border-radius: 10px; background: rgba(255,255,255,.7); font-size: 15px; color: #7A6656; }
+  #chat .bubble { background: #fff; border-radius: 4px 20px 20px 20px; padding: 20px 22px 14px; width: 470px; box-shadow: 0 2px 2px rgba(0,0,0,.06); font-size: 19px; line-height: 1.5; color: #2A1C14; }
+  #chat .bubble .ln { display: block; min-height: 1.5em; }
+  #chat .bubble .ln.b { font-weight: 700; }
+  #chat .bubble .ln.tot { font-weight: 700; color: #B4501F; }
+  #chat .meta { text-align: right; font-size: 14px; color: #9A8676; margin-top: 4px; }
+  #chat .reply { margin: 18px 0 0 auto; background: #F9DCC8; border-radius: 20px 4px 20px 20px; padding: 14px 20px; width: max-content; font-size: 19px; color: #2A1C14; }
+  #toast { position: absolute; left: 1120px; top: 60px; width: 500px; background: rgba(255,255,255,.96); border-radius: 22px; padding: 18px 22px; display: flex; gap: 16px; align-items: center; box-shadow: 0 30px 70px rgba(10,6,4,.4); z-index: 7; }
+  #toast img { width: 52px; height: 52px; border-radius: 13px; }
+  #toast b { display: block; font-size: 18px; color: #2A1C14; }
+  #toast span { font-size: 16px; color: #7A6656; }
+
+  /* phone */
+  #mob { background: radial-gradient(ellipse 70% 80% at 65% 55%, #4A2A1A 0%, #1C110C 60%, #120A06 100%); perspective: 2200px; }
+  #phone { position: absolute; left: 1060px; top: 96px; width: 414px; height: 888px; border-radius: 62px; background: #0D0907; padding: 12px; box-shadow: 0 70px 140px rgba(0,0,0,.6), inset 0 0 0 2px #3a2a20; }
+  #phone .scr { position: relative; width: 390px; height: 844px; border-radius: 50px; overflow: hidden; background: #fff; }
+  #phone .scr img { position: absolute; left: 0; top: 50px; width: 390px; height: 844px; }
+  #phone .sb { position: absolute; left: 0; right: 0; top: 0; height: 50px; background: #F9F4EE; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 6px 34px 0 42px; font: 600 16px var(--fig); color: #1b120d; }
+  #phone .sb i { display: flex; gap: 5px; align-items: center; }
+  #phone .island { position: absolute; left: 50%; top: 22px; width: 118px; height: 34px; border-radius: 20px; background: #0D0907; transform: translateX(-50%); z-index: 2; }
+  .floaty { position: absolute; border-radius: 22px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,.45); }
+  .floaty img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* features */
+  #s8 { background: var(--paper); }
+  #s8 .head { position: absolute; left: 0; right: 0; top: 130px; text-align: center; }
+  #s8 .head h2 { margin-top: 22px; font-family: var(--syne); font-weight: 700; font-size: 78px; letter-spacing: -.03em; color: var(--text); }
+  #s8 .head h2 em { font-size: 92px; }
+  #s8 .head .eyebrow2 { justify-content: center; }
+  #s8 .grid { position: absolute; left: 190px; top: 420px; width: 1540px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  #s8 .card { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 34px 34px 32px; height: 236px; box-shadow: 0 20px 50px rgba(44,26,18,.07); }
+  #s8 .card .ic { width: 58px; height: 58px; border-radius: 16px; background: #F8E6DA; display: grid; place-items: center; }
+  #s8 .card .ic svg { width: 30px; height: 30px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  #s8 .card h4 { margin-top: 22px; font-family: var(--syne); font-weight: 700; font-size: 29px; letter-spacing: -.01em; color: var(--text); }
+  #s8 .card p { margin-top: 10px; font-size: 19px; line-height: 1.45; color: var(--muted); }
+
+  /* closing */
+  #s9 { background: var(--deep); }
+  #s9 .glow { position: absolute; inset: -20%; }
+  #s9 .ph { position: absolute; left: 50%; top: 50%; width: 300px; height: 380px; margin: -190px 0 0 -150px; border-radius: 22px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,.55); }
+  #s9 .ph img { width: 100%; height: 100%; object-fit: cover; }
+  #s9 .group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #s9 .logo { width: 120px; height: 120px; }
+  #s9 .title { margin-top: 36px; font-family: var(--syne); font-weight: 700; font-size: 128px; letter-spacing: -.02em; color: var(--cream); line-height: 1; }
+  #s9 .tag { margin-top: 30px; font-family: var(--serif); font-size: 58px; color: #E9D8C6; }
+  #s9 .tag em { font-size: 62px; }
+  #s9 .url { margin-top: 44px; padding: 14px 30px; border: 1.5px solid rgba(246,239,230,.3); border-radius: 999px; color: var(--cream); font-size: 22px; font-weight: 500; letter-spacing: .04em; display: flex; gap: 12px; align-items: center; }
+  #s9 .url b { width: 10px; height: 10px; border-radius: 50%; background: #5FCB7A; display: block; }
+
+  #grain { position: absolute; inset: 0; z-index: 90; pointer-events: none; mix-blend-mode: overlay; opacity: .09; }
+  #vig { position: absolute; inset: 0; z-index: 91; pointer-events: none; background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 60%, rgba(10,5,2,.32) 100%); }
+  #fade { position: absolute; inset: 0; z-index: 95; background: #000; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- S1: opening -->
+  <section class="scene" id="s1">
+    <div class="glow"></div>
+    <canvas width="1920" height="1080"></canvas>
+    <div class="group">
+      <svg class="logo" viewBox="0 0 80 80" fill="none">
+        <defs><clipPath id="lc"><rect width="80" height="80" rx="20"/></clipPath></defs>
+        <g clip-path="url(#lc)">
+          <rect class="lbg" width="80" height="80" rx="20" fill="#2C1A12" stroke="rgba(246,239,230,.14)" stroke-width="1"/>
+          <circle class="sun" cx="40" cy="28" r="11" fill="#D4652F"/>
+        </g>
+        <path class="cup" d="M24 50c0-8.5 7.2-13 16-13s16 4.5 16 13" stroke="#F6EFE6" stroke-width="3.5" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1"/>
+        <path class="handle" d="M56 48c5 0 8 2.8 8 7s-3 7-8 7" stroke="#F6EFE6" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1"/>
+      </svg>
+      <div class="title"></div>
+      <div class="eyebrow"><i></i><span>Vila Madalena · São Paulo</span><i></i></div>
+      <div class="kicker">Seu novo site chegou.</div>
+    </div>
+  </section>
+
+  <div class="wipe" id="w1a" style="background: var(--accent)"></div>
+
+  <!-- S2: headline -->
+  <section class="scene" id="s2">
+    <div class="photo"><img src="img/hero-cup.png"></div>
+    <div class="chip"><b>12</b><span>origens no menu</span></div>
+    <div class="copy">
+      <div class="eyebrow2"><i></i><span>O conceito da casa</span></div>
+      <h1>
+        <span class="mask"><span>O dia começa</span></span>
+        <span class="mask"><span>quando o café</span></span>
+        <span class="mask"><span><em>encontra a luz.</em></span></span>
+      </h1>
+      <p>A essência da Aurora, traduzida em uma experiência digital feita sob medida.</p>
+    </div>
+  </section>
+
+  <!-- S3–S6: devices on paper -->
+  <section class="scene" id="dev">
+    <div class="bigword">AURORA CAFÉ · AURORA CAFÉ</div>
+    <div class="side" id="side">
+      <div class="n"><i></i><span class="num">02</span></div>
+      <h2 class="ttl"></h2>
+      <p class="sub"></p>
+    </div>
+    <div id="browser">
+      <div class="bar"><i></i><i></i><i></i>
+        <div class="url"><svg width="13" height="15" viewBox="0 0 13 15"><rect x="1" y="6.5" width="11" height="8" rx="2" fill="#8A7464"/><path d="M3.5 6.5V4.5a3 3 0 0 1 6 0v2" stroke="#8A7464" stroke-width="1.6" fill="none"/></svg>auroracafe.com.br</div>
+      </div>
+      <div class="screen"><img id="scrA"><img id="scrB"></div>
+    </div>
+    <div class="cap" id="cap"><div class="n"></div><h3></h3><p></p></div>
+    <div id="dim" class="abs" style="inset:0;background:rgba(20,12,8,.0);z-index:4"></div>
+    <div id="toast"><img src="img/logo.svg"><div><b>Novo pedido · Marina Costa</b><span>2x Cappuccino da casa (Vegetal)</span></div></div>
+    <div id="chat">
+      <div class="top"><div class="av">MC</div><div class="who"><b>Marina Costa</b><span>online</span></div></div>
+      <div class="body">
+        <div class="day">Hoje</div>
+        <div class="bubble" id="bubble"></div>
+        <div class="reply" id="reply">Pedido confirmado! Sai em 15 min ☕</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: mobile -->
+  <section class="scene dark" id="mob">
+    <div class="floaty" id="f1" style="width:250px;height:300px"><img src="img/product-pastry.png"></div>
+    <div class="floaty" id="f2" style="width:220px;height:220px"><img src="img/product-coldbrew.png"></div>
+    <div class="floaty" id="f3" style="width:240px;height:290px"><img src="img/gallery-02.png"></div>
+    <div class="side" id="mside">
+      <div class="n"><i></i><span>06</span></div>
+      <h2><span class="mask"><span>Perfeito</span></span><span class="mask"><span><em>no celular.</em></span></span></h2>
+      <p>Cada seção foi pensada primeiro para a tela onde seus clientes estão: a palma da mão.</p>
+    </div>
+    <div id="phone"><div class="scr"><div class="island"></div><div class="sb"><span>9:41</span><i><svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#1b120d"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#1b120d"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#1b120d"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#1b120d"/></svg><svg width="26" height="13" viewBox="0 0 26 13"><rect x=".5" y=".5" width="22" height="12" rx="3.5" fill="none" stroke="#1b120d" opacity=".4"/><rect x="2.5" y="2.5" width="16" height="8" rx="2" fill="#1b120d"/><rect x="23.5" y="4.5" width="2" height="4" rx="1" fill="#1b120d" opacity=".4"/></svg></i></div><img id="mimg"></div></div>
+  </section>
+
+  <!-- S8: features -->
+  <section class="scene" id="s8">
+    <div class="head">
+      <div class="eyebrow2"><i></i><span>Tudo incluso</span><i></i></div>
+      <h2>Tudo o que a <em>Aurora</em> precisa.</h2>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- S9: closing -->
+  <section class="scene" id="s9">
+    <div class="glow"></div>
+    <div id="phs"></div>
+    <div class="group">
+      <svg class="logo" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="20" fill="#2C1A12" stroke="rgba(246,239,230,.16)" stroke-width="1"/>
+        <circle cx="40" cy="28" r="11" fill="#D4652F"/>
+        <path d="M24 50c0-8.5 7.2-13 16-13s16 4.5 16 13" stroke="#F6EFE6" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M56 48c5 0 8 2.8 8 7s-3 7-8 7" stroke="#F6EFE6" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="title">Aurora Café</div>
+      <div class="tag">Do grão, à xícara, <em>à tela.</em></div>
+      <div class="url"><b></b>auroracafe.com.br · no ar</div>
+    </div>
+  </section>
+
+  <canvas id="grain" width="960" height="540"></canvas>
+  <div id="vig"></div>
+  <div id="fade"></div>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const eOut3 = (k) => 1 - (1 - k) ** 3;
+const eOutExpo = (k) => (k >= 1 ? 1 : 1 - 2 ** (-10 * k));
+const eInOut3 = (k) => (k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2);
+const eIn3 = (k) => k * k * k;
+const eOutBack = (k) => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * (k - 1) ** 3 + c1 * (k - 1) ** 2; };
+const show = (el, on) => { el.style.display = on ? 'block' : 'none'; };
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+// Scene boundaries (seconds). 90 BPM → one bar = 2.6667 s.
+const BAR = 8 / 3;
+const T = { s2: 2 * BAR, s3: 4 * BAR, s4: 8 * BAR, s5: 12 * BAR, s6: 17 * BAR, s7: 19 * BAR, s8: 23 * BAR, s9: 26 * BAR, end: 29 * BAR };
+window.DURATION = T.end;
+
+// ---------- clip frame lookup ----------
+let CLIPS;
+function frameAt(name, t) {
+  const ts = CLIPS[name].t; let lo = 0, hi = ts.length - 1;
+  if (t <= ts[0]) return 0; if (t >= ts[hi]) return hi;
+  while (lo < hi) { const m = (lo + hi + 1) >> 1; if (ts[m] <= t) lo = m; else hi = m - 1; }
+  return lo;
+}
+const frameUrl = (name, t) => `rec/${name}/f${String(frameAt(name, t)).padStart(5, '0')}.jpg`;
+const pending = [];
+function setImg(img, url) { if (img.dataset.u !== url) { img.dataset.u = url; img.src = url; pending.push(img.decode().catch(() => {})); } }
+// piecewise-linear map from scene time to clip time
+function pw(u, pts) { if (u <= pts[0][0]) return pts[0][1]; for (let i = 1; i < pts.length; i++) { const [a, x] = pts[i - 1], [b, y] = pts[i]; if (u <= b) return lerp(x, y, (u - a) / (b - a)); } return pts.at(-1)[1]; }
+
+// ---------- S1 ----------
+const s1 = $('#s1'); const s1title = $('#s1 .title');
+[...'Aurora Café'].forEach((c) => { const w = document.createElement('span'); w.className = 'ch'; w.innerHTML = `<span>${c === ' ' ? '&nbsp;' : c}</span>`; s1title.appendChild(w); });
+const s1chars = [...s1title.querySelectorAll('.ch > span')];
+const s1ctx = $('#s1 canvas').getContext('2d');
+const dust = (() => { const r = rng(7); return Array.from({ length: 70 }, () => ({ x: r() * 1920, y: r() * 1080, s: 0.6 + r() * 2.4, v: 12 + r() * 30, ph: r() * 6.28, a: 0.15 + r() * 0.45 })); })();
+function drawDust(ctx, t, alpha) {
+  ctx.clearRect(0, 0, 1920, 1080);
+  for (const d of dust) {
+    const y = ((d.y - t * d.v) % 1080 + 1080) % 1080, x = d.x + Math.sin(t * 0.6 + d.ph) * 18;
+    ctx.globalAlpha = d.a * alpha * (0.5 + 0.5 * Math.sin(t * 1.3 + d.ph));
+    ctx.fillStyle = '#F2B48A'; ctx.beginPath(); ctx.arc(x, y, d.s, 0, 6.283); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+function glow(el, k, y, extra = 0) {
+  el.style.background = `radial-gradient(ellipse 45% 38% at 50% ${y}%, rgba(212,101,47,${0.55 * k + extra}) 0%, rgba(140,60,25,${0.28 * k}) 38%, rgba(20,12,8,0) 72%)`;
+}
+function S1(t) {
+  const on = t < T.s2 + 0.1; show(s1, on); if (!on) return;
+  glow($('#s1 .glow'), eOut3(P(t, 0, 3.2)), lerp(95, 62, eOut3(P(t, 0, 3.4))), 0.35 * eIn3(P(t, 4.4, 5.2)));
+  drawDust(s1ctx, t, P(t, 0.2, 1.6));
+  const lg = $('#s1 .logo');
+  const kl = eOutBack(P(t, 0.3, 1.1));
+  lg.style.transform = `scale(${lerp(0.6, 1, kl)})`; lg.style.opacity = P(t, 0.3, 0.8);
+  $('#s1 .sun').setAttribute('cy', lerp(62, 28, eOut3(P(t, 0.8, 1.9))));
+  $('#s1 .cup').style.strokeDashoffset = 1 - eInOut3(P(t, 1.0, 1.9));
+  $('#s1 .handle').style.strokeDashoffset = 1 - eInOut3(P(t, 1.6, 2.2));
+  s1chars.forEach((c, i) => { const k = eOutExpo(P(t, 1.25 + i * 0.05, 2.15 + i * 0.05)); c.style.transform = `translateY(${(1 - k) * 110}%)`; });
+  const ke = eOut3(P(t, 2.3, 3.2));
+  const eb = $('#s1 .eyebrow'); eb.style.opacity = ke; eb.style.letterSpacing = `${lerp(0.7, 0.34, ke)}em`;
+  eb.querySelectorAll('i').forEach((i) => (i.style.transform = `scaleX(${ke})`));
+  const kk = eOut3(P(t, 3.0, 3.9)); const kick = $('#s1 .kicker'); kick.style.opacity = kk; kick.style.transform = `translateY(${(1 - kk) * 24}px)`;
+  const ex = eIn3(P(t, 4.6, 5.33));
+  const g = $('#s1 .group'); g.style.transform = `scale(${1 + ex * 0.08})`; g.style.opacity = 1 - ex; g.style.filter = `blur(${ex * 12}px)`;
+}
+
+// ---------- wipe S1→S2 ----------
+function W1(t) {
+  const w = $('#w1a'); const k = P(t, T.s2 - 0.5, T.s2 + 0.05), k2 = P(t, T.s2 + 0.0, T.s2 + 0.55);
+  const on = t > T.s2 - 0.5 && t < T.s2 + 0.6; show(w, on); if (!on) return;
+  const top = (1 - eInOut3(k)) * 100, bottom = eInOut3(k2) * 100;
+  w.style.clipPath = `inset(${top}% 0 0 0)`; w.style.transform = `translateY(${-bottom}%)`;
+}
+
+// ---------- S2 ----------
+const s2 = $('#s2');
+function S2(t) {
+  const on = t > T.s2 - 0.1 && t < T.s3 + 0.6; show(s2, on); if (!on) return;
+  const u = t - T.s2;
+  const ph = $('#s2 .photo'); const kr = eOutExpo(P(u, 0.25, 1.45));
+  ph.style.clipPath = `inset(${(1 - kr) * 100}% 0 0 0 round 28px)`;
+  ph.querySelector('img').style.transform = `scale(${lerp(1.22, 1.02, eOut3(P(u, 0.25, 5.4)))})`;
+  const ke = eOut3(P(u, 0.45, 1.2)); const eb = $('#s2 .eyebrow2');
+  eb.style.opacity = ke; eb.querySelector('i').style.transform = `scaleX(${ke})`;
+  [...s2.querySelectorAll('h1 .mask > span')].forEach((s, i) => { const k = eOutExpo(P(u, 0.6 + i * 0.22, 1.6 + i * 0.22)); s.style.transform = `translateY(${(1 - k) * 110}%)`; });
+  const kp = eOut3(P(u, 1.6, 2.4)); const p = $('#s2 p'); p.style.opacity = kp; p.style.transform = `translateY(${(1 - kp) * 20}px)`;
+  const kc = eOutBack(P(u, 2.1, 2.8)); const chip = $('#s2 .chip'); chip.style.opacity = P(u, 2.1, 2.4); chip.style.transform = `translateY(${(1 - kc) * 40}px) scale(${lerp(0.85, 1, kc)})`;
+  const ex = eInOut3(P(u, 4.45, 5.05));
+  $('#s2 .copy').style.transform = `translateY(${-ex * 90}px)`; $('#s2 .copy').style.opacity = 1 - ex;
+  ph.style.transform = `translateY(${-ex * 60}px)`; ph.style.opacity = 1 - ex; chip.style.opacity = Math.min(chip.style.opacity, 1 - ex);
+  s2.style.opacity = 1;
+}
+
+// ---------- device scenes ----------
+const dev = $('#dev'), br = $('#browser'), scrA = $('#scrA'), scrB = $('#scrB'), cap = $('#cap'), side = $('#side');
+function setCap(n, h, p) { if (cap.dataset.k === n) return; cap.dataset.k = n; cap.querySelector('.n').textContent = n; cap.querySelector('h3').innerHTML = h; cap.querySelector('p').textContent = p; }
+function setSide(n, h, p) {
+  if (side.dataset.k === n) return; side.dataset.k = n; side.querySelector('.num').textContent = n;
+  side.querySelector('.ttl').innerHTML = h.split('|').map((l) => `<span class="mask"><span>${l}</span></span>`).join(''); side.querySelector('.sub').textContent = p;
+}
+function sideAnim(u0, u1, u) {
+  const ki = P(u, u0, u0 + 0.9), ko = eIn3(P(u, u1 - 0.45, u1));
+  side.style.opacity = u < u0 || u > u1 ? 0 : 1;
+  side.querySelector('.n').style.opacity = eOut3(ki) * (1 - ko);
+  [...side.querySelectorAll('.ttl .mask > span')].forEach((s, i) => { const k = eOutExpo(P(u, u0 + 0.1 + i * 0.12, u0 + 1.1 + i * 0.12)); s.style.transform = `translateY(${(1 - k) * 110 + ko * -110}%)`; });
+  const kp = eOut3(P(u, u0 + 0.5, u0 + 1.3)); const p = side.querySelector('.sub'); p.style.opacity = kp * (1 - ko); p.style.transform = `translateY(${(1 - kp) * 18}px)`;
+}
+function capAnim(u0, u1, u) {
+  const ki = eOutExpo(P(u, u0, u0 + 0.9)), ko = eIn3(P(u, u1 - 0.4, u1));
+  cap.style.opacity = u < u0 || u > u1 ? 0 : P(u, u0, u0 + 0.35) * (1 - ko);
+  cap.style.transform = `translateX(${(1 - ki) * -80 - ko * 60}px)`;
+}
+// browser pose: {x, y, s, ry, rx}
+const POSE = { center: { x: 0, y: 0, s: 1, ry: 0, rx: 0 }, right: { x: 330, y: 20, s: 0.76, ry: -17, rx: 4 } };
+const mix = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), s: lerp(a.s, b.s, k), ry: lerp(a.ry, b.ry, k), rx: lerp(a.rx, b.rx, k), ox: lerp(a.ox ?? 50, b.ox ?? 50, k), oy: lerp(a.oy ?? 50, b.oy ?? 50, k) });
+function pose(p) { br.style.transformOrigin = `${p.ox ?? 50}% ${p.oy ?? 50}%`; br.style.transform = `translate(${p.x}px, ${p.y}px) rotateY(${p.ry}deg) rotateX(${p.rx}deg) scale(${p.s})`; }
+
+const ORDER_MSG = [
+  ['Olá! Gostaria de fazer um pedido.', ''], ['', ''],
+  ['Cliente: Marina Costa', ''], ['Telefone: (11) 98765-4321', ''], ['Endereço: Rua Harmonia, 480', ''], ['Pagamento: Pix', ''], ['', ''],
+  ['Pedido:', 'b'], ['2x Cappuccino da casa (Vegetal) — R$ 38,00', ''], ['', ''], ['Total: R$ 38,00', 'tot'],
+];
+$('#bubble').innerHTML = ORDER_MSG.map(([l, c]) => `<span class="ln ${c}">${l || '&nbsp;'}</span>`).join('') + '<div class="meta">08:42</div>';
+
+function DEV(t) {
+  const on = t > T.s3 - 0.6 && t < T.s7 + 0.6; show(dev, on); if (!on) return;
+  dev.style.opacity = eInOut3(P(t, T.s3 - 0.3, T.s3 + 0.15));
+  $('#dev .bigword').style.transform = `translateX(${-200 - (t - T.s3) * 38}px)`;
+  let p = POSE.center, useB = false, opB = 0;
+  side.style.opacity = 0; cap.style.opacity = 0;
+  const dim = $('#dim'), chat = $('#chat'), toast = $('#toast'); chat.style.display = 'none'; toast.style.display = 'none'; dim.style.background = 'rgba(20,12,8,0)'; dim.style.backdropFilter = 'none';
+  br.style.filter = 'none';
+
+  if (t < T.s4) { // S3: intro clip
+    const u = t - T.s3;
+    const k = eOutExpo(P(u, -0.5, 1.2));
+    p = { x: 0, y: (1 - k) * 420, s: lerp(0.84, 1, k), ry: 0, rx: (1 - k) * 28 };
+    const push = eInOut3(P(u, 5, 10.7)); p.s *= 1 + push * 0.05; p.y -= push * 10;
+    br.style.opacity = P(u, -0.35, -0.15);
+    setImg(scrA, frameUrl('intro', 0.4 + Math.max(0, u + 0.1)));
+    setCap('01', 'Primeira <em>impressão</em>', 'Uma abertura cinematográfica que apresenta a casa em segundos.');
+    capAnim(1.5, 10.4, u);
+  } else if (t < T.s5) { // S4: scroll
+    const u = t - T.s4;
+    const k = eInOut3(P(u, -0.25, 1.25)); const kb = eInOut3(P(u, 10.0, 10.9));
+    p = mix(mix({ ...POSE.center, s: 1.05, y: -10 }, POSE.right, k), POSE.center, kb);
+    setImg(scrA, frameUrl('intro', 0.4 + (t - T.s3 + 0.1)));
+    const clipT = Math.max(0, (u - 0.15) * 1.55);
+    setImg(scrB, frameUrl('scroll', clipT)); useB = true; opB = eInOut3(P(u, 0, 0.25));
+    const procAt = 0.15 + CLIPS.scroll.marks.process / 1.55;
+    if (u < procAt - 0.2) { setSide('02', 'Sua história,|contada com <em>calma.</em>', 'Seções que apresentam a casa, o manifesto e o jeito Aurora de servir.'); sideAnim(0.5, procAt - 0.2, u); }
+    else { setSide('03', 'Do grão|à <em>xícara.</em>', 'Animações que acompanham a rolagem e mostram o seu ofício, passo a passo.'); sideAnim(procAt - 0.1, 9.9, u); }
+  } else if (t < T.s6) { // S5: order flow
+    const u = t - T.s5;
+    const ct = pw(u, [[0, 1.5], [8.0, 15.4], [11.2, 26.0], [13.33, 29.3]]);
+    const m = CLIPS.order.marks;
+    const z = eInOut3(clamp((ct - m.panel + 0.2) / 1.1)) ;
+    p = mix(POSE.center, { x: -190, y: 0, s: 1.36, ry: 0, rx: 0, ox: 88, oy: 45 }, z);
+    setImg(scrA, frameUrl('scroll', (T.s5 - T.s4 - 0.15) * 1.55));
+    setImg(scrB, frameUrl('order', ct)); useB = true; opB = eInOut3(P(u, 0, 0.25));
+    setCap('04', 'Cardápio que <em>vende.</em>', 'O cliente escolhe, personaliza e fecha o pedido em poucos toques.');
+    capAnim(0.6, 13.1, u);
+  } else { // S6: WhatsApp message
+    const u = t - T.s6;
+    const ct = CLIPS.order.marks.end;
+    const zo = eInOut3(P(u, 0, 1.0));
+    p = mix({ x: -190, y: 0, s: 1.36, ry: 0, rx: 0, ox: 88, oy: 45 }, { x: -330, y: 30, s: 0.9, ry: 10, rx: 2 }, zo);
+    setImg(scrB, frameUrl('order', ct)); useB = true; opB = 1;
+    br.style.filter = `blur(${zo * 6}px) brightness(${1 - zo * 0.35})`;
+    dim.style.background = `rgba(20,12,8,${zo * 0.55})`;
+    setSide('05', 'O pedido chega|<em>pronto.</em>', 'Direto no WhatsApp da Aurora, com itens, endereço e pagamento. Sem intermediários.');
+    sideAnim(0.5, 20, u);
+    side.style.zIndex = 6; side.classList.add('onDark');
+    side.querySelectorAll('.ttl').forEach((h) => (h.style.color = '#F6EFE6')); side.querySelector('.sub').style.color = '#E0CDBB';
+    chat.style.display = 'block'; const kc = eOutExpo(P(u, 0.4, 1.4));
+    chat.style.transform = `translateY(${(1 - kc) * 700}px) rotate(${(1 - kc) * 6}deg)`;
+    [...chat.querySelectorAll('.ln')].forEach((l, i) => { const k = eOut3(P(u, 1.5 + i * 0.12, 1.9 + i * 0.12)); l.style.opacity = k; l.style.transform = `translateY(${(1 - k) * 8}px)`; });
+    const kb = P(u, 1.2, 1.5); $('#bubble').style.opacity = kb; $('#bubble').style.transform = `scale(${lerp(0.92, 1, eOutBack(kb))})`; $('#bubble').style.transformOrigin = 'top left';
+    const kr = eOutBack(P(u, 3.6, 4.1)); const rp = $('#reply'); rp.style.opacity = P(u, 3.6, 3.8); rp.style.transform = `scale(${lerp(0.8, 1, kr)})`; rp.style.transformOrigin = 'top right';
+    toast.style.display = 'flex'; const kt = eOutExpo(P(u, 0.9, 1.6)), kto = eIn3(P(u, 2.9, 3.4));
+    toast.style.opacity = P(u, 0.9, 1.2) * (1 - kto); toast.style.transform = `translateY(${(1 - kt) * -120 - kto * 40}px)`;
+    const ex = eIn3(P(u, 4.85, 5.33)); dev.style.opacity = 1 - ex;
+  }
+  if (t < T.s6) { side.style.zIndex = 5; side.querySelectorAll('.ttl').forEach((h) => (h.style.color = '')); side.querySelector('.sub').style.color = ''; }
+  pose(p); scrB.style.opacity = useB ? opB : 0;
+}
+
+// ---------- S7 mobile ----------
+const mob = $('#mob');
+function S7(t) {
+  const on = t > T.s7 - 0.2 && t < T.s8 + 0.6; show(mob, on); if (!on) return;
+  const u = t - T.s7;
+  mob.style.opacity = P(u, -0.2, 0.3) * (1 - eIn3(P(u, 10.3, 10.9)));
+  const k = eOutExpo(P(u, 0, 1.4));
+  const ph = $('#phone');
+  ph.style.transform = `translateY(${(1 - k) * 900 + Math.sin(u * 0.9) * 6}px) rotateY(${lerp(-24, -8, k) + Math.sin(u * 0.5) * 2}deg) rotateX(${lerp(14, 3, k)}deg) rotateZ(${lerp(8, 0, k)}deg)`;
+  setImg($('#mimg'), frameUrl('mobile', 0.12 + Math.max(0, u - 0.1) * 2.12));
+  const fl = [[$('#f1'), 820, 170, 0.5, -8, 0.35], [$('#f2'), 1560, 140, 0.8, 7, 0.6], [$('#f3'), 1580, 640, 0.65, -5, 0.45]];
+  fl.forEach(([el, x, y, d, r, par], i) => { const kf = eOutExpo(P(u, 0.5 + i * 0.2, 1.8 + i * 0.2)); el.style.left = x + 'px'; el.style.top = y + 'px';
+    el.style.opacity = kf * 0.95; el.style.transform = `translateY(${(1 - kf) * 300 - u * 14 * par}px) rotate(${r + Math.sin(u * 0.6 + i) * 1.5}deg) scale(${lerp(0.8, 1, kf)})`; el.style.filter = `blur(${i === 1 ? 1.5 : 0}px)`; });
+  const ms = $('#mside');
+  ms.querySelector('.n').style.opacity = eOut3(P(u, 0.9, 1.6));
+  [...ms.querySelectorAll('.mask > span')].forEach((s, i) => { const kk = eOutExpo(P(u, 1.0 + i * 0.13, 2.0 + i * 0.13)); s.style.transform = `translateY(${(1 - kk) * 110}%)`; });
+  const kp = eOut3(P(u, 1.5, 2.3)); ms.querySelector('p').style.opacity = kp; ms.querySelector('p').style.transform = `translateY(${(1 - kp) * 18}px)`;
+}
+
+// ---------- S8 features ----------
+const ICON = {
+  chat: '<path d="M4 18.5V6.8A2.8 2.8 0 0 1 6.8 4h10.4A2.8 2.8 0 0 1 20 6.8v6.4A2.8 2.8 0 0 1 17.2 16H8.5z"/><path d="M8.5 9h7M8.5 12h4.5"/>',
+  menu: '<path d="M6 3.5h12a1.5 1.5 0 0 1 1.5 1.5v14A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+  pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
+  photo: '<rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M20.5 16l-5-5-8 8"/>',
+  star: '<path d="M12 3.8l2.5 5.1 5.6.8-4 4 1 5.6-5.1-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>',
+};
+const FEATS = [
+  ['chat', 'Reservas pelo WhatsApp', 'Botão e formulário que já abrem a conversa com a casa.'],
+  ['menu', 'Cardápio com pedidos', 'Itens, opções e carrinho enviados direto para você.'],
+  ['pin', 'Mapa e horários', 'Endereço, telefone e horário sempre à vista.'],
+  ['photo', 'Galeria do salão', 'Fotos que mostram o clima e a luz da Aurora.'],
+  ['star', 'Depoimentos', 'A voz de quem já é freguês, em destaque.'],
+  ['search', 'Pronto para o Google', 'SEO e capa própria ao compartilhar o link.'],
+];
+$('#grid').innerHTML = FEATS.map(([i, h, p]) => `<div class="card"><div class="ic"><svg viewBox="0 0 24 24">${ICON[i]}</svg></div><h4>${h}</h4><p>${p}</p></div>`).join('');
+const s8 = $('#s8');
+function S8(t) {
+  const on = t > T.s8 - 0.2 && t < T.s9 + 0.3; show(s8, on); if (!on) return;
+  const u = t - T.s8;
+  const circ = eInOut3(P(u, -0.2, 0.7));
+  s8.style.clipPath = `circle(${circ * 130}% at 50% 55%)`;
+  const ke = eOut3(P(u, 0.4, 1.1)); const eb = s8.querySelector('.eyebrow2'); eb.style.opacity = ke; eb.querySelectorAll('i').forEach((i) => (i.style.transform = `scaleX(${ke})`));
+  const kh = eOutExpo(P(u, 0.5, 1.5)); const h = s8.querySelector('h2'); h.style.opacity = P(u, 0.5, 0.9); h.style.transform = `translateY(${(1 - kh) * 50}px)`;
+  const ex = eIn3(P(u, 7.4, 8.0));
+  [...s8.querySelectorAll('.card')].forEach((c, i) => {
+    const d = 1.0 + i * 0.14, k = eOutExpo(P(u, d, d + 1.0));
+    c.style.opacity = P(u, d, d + 0.3) * (1 - ex);
+    c.style.transform = `translateY(${(1 - k) * 90 - ex * 40}px) scale(${lerp(0.94, 1, k)})`;
+    const ic = c.querySelector('.ic'); const ki = eOutBack(P(u, d + 0.3, d + 0.9)); ic.style.transform = `scale(${ki}) rotate(${(1 - ki) * -30}deg)`;
+  });
+  s8.querySelector('.head').style.opacity = 1 - ex;
+}
+
+// ---------- S9 closing ----------
+const s9 = $('#s9');
+const PHS = ['gallery-01', 'product-cortado', 'gallery-03', 'product-coldbrew', 'about-space', 'product-pastry', 'gallery-05', 'product-beans'];
+$('#phs').innerHTML = PHS.map((n) => `<div class="ph"><img src="img/${n}.png"></div>`).join('');
+function S9(t) {
+  const on = t > T.s9 - 0.05; show(s9, on); if (!on) return;
+  const u = t - T.s9;
+  glow($('#s9 .glow'), eOut3(P(u, 0.8, 3.5)), lerp(90, 55, eOut3(P(u, 0.5, 4))));
+  [...s9.querySelectorAll('.ph')].forEach((el, i) => {
+    const n = PHS.length, a = (i / n) * Math.PI * 2 + u * 0.35;
+    const kin = eOutExpo(P(u, i * 0.06, 0.9 + i * 0.06)), kc = eInOut3(P(u, 1.6, 2.6));
+    const R = lerp(lerp(1500, 620, kin), 0, kc);
+    el.style.transform = `translate(${Math.cos(a) * R}px, ${Math.sin(a) * R * 0.55}px) rotate(${Math.sin(a) * 12}deg) scale(${lerp(0.85, 0.35, kc)})`;
+    el.style.opacity = 1 - P(u, 2.1, 2.6); el.style.zIndex = Math.round(50 + Math.sin(a) * 40);
+  });
+  const g = s9.querySelector('.group'); const kl = eOutBack(P(u, 2.3, 3.1));
+  const lg = s9.querySelector('.logo'); lg.style.opacity = P(u, 2.3, 2.6); lg.style.transform = `scale(${kl})`;
+  const kt = eOutExpo(P(u, 2.6, 3.6)); const ti = s9.querySelector('.title'); ti.style.opacity = P(u, 2.6, 3.0); ti.style.transform = `translateY(${(1 - kt) * 40}px)`; ti.style.letterSpacing = `${lerp(0.08, -0.02, kt)}em`;
+  const kg = eOut3(P(u, 3.3, 4.2)); const tg = s9.querySelector('.tag'); tg.style.opacity = kg; tg.style.transform = `translateY(${(1 - kg) * 20}px)`;
+  const ku = eOutBack(P(u, 4.0, 4.7)); const ur = s9.querySelector('.url'); ur.style.opacity = P(u, 4.0, 4.3); ur.style.transform = `scale(${lerp(0.85, 1, ku)})`;
+  ur.querySelector('b').style.opacity = 0.55 + 0.45 * Math.sin(u * 4);
+  g.style.transform = `scale(${1 + u * 0.006})`;
+  $('#fade').style.opacity = eIn3(P(t, T.end - 1.2, T.end));
+}
+
+// ---------- grain ----------
+const gctx = $('#grain').getContext('2d');
+const tiles = Array.from({ length: 6 }, (_, j) => { const r = rng(100 + j); const img = gctx.createImageData(960, 540); for (let i = 0; i < img.data.length; i += 4) { const v = r() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; } return img; });
+
+window.render = async (t, frame) => {
+  pending.length = 0;
+  S1(t); W1(t); S2(t); DEV(t); S7(t); S8(t); S9(t);
+  gctx.putImageData(tiles[frame % tiles.length], 0, 0);
+  await Promise.all(pending);
+};
+window.ready = (async () => {
+  CLIPS = await (await fetch('clips.json')).json();
+  await document.fonts.load('700 100px Syne'); await document.fonts.load('800 100px Syne'); await document.fonts.load('italic 100px "Instrument Serif"');
+  await document.fonts.load('400 20px Figtree'); await document.fonts.load('600 20px Figtree'); await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+  return true;
+})();
+</script>
+</body>
+</html>

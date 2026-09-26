@@ -1,0 +1,20 @@
+import { record, smoothScroll } from './rec.mjs';
+await record('scroll', { width: 1920, height: 1080, script: async (page, { start, mark }) => {
+  await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(5000);
+  await page.evaluate(() => window.scrollTo(0, 1080 - 72));
+  await page.waitForTimeout(1500);
+  await start();
+  const seg = async (k, to, ms, hold) => { mark(k); await smoothScroll(page, to, ms); await page.waitForTimeout(hold); };
+  mark('hero'); await page.waitForTimeout(1200);
+  await seg('about', 1971 - 72, 1600, 900);
+  await seg('statement', 2763 + 700, 2600, 900);
+  await seg('process', 5140, 1600, 300);
+  await seg('process2', 5140 + 3240 - 1080, 4200, 500);
+  await seg('services', 8380 - 80, 1400, 900);
+  await seg('gallery', 10035 - 60, 1800, 900);
+  await seg('highlights', 11323 - 60, 1400, 700);
+  await seg('testimonials', 11893 - 60, 1200, 900);
+  await seg('contact', 12432 - 72, 1400, 1200);
+  mark('end');
+}});

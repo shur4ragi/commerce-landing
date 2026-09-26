@@ -29,3 +29,6 @@ dist-ssr
 # OS
 Thumbs.db
 Desktop.ini
+
+# vídeo de apresentação (arquivos intermediários)
+video/.build/
