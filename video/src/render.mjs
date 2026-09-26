@@ -2,18 +2,20 @@ import { chromium } from 'playwright';
 import { installFontRoutes } from './netcache.mjs';
 import { spawn } from 'node:child_process';
 const mode = process.argv[2];
+const VERT = process.env.VERTICAL === '1';
+const [VW, VH] = VERT ? [1080, 1920] : [1920, 1080];
 const b = await chromium.launch({ args: ['--disable-gpu-vsync'] });
-const ctx = await b.newContext({ viewport: { width: 1920, height: 1080 } });
+const ctx = await b.newContext({ viewport: { width: VW, height: VH } });
 await installFontRoutes(ctx);
 const page = await ctx.newPage();
 page.on('console', (m) => console.log('[page]', m.text()));
 page.on('pageerror', (e) => console.log('[err]', e.message));
-await page.goto('http://localhost:8765/comp.html');
+await page.goto(`http://localhost:8765/comp.html${VERT ? '#v' : ''}`);
 await page.evaluate(() => window.ready);
 const dur = await page.evaluate(() => window.DURATION);
 if (mode === 'stills') {
   const times = process.argv.slice(3).map(Number);
-  for (const t of times) { await page.evaluate(([t]) => window.render(t, 0), [t]); await page.screenshot({ path: `stills/t${t.toFixed(2)}.jpg`, type: 'jpeg', quality: 85 }); }
+  for (const t of times) { await page.evaluate(([t]) => window.render(t, 0), [t]); await page.screenshot({ path: `stills/${VERT ? 'v' : 't'}${t.toFixed(2)}.jpg`, type: 'jpeg', quality: 85 }); }
 } else {
   const fps = 30, n = Math.round(dur * fps);
   const from = Number(process.argv[3] || 0), to = Number(process.argv[4] || n);

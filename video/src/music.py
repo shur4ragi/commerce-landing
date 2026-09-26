@@ -5,7 +5,8 @@ SR = 44100
 BPM = 90
 BEAT = 60 / BPM
 BAR = 4 * BEAT
-DUR = 29 * BAR
+DUR = 59 * BEAT          # 39.33 s cut
+OFF = 6 * BEAT          # groove bars start on the first cut (4.0 s)
 N = int(DUR * SR) + SR * 3
 rng = np.random.default_rng(42)
 L = np.zeros(N); R = np.zeros(N)
@@ -113,52 +114,48 @@ def swing(beat_pos):  # 8th-note swing
     whole, frac = divmod(beat_pos, 1)
     return (whole + (0.58 if abs(frac - 0.5) < 1e-6 else frac)) * BEAT
 
-GROOVE_FROM, GROOVE_TO = 2, 26   # bars with drums
-for bar in range(29):
-    t0 = bar * BAR
-    root, notes = CHORDS[bar % 4]
-    final = bar >= 26
-    if final:
-        root, notes = CHORDS[0] if bar < 28 else CHORDS[3]
-    intro = bar < 2
-    # rhodes comp: beat 1 and the "and" of 2
-    hits = [(0, 1.6, 0.55), (1.5, 2.2, 0.42)] if not (intro or final) else [(0, 3.8, 0.5)]
+# intro: free pad + rhodes before the first cut
+add(pad([69, 72, 76, 53], OFF + 0.9, 0.2), 0.0)
+for j, m in enumerate(CHORDS[0][1]):
+    add(rhodes(m, 5.0, 0.45), 0.35 + j * 0.03, pan=-0.35 + j * 0.23, gain=0.22)
+GROOVE_BARS = 11          # beats 6–50; S9 (closing) enters at 33.8 s
+for bar in range(GROOVE_BARS + 2):
+    t0 = OFF + bar * BAR
+    final = bar >= GROOVE_BARS
+    root, notes = CHORDS[bar % 4] if not final else (CHORDS[0] if bar == GROOVE_BARS else CHORDS[3])
+    hits = [(0, 1.6, 0.55), (1.5, 2.2, 0.42)] if not final else [(0, 3.8, 0.5)]
     for pos, d, v in hits:
         for j, m in enumerate(notes):
             add(rhodes(m, d * BEAT, v * (0.9 + 0.2 * rng.random())), t0 + swing(pos) + j * 0.012, pan=-0.35 + j * 0.23, gain=0.22)
-    # pad under everything, louder in intro/outro
-    add(pad([m + 12 for m in notes[:3]] + [root + 24], BAR + 0.8, 0.10 if not (intro or final) else 0.2), t0, gain=1.0)
-    if bar >= 2 and not final:
-        # bass: root on 1, fifth-ish walk on 3.5
-        add(bass(root, 1.4 * BEAT, 0.62), t0 + 0.0, gain=0.9)
+    add(pad([m + 12 for m in notes[:3]] + [root + 24], BAR + 0.8, 0.10 if not final else 0.2), t0, gain=1.0)
+    if not final:
+        add(bass(root, 1.4 * BEAT, 0.62), t0, gain=0.9)
         add(bass(root + 7, 0.45 * BEAT, 0.45), t0 + swing(2.5), gain=0.9)
         add(bass(root + 12 if bar % 2 else root, 0.9 * BEAT, 0.5), t0 + swing(3.0), gain=0.9)
-    if GROOVE_FROM <= bar < GROOVE_TO:
         add(kick(0.95), t0, gain=0.8); add(kick(0.7), t0 + swing(2.5), gain=0.8)
         add(snare(0.55), t0 + BEAT, gain=0.55, pan=0.05); add(snare(0.6), t0 + 3 * BEAT, gain=0.55, pan=0.05)
         for e in range(8):
             add(hat(0.2 if e % 2 else 0.28, open_=(e == 7 and bar % 4 == 3)), t0 + swing(e / 2), pan=0.3, gain=0.5)
-    # sparse melody from bar 4 (browser scenes onward)
-    if 4 <= bar < 26:
-        r = np.random.default_rng(bar)
-        tones = sorted(set(m + 12 for m in notes))
-        for pos in ([0.5, 1.5, 2.5] if bar % 2 == 0 else [0.0, 2.0, 3.5]):
-            m = tones[r.integers(len(tones))] + 0
-            if r.random() < 0.85:
-                add(rhodes(m, 0.7 * BEAT, 0.35), t0 + swing(pos), pan=0.2, gain=0.24)
+        if bar >= 1:
+            r = np.random.default_rng(bar)
+            tones = sorted(set(m + 12 for m in notes))
+            for pos in ([0.5, 1.5, 2.5] if bar % 2 == 0 else [0.0, 2.0, 3.5]):
+                m = tones[r.integers(len(tones))]
+                if r.random() < 0.85:
+                    add(rhodes(m, 0.7 * BEAT, 0.35), t0 + swing(pos), pan=0.2, gain=0.24)
 
 # final sustained chord ring
-add(pad([60, 64, 67, 71, 74], 6.0, 0.22), 26 * BAR + 2 * BAR)
+add(pad([60, 64, 67, 71, 74], 5.0, 0.22), OFF + (GROOVE_BARS + 1) * BAR)
 
 # ---------- sound design at cuts ----------
-S = dict(s2=2 * BAR, s3=4 * BAR, s4=8 * BAR, s5=12 * BAR, s6=17 * BAR, s7=19 * BAR, s8=23 * BAR, s9=26 * BAR)
+S = dict(s2=4.0, s3=22 / 3, s4=12.0, s5=18.0, s6=76 / 3, s7=86 / 3, s9=33.8)
 for k, t in S.items():
     add(whoosh(0.9, True, 0.30), t - 0.72, pan=-0.2)
 add(boom(0.55), S['s2'] - 0.02)
-add(boom(0.45), S['s9'] + 2.3)
+add(boom(0.45), S['s9'] + 1.6)
 # soft riser into the first cut
-n = int(4.6 * SR); tt = np.arange(n) / SR
-add(bp(rng.standard_normal(n), 400, 5000) * (tt / 4.6) ** 3 * 0.18, S['s2'] - 4.6)
+n = int(3.6 * SR); tt = np.arange(n) / SR
+add(bp(rng.standard_normal(n), 400, 5000) * (tt / 3.6) ** 3 * 0.18, S['s2'] - 3.6)
 
 # ---------- vinyl texture ----------
 hiss = lp(hp(rng.standard_normal(N), 800), 7000) * 0.006
@@ -179,7 +176,7 @@ for ch, seed in ((0, 1), (1, 2)):
 # ---------- master ----------
 L = lp(L, 11000); R = lp(R, 11000)
 end = int(DUR * SR)
-fade = np.ones(N); fl = int(2.2 * SR)
+fade = np.ones(N); fl = int(1.6 * SR)
 fade[end - fl:end] = np.linspace(1, 0, fl) ** 1.5; fade[end:] = 0
 fin = int(0.4 * SR); fade[:fin] *= np.linspace(0, 1, fin)
 L *= fade; R *= fade
