@@ -1,7 +1,9 @@
 import auroraCafe from './clients/aurora-cafe.js';
+import frydaCafe from './clients/fryda-cafe.js';
 
 const clients = {
   'aurora-cafe': auroraCafe,
+  'fryda-cafe': frydaCafe,
 };
 
 export function getActiveClient() {
