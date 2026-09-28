@@ -693,15 +693,18 @@ const content = {
     // O pedido pelo site é para retirada; entrega fica com o iFood / WhatsApp.
     delivery: {
       title: 'Quer receber em casa?',
-      text: 'O pedido pelo site é para retirar no balcão. Para entrega, peça pelo WhatsApp.',
+      text: 'O pedido pelo site é para retirar no balcão. Para entrega, peça pelo iFood ou pelo WhatsApp.',
       links: [
         {
           label: 'Pedir entrega no WhatsApp',
           type: 'whatsapp',
           message: "Olá, Leya's Café! Quero fazer um pedido para entrega.",
         },
-        // Preencha o href com o link da loja no iFood para o botão aparecer.
-        { label: 'Pedir no iFood', type: 'ifood', href: '' },
+        {
+          label: 'Pedir no iFood',
+          type: 'ifood',
+          href: 'https://www.ifood.com.br/delivery/taubate-sp/leyas-cafe-independencia/ee56c6aa-e6cc-4e8d-b801-abcf4e860466',
+        },
       ],
     },
     fields: [
