@@ -50,7 +50,7 @@ const siteConfig = {
   seo: {
     title: 'Fryda Café — Café inspirado na Frida Kahlo no Centro de Taubaté',
     description:
-      'Empadão da Tia Branca, cafés espresso, bolos e salgados da casa no Centro de Taubaté. Delivery pelo iFood e encomendas pelo WhatsApp.',
+      'Café da manhã, almoço e café da tarde no Centro de Taubaté: torta de carne da vovó, bolos com calda, café coado no pano e estacionamento grátis. Delivery pelo iFood e encomendas pelo WhatsApp.',
     ogTitle: 'Fryda Café',
     ogDescription: 'Não vamos te vender algo que a gente não comeria.',
     ogImage: '/og-fryda.jpg',
@@ -76,7 +76,6 @@ const siteConfig = {
   },
 };
 
-// Sem a seção "processo": as fotos disponíveis têm baixa resolução para painéis em tela cheia.
 const client = {
   id: 'fryda-cafe',
   config: siteConfig,
@@ -86,6 +85,7 @@ const client = {
     'hero',
     'about',
     'statement',
+    'process',
     'services',
     'products',
     'gallery',

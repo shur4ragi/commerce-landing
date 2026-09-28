@@ -1,15 +1,39 @@
-import empadao from '../../assets/images/fryda/empadao.jpg';
-import boloChocolate from '../../assets/images/fryda/bolo-chocolate.jpg';
 import redVelvet from '../../assets/images/fryda/red-velvet.jpg';
+import cafeCoado from '../../assets/images/fryda/cafe-coado.jpg';
+import tortaCarne from '../../assets/images/fryda/torta-carne.jpg';
+import boloChocolateCalda from '../../assets/images/fryda/bolo-chocolate-calda.jpg';
+import boloChocolateSorvete from '../../assets/images/fryda/bolo-chocolate-sorvete.jpg';
+import cafeDaManha from '../../assets/images/fryda/cafe-da-manha.jpg';
+import brownieSorvete from '../../assets/images/fryda/brownie-sorvete.jpg';
+import brownie from '../../assets/images/fryda/brownie.jpg';
+import cucaBanana from '../../assets/images/fryda/cuca-banana.jpg';
+import frappeCaramelo from '../../assets/images/fryda/frappe-caramelo.jpg';
+import tortaCookie from '../../assets/images/fryda/torta-cookie.jpg';
+import boloCenoura from '../../assets/images/fryda/bolo-cenoura.jpg';
+import boloBrigadeiro from '../../assets/images/fryda/bolo-brigadeiro.jpg';
+import tortaFrango from '../../assets/images/fryda/torta-frango.jpg';
+import quiche from '../../assets/images/fryda/quiche.jpg';
+import empanadas from '../../assets/images/fryda/empanadas.jpg';
+import mistoQuente from '../../assets/images/fryda/misto-quente.jpg';
+import ovosBacon from '../../assets/images/fryda/ovos-bacon.jpg';
+import risoto from '../../assets/images/fryda/risoto.jpg';
+import latte from '../../assets/images/fryda/latte.jpg';
+import latteGelado from '../../assets/images/fryda/latte-gelado.jpg';
+import milkshake from '../../assets/images/fryda/milkshake.jpg';
+import sodaItaliana from '../../assets/images/fryda/soda-italiana.jpg';
+import cafeLaranja from '../../assets/images/fryda/cafe-laranja.jpg';
+import boloFrida from '../../assets/images/fryda/bolo-frida.jpg';
+import boloMaca from '../../assets/images/fryda/bolo-maca.jpg';
+import boloBananaIntegral from '../../assets/images/fryda/bolo-banana-integral.jpg';
 import bruschetta from '../../assets/images/fryda/bruschetta.jpg';
 import cappuccino from '../../assets/images/fryda/cappuccino.jpg';
 import salao from '../../assets/images/fryda/salao.jpg';
-import clientePao from '../../assets/images/fryda/cliente-pao-de-queijo.jpg';
 import fridaIlustracao from '../../assets/images/fryda/frida-ilustracao.jpg';
 import lema from '../../assets/images/fryda/lema.jpg';
 
-// Conteúdo baseado no Instagram @frydacafe, no perfil do Google e em avaliações públicas.
-// Sem preços: o cardápio completo com valores está no iFood (modo vitrine, features.ordering: false).
+// Conteúdo baseado no Instagram @frydacafe (feed e destaques "Nossas Delícias", "Encomendas",
+// "Delivery", "Estacionamento" e "Nasce um sonho"), no perfil do Google e em avaliações públicas.
+// Sem preços: o cardápio com valores está no iFood (modo vitrine, features.ordering: false).
 const content = {
   intro: {
     brand: 'Fryda Café',
@@ -17,52 +41,52 @@ const content = {
     cta: { label: 'Conhecer', target: '#inicio' },
     slides: [
       {
-        image: empadao,
-        alt: 'Fatia de empadão com recheio cremoso e massa dourada',
-        title: 'Empadão *da* Tia Branca',
-        text: 'A receita de família que virou um dos pedidos mais queridos da casa.',
-      },
-      {
-        image: cappuccino,
-        alt: 'Cappuccino servido na xícara com o logo do Fryda Café',
-        title: 'Cappuccino *na* xícara da casa',
-        text: 'Espresso, cappuccino, latte e flat white para acompanhar a vitrine.',
-      },
-      {
-        image: boloChocolate,
-        alt: 'Fatia de bolo de chocolate em camadas com cobertura escorrendo',
-        title: 'Bolo *de* chocolate',
-        text: 'Camadas de chocolate e cobertura generosa, do jeito que a gente gosta.',
-      },
-      {
-        image: salao,
-        alt: 'Salão do Fryda Café com cadeiras vermelhas e quadros da Frida Kahlo',
-        title: 'Um café *com* personalidade',
-        text: 'Cadeiras vermelhas, quadros da Frida e aquele cheiro de café passado.',
-      },
-      {
         image: redVelvet,
-        alt: 'Fatia de red velvet com recheio branco',
-        title: 'Red *velvet*',
-        text: 'Massa vermelha aveludada e recheio cremoso em camadas.',
+        alt: 'Fatia de red velvet com recheio de cream cheese e a xícara do Fryda ao fundo',
+        title: 'Red velvet *bem* recheado',
+        text: 'Camadas de massa vermelha e recheio cremoso, do jeito que a vitrine pede.',
       },
       {
-        image: bruschetta,
-        alt: 'Bruschetta com creme, tomates e folhas de manjericão',
-        title: 'Coisas *que* a gente acha chique',
-        text: 'Bruschetta com creme, tomatinhos e manjericão fresco.',
+        image: cafeCoado,
+        alt: 'Café coado no coador de pano caindo na xícara do Fryda Café',
+        title: 'Café *no* coador de pano',
+        text: 'Passado na hora, direto na xícara da casa.',
       },
       {
-        image: fridaIlustracao,
-        alt: 'Ilustração da Frida Kahlo tomando café sentada numa cadeira',
-        title: 'A casa *da* Fryda',
-        text: 'Um café inspirado na Frida Kahlo, no Centro de Taubaté.',
+        image: tortaCarne,
+        alt: 'Fatia de torta de carne desfiada com cobertura gratinada',
+        title: 'Torta de carne *da* vovó',
+        text: 'Carne desfiada e cobertura gratinada, receita de família.',
       },
       {
-        image: clientePao,
-        alt: 'Cliente tomando café ao lado da parede com a Frida',
-        title: 'Seu café *da* tarde',
-        text: 'Um café, um salgado quentinho e uma pausa no meio do dia.',
+        image: boloChocolateCalda,
+        alt: 'Calda de chocolate sendo despejada sobre uma fatia de bolo',
+        title: 'Bolo *com* calda',
+        text: 'Bolo de chocolate com calda quente servida na mesa.',
+      },
+      {
+        image: cafeDaManha,
+        alt: 'Ovos mexidos com tomatinhos e pão na chapa',
+        title: 'Café *da* manhã',
+        text: 'Ovos mexidos, pão na chapa e um café para começar o dia.',
+      },
+      {
+        image: brownieSorvete,
+        alt: 'Brownie com bola de sorvete e calda de chocolate',
+        title: 'Brownie *com* sorvete',
+        text: 'Brownie quentinho, sorvete e calda escorrendo.',
+      },
+      {
+        image: cucaBanana,
+        alt: 'Fatia de cuca de banana com farofa crocante',
+        title: 'Cuca *de* banana',
+        text: 'Farofa crocante por cima e banana por dentro.',
+      },
+      {
+        image: frappeCaramelo,
+        alt: 'Frappé com chantilly e calda de caramelo no salão do Fryda',
+        title: 'Gelados *da* casa',
+        text: 'Frappés, milkshakes, lattes gelados e soda italiana.',
       },
     ],
   },
@@ -72,15 +96,15 @@ const content = {
     title: 'Não vamos te vender algo que a gente não comeria.',
     highlight: 'que a gente não comeria.',
     description:
-      'Cafés, salgados e doces num café inspirado na Frida Kahlo, no Centro de Taubaté. Venha tomar um café com a gente, peça pelo iFood ou encomende pelo WhatsApp.',
+      'Café da manhã, almoço e café da tarde num café inspirado na Frida Kahlo, no Centro de Taubaté. Venha tomar um café com a gente, peça pelo iFood ou encomende pelo WhatsApp.',
     primaryCta: { label: 'Ver cardápio', href: '#produtos' },
     secondaryCta: { label: 'Como chegar', href: '#contato' },
-    image: empadao,
-    imageAlt: 'Fatia do empadão da Tia Branca com massa dourada',
+    image: cafeCoado,
+    imageAlt: 'Café coado no coador de pano caindo na xícara do Fryda Café',
     metrics: [
       { value: '11 mil', label: 'Seguidores no Instagram' },
       { value: '4,6', label: 'Nota no Google' },
-      { value: '9h', label: 'Abre de segunda a sábado' },
+      { value: '30 min', label: 'Estacionamento grátis' },
     ],
   },
 
@@ -88,13 +112,13 @@ const content = {
     id: 'sobre',
     eyebrow: 'A casa',
     title: 'Um café *com* alma de Frida.',
-    text: 'O Fryda Café fica no Centro de Taubaté e carrega a Frida Kahlo nas paredes, nas cores e na xícara. Cadeiras vermelhas, quadros da artista e uma vitrine com receitas que a própria equipe come e recomenda: por aqui, a regra é não vender nada que a gente não comeria.',
+    text: 'O Fryda nasceu de um sonho montado à mão: parede pintada, xícara com a nossa Frida, máquina de espresso e cada cantinho pensado nos mínimos detalhes. Hoje é um café no Centro de Taubaté com cadeiras vermelhas, quadros da artista e uma vitrine com receitas que a própria equipe come e recomenda.',
     image: salao,
     imageAlt: 'Salão do Fryda Café com cadeiras vermelhas e quadros da Frida Kahlo',
     facts: [
-      { value: 'Empadão', label: 'Receita da Tia Branca' },
-      { value: 'Encomendas', label: 'Pelo WhatsApp' },
-      { value: 'Delivery', label: 'Pelo iFood' },
+      { value: 'Receitas', label: 'De família, feitas na casa' },
+      { value: 'Encomendas', label: 'Bolos e tortas pelo WhatsApp' },
+      { value: '30 min', label: 'Estacionamento grátis' },
     ],
   },
 
@@ -103,10 +127,44 @@ const content = {
     eyebrow: 'Nosso lema',
     title: 'Feito *para*\ncomer junto.',
     // Fotos das colunas em cascata ao fundo (decorativas).
-    images: [empadao, cappuccino, boloChocolate, salao, redVelvet, bruschetta, fridaIlustracao, clientePao, lema],
+    images: [
+      redVelvet, cafeCoado, tortaCarne, boloChocolateCalda, cafeDaManha, brownieSorvete, cucaBanana, frappeCaramelo,
+      tortaCookie, boloCenoura, tortaFrango, quiche, latteGelado, milkshake, sodaItaliana, boloBrigadeiro,
+    ],
     lead: 'Não vamos te vender algo que a gente não comeria.',
-    text: 'Empadão da Tia Branca, waffle de queijo com requeijão, pão de batata recheado e bolos em camadas dividem a vitrine com espresso, cappuccino, latte e flat white.',
+    text: 'Torta de carne da vovó, torta de frango, quiches, cucas, bolos com calda quente e brownie com sorvete dividem a vitrine com o café coado no pano, o latte e os gelados da casa.',
     cta: { label: 'Ver o cardápio', href: '#produtos' },
+  },
+
+  process: {
+    id: 'processo',
+    label: 'Da cozinha à sua casa',
+    steps: [
+      {
+        lead: 'da',
+        word: 'cozinha,',
+        title: 'Cozinha',
+        text: 'Receitas de família, como a torta de carne da vovó, feitas na casa.',
+        image: tortaCarne,
+        alt: 'Fatia de torta de carne desfiada com cobertura gratinada',
+      },
+      {
+        lead: 'à',
+        word: 'mesa,',
+        title: 'Mesa',
+        text: 'Café da manhã, almoço e café da tarde servidos no salão.',
+        image: cafeDaManha,
+        alt: 'Ovos mexidos com tomatinhos e pão na chapa',
+      },
+      {
+        lead: 'à',
+        word: 'sua casa.',
+        title: 'Sua casa',
+        text: 'Bolos e tortas sob encomenda pelo WhatsApp, e delivery pelo iFood.',
+        image: boloBrigadeiro,
+        alt: 'Bolo de chocolate coberto de granulado',
+      },
+    ],
   },
 
   services: {
@@ -116,24 +174,24 @@ const content = {
     description: 'Para tomar no salão, pedir em casa ou encomendar para a sua festa.',
     items: [
       {
-        title: 'Café e vitrine',
-        description: 'Espresso, cappuccino, latte e flat white com salgados e doces da casa.',
-        image: cappuccino,
+        title: 'Café da manhã',
+        description: 'Ovos mexidos, pão na chapa, misto quente e café coado no pano.',
+        image: cafeDaManha,
       },
       {
-        title: 'Salgados da casa',
-        description: 'Empadão da Tia Branca, quiche de alho-poró e pão de batata recheado.',
-        image: empadao,
+        title: 'Almoço',
+        description: 'Pratos do dia servidos no salão, como risoto e tortas da casa.',
+        image: risoto,
       },
       {
-        title: 'Bolos e doces',
-        description: 'Bolo de chocolate, red velvet, brownie e tiramisù.',
-        image: boloChocolate,
+        title: 'Café da tarde',
+        description: 'Bolos com calda, cucas, brownies e os gelados da casa.',
+        image: boloChocolateSorvete,
       },
       {
         title: 'Encomendas',
-        description: 'Bolos e salgados sob encomenda, combinados pelo WhatsApp.',
-        image: redVelvet,
+        description: 'Bolos inteiros e tortas combinados pelo WhatsApp.',
+        image: boloMaca,
       },
     ],
   },
@@ -142,7 +200,7 @@ const content = {
     id: 'produtos',
     eyebrow: 'Cardápio',
     title: 'O que tem *na* vitrine.',
-    description: 'Alguns queridinhos da casa. O cardápio completo, com preços, está no iFood.',
+    description: 'A vitrine muda ao longo da semana. O cardápio completo, com preços, está no iFood.',
     viewAllLabel: 'Ver todos',
     savedLabel: 'Salvos',
     saveLabel: 'Salvar',
@@ -150,132 +208,56 @@ const content = {
     emptySaved: 'Nenhum item salvo ainda. Abra um item e toque em salvar para guardar.',
     items: [
       // ---------- Cafés ----------
-      {
-        id: 'cappuccino',
-        category: 'Cafés',
-        title: 'Cappuccino',
-        description: 'Servido na xícara da casa.',
-        image: cappuccino,
-        featured: true,
-      },
-      {
-        id: 'espresso',
-        category: 'Cafés',
-        title: 'Espresso italiano ou carioca',
-        description: 'Curto e intenso, ou na versão carioca, mais suave.',
-      },
-      {
-        id: 'macchiato',
-        category: 'Cafés',
-        title: 'Espresso macchiato',
-        description: 'Espresso com uma camada de espuma de leite.',
-      },
-      {
-        id: 'latte',
-        category: 'Cafés',
-        title: 'Latte',
-        description: 'Espresso com bastante leite vaporizado.',
-      },
-      {
-        id: 'flat-white',
-        category: 'Cafés',
-        title: 'Flat white',
-        description: 'Espresso com leite vaporizado e pouca espuma.',
-      },
-      {
-        id: 'chas',
-        category: 'Cafés',
-        title: 'Chás',
-        description: 'Consulte as opções do dia.',
-      },
+      { id: 'cafe-coado', category: 'Cafés', title: 'Café coado no pano', description: 'Passado na hora, no coador de pano.', image: cafeCoado, featured: true },
+      { id: 'cappuccino', category: 'Cafés', title: 'Cappuccino', description: 'Servido na xícara da casa.', image: cappuccino },
+      { id: 'latte', category: 'Cafés', title: 'Latte', description: 'Espresso e leite vaporizado em camadas.', image: latte },
+      { id: 'espresso', category: 'Cafés', title: 'Espresso italiano ou carioca', description: 'Curto e intenso, ou na versão carioca, mais suave.' },
+      { id: 'macchiato', category: 'Cafés', title: 'Espresso macchiato', description: 'Espresso com uma camada de espuma de leite.' },
+      { id: 'flat-white', category: 'Cafés', title: 'Flat white', description: 'Espresso com leite vaporizado e pouca espuma.' },
+      { id: 'cafe-laranja', category: 'Cafés', title: 'Café com suco de laranja', description: 'Espresso sobre suco de laranja, com rodela da fruta.', image: cafeLaranja },
+
+      // ---------- Gelados ----------
+      { id: 'frappe-caramelo', category: 'Gelados', title: 'Frappé de caramelo', description: 'Com chantilly e calda de caramelo.', image: frappeCaramelo, featured: true },
+      { id: 'latte-gelado', category: 'Gelados', title: 'Latte gelado', description: 'Espresso, leite gelado e espuma.', image: latteGelado },
+      { id: 'milkshake', category: 'Gelados', title: 'Milkshake', description: 'Com chantilly, calda e marshmallow.', image: milkshake },
+      { id: 'soda-italiana', category: 'Gelados', title: 'Soda italiana', description: 'Refrescante, servida no pote de vidro.', image: sodaItaliana },
+
+      // ---------- Café da manhã e almoço ----------
+      { id: 'ovos-pao-chapa', category: 'Café da manhã e almoço', title: 'Ovos mexidos com pão na chapa', description: 'Ovos cremosos, tomatinhos e pão na chapa.', image: cafeDaManha, featured: true },
+      { id: 'ovos-bacon', category: 'Café da manhã e almoço', title: 'Ovos com bacon', description: 'Ovos mexidos com bacon e pão na chapa.', image: ovosBacon },
+      { id: 'misto-quente', category: 'Café da manhã e almoço', title: 'Misto quente', description: 'Presunto e queijo no pão na chapa.', image: mistoQuente },
+      { id: 'waffle-queijo', category: 'Café da manhã e almoço', title: 'Waffle de queijo com requeijão', description: 'Crocante por fora, com requeijão cremoso.' },
+      { id: 'risoto', category: 'Café da manhã e almoço', title: 'Risoto do dia', description: 'Servido no almoço. Consulte o sabor do dia.', image: risoto },
 
       // ---------- Salgados ----------
-      {
-        id: 'empadao-tia-branca',
-        category: 'Salgados',
-        title: 'Empadão da Tia Branca',
-        description: 'Receita de família e um dos pedidos mais queridos da casa.',
-        image: empadao,
-        featured: true,
-      },
-      {
-        id: 'bruschetta',
-        category: 'Salgados',
-        title: 'Bruschetta',
-        description: 'Pão tostado com creme, tomatinhos e manjericão fresco.',
-        image: bruschetta,
-        featured: true,
-      },
-      {
-        id: 'waffle-queijo',
-        category: 'Salgados',
-        title: 'Waffle de queijo com requeijão',
-        description: 'Crocante por fora, com requeijão cremoso.',
-      },
-      {
-        id: 'pao-batata',
-        category: 'Salgados',
-        title: 'Pão de batata recheado',
-        description: 'Com recheios como Catupiry e alho-poró.',
-      },
-      {
-        id: 'quiche-alho-poro',
-        category: 'Salgados',
-        title: 'Quiche de alho-poró',
-        description: 'Massa amanteigada com recheio cremoso.',
-      },
-      {
-        id: 'sanduiche-pernil',
-        category: 'Salgados',
-        title: 'Sanduíche de pernil desfiado',
-        description: 'Pernil desfiado no pão.',
-      },
-      {
-        id: 'opcoes-veganas',
-        category: 'Salgados',
-        title: 'Opções veganas',
-        description: 'Pergunte pelas opções veganas do dia.',
-      },
+      { id: 'torta-carne', category: 'Salgados', title: 'Torta de carne da vovó', description: 'Carne desfiada com cobertura gratinada.', image: tortaCarne, featured: true },
+      { id: 'torta-frango', category: 'Salgados', title: 'Torta de frango', description: 'Massa dourada e recheio cremoso de frango.', image: tortaFrango, featured: true },
+      { id: 'empadao-tia-branca', category: 'Salgados', title: 'Empadão da Tia Branca', description: 'Receita de família, um dos mais lembrados pelos clientes.' },
+      { id: 'quiche', category: 'Salgados', title: 'Quiche', description: 'Massa amanteigada e recheio gratinado.', image: quiche },
+      { id: 'empanadas', category: 'Salgados', title: 'Empanadas argentinas', description: 'Assadas e douradas.', image: empanadas },
+      { id: 'pao-batata', category: 'Salgados', title: 'Pão de batata recheado', description: 'Com recheios como Catupiry e alho-poró.' },
+      { id: 'bruschetta', category: 'Salgados', title: 'Bruschetta', description: 'Pão tostado com creme, tomatinhos e manjericão.', image: bruschetta },
 
       // ---------- Doces ----------
-      {
-        id: 'bolo-chocolate',
-        category: 'Doces',
-        title: 'Bolo de chocolate',
-        description: 'Camadas de chocolate com cobertura generosa.',
-        image: boloChocolate,
-        featured: true,
-      },
-      {
-        id: 'red-velvet',
-        category: 'Doces',
-        title: 'Red velvet',
-        description: 'Massa vermelha aveludada com recheio cremoso.',
-        image: redVelvet,
-        featured: true,
-      },
-      {
-        id: 'brownie',
-        category: 'Doces',
-        title: 'Brownie',
-        description: 'Chocolate intenso, casquinha crocante.',
-      },
-      {
-        id: 'tiramisu',
-        category: 'Doces',
-        title: 'Tiramisù',
-        description: 'Camadas de café, creme e cacau.',
-      },
-      {
-        id: 'torta-nutella',
-        category: 'Doces',
-        title: 'Torta de Nutella',
-        description: 'Para quem não abre mão de Nutella.',
-      },
+      { id: 'red-velvet', category: 'Doces', title: 'Red velvet', description: 'Bem recheado, com cream cheese.', image: redVelvet, featured: true },
+      { id: 'bolo-chocolate-calda', category: 'Doces', title: 'Bolo de chocolate com calda', description: 'Calda quente servida na mesa.', image: boloChocolateCalda, featured: true },
+      { id: 'bolo-chocolate-sorvete', category: 'Doces', title: 'Bolo de chocolate com sorvete', description: 'Fatia com calda e uma bola de sorvete.', image: boloChocolateSorvete },
+      { id: 'brownie-sorvete', category: 'Doces', title: 'Brownie com sorvete', description: 'Brownie quente, sorvete e calda.', image: brownieSorvete, featured: true },
+      { id: 'brownie', category: 'Doces', title: 'Brownie', description: 'Com cobertura cremosa de chocolate.', image: brownie },
+      { id: 'cuca-banana', category: 'Doces', title: 'Cuca de banana', description: 'Farofa crocante e banana.', image: cucaBanana, featured: true },
+      { id: 'torta-cookie', category: 'Doces', title: 'Torta cookie', description: 'Massa de cookie com cobertura de chocolate.', image: tortaCookie },
+      { id: 'bolo-cenoura', category: 'Doces', title: 'Bolo de cenoura com chocolate', description: 'Com calda de chocolate por cima.', image: boloCenoura },
+      { id: 'bolo-brigadeiro', category: 'Doces', title: 'Bolo de brigadeiro', description: 'Chocolate coberto de granulado.', image: boloBrigadeiro },
+
+      // ---------- Encomendas ----------
+      { id: 'bolo-maca', category: 'Encomendas', title: 'Bolo de maçã', description: 'Bolo inteiro sob encomenda.', image: boloMaca },
+      { id: 'bolo-banana-integral', category: 'Encomendas', title: 'Bolo de banana integral', description: 'Com cobertura. Bolo inteiro sob encomenda.', image: boloBananaIntegral },
+      { id: 'red-velvet-inteiro', category: 'Encomendas', title: 'Red velvet inteiro', description: 'Com cobertura de cream cheese e farofa de red velvet.' },
+      { id: 'torta-frango-inteira', category: 'Encomendas', title: 'Torta de frango inteira', description: 'Para a sua mesa ou festa.' },
     ],
   },
 
-  // Vitrine: cada item leva ao iFood (com preços) ou ao WhatsApp para encomendas.
+  // Vitrine: cada item leva ao iFood (com preços) ou ao WhatsApp para encomendas e retirada.
   order: {
     links: [
       {
@@ -300,9 +282,9 @@ const content = {
       { title: 'Nosso salão', image: salao, alt: 'Salão com cadeiras vermelhas, quadros da Frida e balcão ao fundo' },
       { title: 'A Frida da casa', image: fridaIlustracao, alt: 'Ilustração da Frida Kahlo tomando café' },
       { title: 'Nosso lema', image: lema, alt: 'Cliente tomando café com a frase: não vamos te vender algo que a gente não comeria' },
-      { title: 'Café da tarde', image: clientePao, alt: 'Cliente tomando café ao lado da parede com a Frida' },
-      { title: 'Bruschetta', image: bruschetta, alt: 'Bruschetta com creme, tomates e manjericão' },
-      { title: 'Red velvet', image: redVelvet, alt: 'Fatia de red velvet' },
+      { title: 'Café da tarde', image: boloFrida, alt: 'Bolo de chocolate com calda ao lado de um vaso da Frida' },
+      { title: 'Bem-vindo', image: latte, alt: 'Latte em camadas diante da lousa de boas-vindas' },
+      { title: 'Latte gelado', image: latteGelado, alt: 'Latte gelado com espuma na luz da tarde' },
     ],
   },
 
@@ -311,10 +293,10 @@ const content = {
     eyebrow: 'Por que o Fryda',
     title: 'Motivos *para* voltar.',
     items: [
-      { title: 'Empadão da Tia Branca', description: 'O salgado que virou marca registrada da casa.' },
+      { title: 'Receitas de família', description: 'Torta de carne da vovó, empadão da Tia Branca e bolos feitos na casa.' },
       { title: 'Um café com a Frida', description: 'Quadros, cores e cadeiras vermelhas: um café com personalidade.' },
-      { title: 'Delivery pelo iFood', description: 'Seus favoritos em casa, direto pelo app.' },
-      { title: 'Encomendas', description: 'Bolos e salgados para a sua festa, combinados pelo WhatsApp.' },
+      { title: 'Estacionamento grátis', description: 'Gratuito por 30 minutos para clientes.' },
+      { title: 'Delivery e encomendas', description: 'Delivery pelo iFood; retirada e encomendas pelo WhatsApp.' },
     ],
   },
 
@@ -351,7 +333,8 @@ const content = {
     id: 'contato',
     eyebrow: 'Contato',
     title: 'Passe *aqui* ou peça pelo iFood.',
-    description: 'Estamos na Rua Dr. Pedro Costa, no Centro de Taubaté. Encomendas pelo WhatsApp e delivery pelo iFood.',
+    description:
+      'Estamos na Rua Dr. Pedro Costa, no Centro de Taubaté, com estacionamento grátis por 30 minutos. Retirada e encomendas pelo WhatsApp; delivery pelo iFood.',
     form: {
       nameLabel: 'Nome',
       phoneLabel: 'WhatsApp',
