@@ -30,6 +30,11 @@
   transition: background var(--ease), color var(--ease), border-color var(--ease), transform var(--ease);
 }
 
+.toolbarLink {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
 .toolbarButton {
   min-height: 44px;
   padding: 0.55rem 1rem;

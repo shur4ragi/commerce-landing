@@ -67,7 +67,10 @@ export default function ProductPanel({
   addToCartLabel,
   quantityLabel,
   itemObservationLabel,
+  orderLinks,
 }) {
+  // Vitrine: sem carrinho, o item leva direto aos canais de pedido do cliente.
+  const showcase = Array.isArray(orderLinks);
   const titleId = useId();
   const closeRef = useRef(null);
   const groups = useMemo(() => item?.options || [], [item?.options]);
@@ -150,10 +153,35 @@ export default function ProductPanel({
         <div className={styles.panelBody}>
           {item.category ? <p className={styles.panelCategory}>{item.category}</p> : null}
           <h2 id={titleId}>{item.title}</h2>
-          <p className={styles.panelPrice}>{formatPrice(unitPrice)}</p>
+          {item.price ? <p className={styles.panelPrice}>{formatPrice(unitPrice)}</p> : null}
           {item.description ? <p className={styles.panelText}>{item.description}</p> : null}
           {item.details ? <p className={styles.panelDetails}>{item.details}</p> : null}
 
+          {showcase ? (
+            <div className={styles.panelActions}>
+              <button
+                type="button"
+                className={`${styles.saveButton} ${saved ? styles.saveButtonActive : ''}`}
+                onClick={() => onToggleSave(item.id)}
+                aria-pressed={saved}
+              >
+                <BookmarkIcon filled={saved} />
+                {saved ? savedLabel : saveLabel}
+              </button>
+              {orderLinks.map((link) => (
+                <Button
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  variant={link.type === 'whatsapp' ? 'whatsapp' : 'primary'}
+                  className={styles.orderButton}
+                >
+                  {link.label}
+                </Button>
+              ))}
+            </div>
+          ) : (
+          <>
           <div className={styles.qtyRow} data-tour="quantity">
             <span>{quantityLabel || 'Quantidade'}</span>
             <div className={styles.qtyControl}>
@@ -240,6 +268,8 @@ export default function ProductPanel({
               {addToCartLabel || 'Adicionar ao carrinho'}
             </Button>
           </div>
+          </>
+          )}
         </div>
       </aside>
     </div>,
@@ -248,6 +278,11 @@ export default function ProductPanel({
 }
 
 ProductPanel.propTypes = {
+  orderLinks: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+    type: PropTypes.string,
+  })),
   item: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,

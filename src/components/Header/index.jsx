@@ -75,7 +75,9 @@ export default function Header() {
           <Button type="button" className={styles.reserve} onClick={reserve}>{ctaLabel}</Button>
         </nav>
 
-        <CartButton className={styles.cart} data-tour="cart" />
+        {config.features?.ordering !== false ? (
+          <CartButton className={styles.cart} data-tour="cart" />
+        ) : null}
 
         <button
           className={`${styles.burger} ${open ? styles.burgerOpen : ''}`}
