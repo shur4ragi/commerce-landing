@@ -38,10 +38,50 @@ CheckoutField.propTypes = {
   paymentMethods: PropTypes.arrayOf(PropTypes.string),
 };
 
+// Entrega fora do site: em vez de pedir endereço, aponta para iFood / WhatsApp.
+function DeliveryLinks({ delivery }) {
+  const links = (delivery.links || []).filter((link) => link.href);
+  if (!links.length) return null;
+
+  return (
+    <aside className="order-checkout__delivery">
+      {delivery.title ? <strong>{delivery.title}</strong> : null}
+      {delivery.text ? <p>{delivery.text}</p> : null}
+      <div className="order-checkout__delivery-links">
+        {links.map((link) => (
+          <a
+            key={link.label}
+            className={`order-checkout__delivery-link order-checkout__delivery-link--${link.type || 'default'}`}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+DeliveryLinks.propTypes = {
+  delivery: PropTypes.shape({
+    title: PropTypes.string,
+    text: PropTypes.string,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      href: PropTypes.string,
+      type: PropTypes.string,
+    })),
+  }).isRequired,
+};
+
 export default function OrderCheckout({
   fields,
   customer,
   paymentMethods = [],
+  delivery,
   onChange,
   onBack,
   backLabel,
@@ -49,6 +89,7 @@ export default function OrderCheckout({
 }) {
   return (
     <form className="order-checkout" onSubmit={(event) => event.preventDefault()}>
+      {delivery ? <DeliveryLinks delivery={delivery} /> : null}
       <div className="order-checkout__fields">
         {fields.map((field) => (
           <CheckoutField
@@ -83,6 +124,7 @@ OrderCheckout.propTypes = {
   })).isRequired,
   customer: PropTypes.object.isRequired,
   paymentMethods: PropTypes.arrayOf(PropTypes.string),
+  delivery: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   backLabel: PropTypes.string,

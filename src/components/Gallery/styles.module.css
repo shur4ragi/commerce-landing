@@ -73,4 +73,12 @@
   .item:nth-child(1) img {
     aspect-ratio: 16 / 8;
   }
+
+  /* O vizinho do destaque ocupa a altura da linha (definida pelo destaque), sem esticá-la. */
+  .item:nth-child(2) img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+  }
 }
