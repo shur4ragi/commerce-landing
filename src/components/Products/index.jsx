@@ -3,7 +3,7 @@ import { useOrder } from '../../hooks/useOrder.js';
 import { useSavedItems } from '../../hooks/useSavedItems.js';
 import { useSite } from '../../hooks/useSite.js';
 import { Card, Reveal, Section } from '../ui';
-import CatalogModal from './CatalogModal.jsx';
+import CatalogModal, { CategoryIcon } from './CatalogModal.jsx';
 import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
@@ -44,6 +44,10 @@ export default function Products() {
   const products = content.products;
   const orderCopy = content.order || {};
   const items = useMemo(() => products.items || [], [products.items]);
+  const featured = useMemo(() => {
+    const marked = items.filter((item) => item.featured);
+    return marked.length ? marked : items;
+  }, [items]);
   const { ids, has, toggle, count } = useSavedItems(clientId);
   const {
     addItem,
@@ -140,7 +144,7 @@ export default function Products() {
           tabIndex={0}
           aria-label="Cardápio em destaque"
         >
-          {items.map((item, index) => {
+          {featured.map((item, index) => {
             const saved = has(item.id);
             return (
               <div key={item.id} className={styles.slide} data-tour={index === 0 ? 'product' : undefined}>
@@ -151,6 +155,7 @@ export default function Products() {
                     title={item.title}
                     description={item.description}
                     meta={item.price}
+                    placeholder={<CategoryIcon category={item.category} />}
                   />
                   <button
                     type="button"

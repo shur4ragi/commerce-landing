@@ -79,19 +79,19 @@ function DefaultCategoryIcon() {
   );
 }
 
-const CATEGORY_ICONS = {
-  café: CafeIcon,
-  cafe: CafeIcon,
-  filtrados: FilterIcon,
-  brunch: BrunchIcon,
-  confeitaria: PastryIcon,
-  grãos: BeansIcon,
-  graos: BeansIcon,
-};
+// A categoria é comparada por palavra-chave, sem acento: "Bolos da casa" usa o ícone de confeitaria.
+const CATEGORY_ICON_RULES = [
+  [/grao|graos|torra/, BeansIcon],
+  [/brunch|salgad|brioche|toast|lanche|sanduiche|cafe da manha/, BrunchIcon],
+  [/doce|bolo|cake|confeit|sobremesa|cookie|acai/, PastryIcon],
+  [/cafe|quente|cappuccino|espresso|expresso/, CafeIcon],
+  [/filtrad|coado|gelad|frapp|suco|refresc|soda|agua|bebida/, FilterIcon],
+];
 
-function CategoryIcon({ category }) {
+export function CategoryIcon({ category }) {
   const key = (category || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  const Icon = CATEGORY_ICONS[key] || DefaultCategoryIcon;
+  const match = CATEGORY_ICON_RULES.find(([pattern]) => pattern.test(key));
+  const Icon = match ? match[1] : DefaultCategoryIcon;
   return <Icon />;
 }
 
@@ -188,6 +188,7 @@ export default function CatalogModal({
                         title={item.title}
                         description={item.description}
                         meta={item.price}
+                        placeholder={<CategoryIcon category={item.category} />}
                       />
                       <button
                         type="button"

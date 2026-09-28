@@ -49,10 +49,14 @@ export default function Contact() {
       <div className={styles.grid}>
         <Reveal>
           <address className={styles.info}>
-            <p><strong>Endereço</strong>{business.address}</p>
-            <p><strong>Telefone</strong><a href={`tel:${business.phone}`}>{business.phone}</a></p>
-            <p><strong>E-mail</strong><a href={`mailto:${business.email}`}>{business.email}</a></p>
-            <p><strong>Horário</strong>{business.hours}</p>
+            {business.address ? <p><strong>Endereço</strong>{business.address}</p> : null}
+            {business.phone ? (
+              <p><strong>Telefone</strong><a href={`tel:${business.phone}`}>{business.phone}</a></p>
+            ) : null}
+            {business.email ? (
+              <p><strong>E-mail</strong><a href={`mailto:${business.email}`}>{business.email}</a></p>
+            ) : null}
+            {business.hours ? <p><strong>Horário</strong>{business.hours}</p> : null}
           </address>
         </Reveal>
 
