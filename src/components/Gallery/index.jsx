@@ -12,7 +12,12 @@ export default function Gallery() {
         <div className={styles.grid}>
           {gallery.items.map((item) => (
             <figure key={item.title} className={styles.item}>
-              <img src={item.image} alt={item.alt || item.title} loading="lazy" />
+              <img
+                src={item.image}
+                alt={item.alt || item.title}
+                loading="lazy"
+                style={item.position ? { objectPosition: item.position } : undefined}
+              />
               <figcaption>{item.title}</figcaption>
             </figure>
           ))}

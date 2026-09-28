@@ -2,9 +2,20 @@ import { useSite } from '../../hooks/useSite.js';
 import { Reveal, Section } from '../ui';
 import styles from './styles.module.css';
 
+function Stars({ value = 5 }) {
+  const full = Math.round(Number(String(value).replace(',', '.')) || 0);
+  return (
+    <span className={styles.stars} aria-label={`${value} de 5 estrelas`}>
+      {'★★★★★'.slice(0, full)}
+      <span className={styles.starsOff}>{'★★★★★'.slice(full)}</span>
+    </span>
+  );
+}
+
 export default function Testimonials() {
   const { content } = useSite();
   const testimonials = content.testimonials;
+  const rating = testimonials.rating;
 
   return (
     <Section
@@ -14,12 +25,27 @@ export default function Testimonials() {
     >
       <Reveal>
         <div className={styles.grid}>
-          {testimonials.items.map((item) => (
-            <blockquote key={item.name} className={styles.card}>
+          {/* Nota geral da plataforma de avaliações (ex.: Google), quando o cliente tiver. */}
+          {rating ? (
+            <div className={`${styles.card} ${styles.ratingCard}`}>
+              <span className={styles.ratingValue}>{rating.value}</span>
+              <Stars value={rating.value} />
+              <p className={styles.ratingCount}>{rating.count}</p>
+              {rating.href ? (
+                <a className={styles.ratingLink} href={rating.href} target="_blank" rel="noreferrer noopener">
+                  {rating.linkLabel || `Ver no ${rating.source || 'Google'}`}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
+
+          {testimonials.items.map((item, index) => (
+            <blockquote key={`${item.name || 'avaliacao'}-${index}`} className={styles.card}>
+              {item.stars ? <Stars value={item.stars} /> : null}
               <p>“{item.quote}”</p>
               <footer>
-                <strong>{item.name}</strong>
-                <span>{item.role}</span>
+                <strong>{item.name || 'Avaliação no Google'}</strong>
+                {item.role ? <span>{item.role}</span> : null}
               </footer>
             </blockquote>
           ))}

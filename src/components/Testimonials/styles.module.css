@@ -26,6 +26,65 @@
   color: var(--color-primary);
 }
 
+.stars {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #f4b400;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+}
+
+.starsOff {
+  color: var(--color-line);
+}
+
+/* Card de nota geral (ex.: 5,0 no Google). */
+.ratingCard {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.35rem;
+  background: var(--color-primary);
+  border-color: transparent;
+  color: var(--color-secondary);
+}
+
+.ratingValue {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ratingCard .stars {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.ratingCard .starsOff {
+  color: color-mix(in srgb, var(--color-secondary) 25%, transparent);
+}
+
+.ratingCount {
+  margin: 0;
+  color: color-mix(in srgb, var(--color-secondary) 78%, transparent);
+}
+
+.ratingLink {
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  color: var(--color-secondary);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ratingLink:hover {
+  background: color-mix(in srgb, var(--color-secondary) 12%, transparent);
+}
+
 @media (max-width: 767px) {
   .grid {
     gap: 0.65rem;

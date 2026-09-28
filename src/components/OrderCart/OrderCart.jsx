@@ -4,9 +4,23 @@ import { useOrder } from '../../hooks/useOrder.js';
 import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton } from '../ui';
 import OrderCheckout from '../OrderCheckout';
+import { buildWhatsappUrl } from '../../utils/whatsapp.js';
 import OrderSummary from '../OrderSummary';
 import WhatsAppOrder from '../WhatsAppOrder';
 import './OrderCart.css';
+
+// Links do tipo "whatsapp" usam o número do cliente com a mensagem configurada.
+function resolveDelivery(delivery, business) {
+  if (!delivery) return null;
+  return {
+    ...delivery,
+    links: (delivery.links || []).map((link) =>
+      link.type === 'whatsapp' && !link.href
+        ? { ...link, href: buildWhatsappUrl(business.whatsapp, link.message || '') }
+        : link,
+    ),
+  };
+}
 
 export default function OrderCart() {
   const titleId = useId();
@@ -84,6 +98,7 @@ export default function OrderCart() {
                     fields={fields}
                     customer={customer}
                     paymentMethods={orderCopy.paymentMethods || []}
+                    delivery={resolveDelivery(orderCopy.delivery, config.business)}
                     onChange={updateCustomer}
                     onBack={() => setView('summary')}
                     backLabel={orderCopy.backToCartLabel || 'Voltar ao pedido'}

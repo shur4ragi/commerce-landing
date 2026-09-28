@@ -11,6 +11,8 @@ export default function Header() {
   const [menuReady, setMenuReady] = useState(false);
   const [elevated, setElevated] = useState(false);
   const outbound = usePendingAction();
+  // Texto do botão que abre o WhatsApp; cada cliente define o seu (ex.: "Fazer pedido").
+  const ctaLabel = config.headerCta?.label || 'Reservar';
 
   useEffect(() => {
     const onScroll = () => setElevated(window.scrollY > 8);
@@ -70,7 +72,7 @@ export default function Header() {
           {navigation.map((item) => (
             <a key={item.href} className={styles.navLink} href={item.href}>{item.label}</a>
           ))}
-          <Button type="button" className={styles.reserve} onClick={reserve}>Reservar</Button>
+          <Button type="button" className={styles.reserve} onClick={reserve}>{ctaLabel}</Button>
         </nav>
 
         <CartButton className={styles.cart} data-tour="cart" />
@@ -96,7 +98,7 @@ export default function Header() {
                 {navigation.map((item) => (
                   <a key={item.href} className={styles.navLink} href={item.href} onClick={(event) => handleNavClick(event, item.href)}>{item.label}</a>
                 ))}
-                <Button type="button" className={styles.reserve} onClick={reserve}>Reservar</Button>
+                <Button type="button" className={styles.reserve} onClick={reserve}>{ctaLabel}</Button>
               </>
             ) : (
               <ActionSkeleton variant="menu" label="Abrindo o menu" />
