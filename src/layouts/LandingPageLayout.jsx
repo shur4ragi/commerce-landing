@@ -8,7 +8,8 @@ import OrderCart from '../components/OrderCart/index.js';
 import LandingOrderTour from '../components/OrderTutorial/LandingOrderTour.jsx';
 
 export default function LandingPageLayout() {
-  const { sections } = useSite();
+  const { sections, config } = useSite();
+  const ordering = config.features?.ordering !== false;
   const resolved = resolveSections(sections);
 
   return (
@@ -22,8 +23,8 @@ export default function LandingPageLayout() {
       </main>
       <Footer />
       <WhatsAppFloat />
-      <OrderCart />
-      <LandingOrderTour />
+      {ordering ? <OrderCart /> : null}
+      {ordering ? <LandingOrderTour /> : null}
     </>
   );
 }

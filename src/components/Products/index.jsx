@@ -7,6 +7,7 @@ import CatalogModal, { CategoryIcon } from './CatalogModal.jsx';
 import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
+import { resolveOrderLinks } from '../../utils/whatsapp.js';
 
 function BookmarkIcon({ filled }) {
   return (
@@ -40,7 +41,9 @@ function groupItems(items) {
 }
 
 export default function Products() {
-  const { clientId, content } = useSite();
+  const { clientId, content, config } = useSite();
+  // features.ordering: false = vitrine (sem carrinho; pedidos pelos links do cliente).
+  const ordering = config.features?.ordering !== false;
   const products = content.products;
   const orderCopy = content.order || {};
   const items = useMemo(() => products.items || [], [products.items]);
@@ -117,15 +120,31 @@ export default function Products() {
           <button type="button" className={styles.toolbarButton} onClick={() => setCatalogMode('all')}>
             {products.viewAllLabel || 'Ver todos'}
           </button>
-          <button
-            type="button"
-            className={styles.toolbarButton}
-            onClick={startTutorial}
-            aria-label={orderCopy.simulateLabel || 'Simular pedido'}
-          >
-            {orderCopy.simulateLabel || 'Simular pedido'}
-          </button>
-          <CartButton variant="pill" className={styles.toolbarButton} />
+          {ordering ? (
+            <>
+              <button
+                type="button"
+                className={styles.toolbarButton}
+                onClick={startTutorial}
+                aria-label={orderCopy.simulateLabel || 'Simular pedido'}
+              >
+                {orderCopy.simulateLabel || 'Simular pedido'}
+              </button>
+              <CartButton variant="pill" className={styles.toolbarButton} />
+            </>
+          ) : (
+            resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
+              <a
+                key={link.label}
+                className={`${styles.toolbarButton} ${styles.toolbarLink}`}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {link.shortLabel || link.label}
+              </a>
+            ))
+          )}
         </div>
         <div className={styles.carouselNav}>
           <button type="button" className={styles.navButton} onClick={() => scrollBy(-1)} aria-label="Itens anteriores">
@@ -201,6 +220,11 @@ export default function Products() {
         addToCartLabel={orderCopy.addToCartLabel}
         quantityLabel={orderCopy.quantityLabel}
         itemObservationLabel={orderCopy.itemObservationLabel}
+        orderLinks={
+          ordering || !selected
+            ? undefined
+            : resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: selected.title })
+        }
       />
 
       <CatalogModal
