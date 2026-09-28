@@ -7,16 +7,21 @@ export default function Card({
   title,
   description,
   meta,
+  placeholder,
   children,
   className = '',
 }) {
   return (
     <article className={`${styles.card} ${className}`.trim()}>
-      {image && (
+      {image ? (
         <figure className={styles.media}>
           <img src={image} alt={imageAlt || title || ''} loading="lazy" />
         </figure>
-      )}
+      ) : placeholder ? (
+        <figure className={`${styles.media} ${styles.placeholder}`} aria-hidden="true">
+          {placeholder}
+        </figure>
+      ) : null}
       <div className={styles.body}>
         {title && <h3>{title}</h3>}
         {description && <p>{description}</p>}
@@ -33,6 +38,7 @@ Card.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   meta: PropTypes.node,
+  placeholder: PropTypes.node,
   children: PropTypes.node,
   className: PropTypes.string,
 };
