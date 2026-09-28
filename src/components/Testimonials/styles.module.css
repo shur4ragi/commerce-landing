@@ -27,15 +27,29 @@
 }
 
 .stars {
-  display: block;
+  position: relative;
+  display: inline-block;
   margin-bottom: 0.6rem;
-  color: #f4b400;
   font-size: 1.05rem;
+  line-height: 1;
   letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
 .starsOff {
   color: var(--color-line);
+}
+
+.starsOn {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+  color: #f4b400;
+}
+
+.card > .stars {
+  display: block;
+  width: max-content;
 }
 
 /* Card de nota geral (ex.: 5,0 no Google). */

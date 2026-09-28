@@ -18,7 +18,7 @@ export function resolveOrderLinks(links = [], whatsapp = '', vars = {}) {
   return links
     .map((link) => {
       if (link.type !== 'whatsapp' || link.href) return link;
-      const message = (link.message || '').replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? '');
+      const message = (link.message || '').replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? '').trim();
       return { ...link, href: buildWhatsappUrl(whatsapp, message) };
     })
     .filter((link) => link.href);
