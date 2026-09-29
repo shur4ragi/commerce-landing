@@ -38,7 +38,7 @@ const siteConfig = {
     fontDisplay: '"Fraunces", Georgia, serif',
     fontSerif: '"Fraunces", Georgia, serif',
     fontStylesheet:
-      'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..900,100;1,9..144,400..900,100&family=Nunito:wght@400;600;700;800&display=swap',
+      'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..900,100;1,9..144,400..900,100&family=Nunito:wght@400;600;700;800&family=Amatic+SC:wght@700&display=swap',
   },
 
   social: {
@@ -72,6 +72,8 @@ const siteConfig = {
   features: {
     whatsappFloat: true,
     contactForm: true,
+    // A abertura fica com a seção 'rain' (chuva de bananas), não com o Entrance padrão.
+    entrance: false,
   },
 };
 
@@ -81,7 +83,7 @@ const client = {
   content,
   // Sem 'testimonials': ainda não temos avaliações reais da unidade de Taubaté.
   sections: [
-    'intro',
+    'rain',
     'hero',
     'about',
     'statement',

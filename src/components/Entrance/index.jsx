@@ -15,10 +15,12 @@ export default function Entrance() {
   const [phase, setPhase] = useState('loading');
   const [progress, setProgress] = useState(0);
   const target = useRef(0);
+  // features.entrance: false = a primeira seção já faz a abertura (ex.: BananaRain).
+  const disabled = config.features?.entrance === false;
 
   useLayoutEffect(() => {
     const root = document.documentElement;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (disabled || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setPhase('gone');
       return undefined;
     }
@@ -26,7 +28,7 @@ export default function Entrance() {
     return () => {
       delete root.dataset.entrance;
     };
-  }, []);
+  }, [disabled]);
 
   // O contador anda sozinho até ~86% e só completa quando a página terminou de carregar.
   useEffect(() => {

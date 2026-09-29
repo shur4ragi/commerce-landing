@@ -67,60 +67,21 @@ function wholePie(id, title, description, medium, large, image) {
 
 // Conteúdo do Instagram @nanica.sp.taubate e do cardápio oficial (PDF do link da bio).
 const content = {
-  intro: {
-    brand: 'Nanica',
-    eyebrow: 'Nanica · Taubaté',
-    cta: { label: 'Conhecer', target: '#inicio' },
-    slides: [
-      {
-        image: banoffeeInteira,
-        alt: 'Torta Banoffee inteira polvilhada com cacau, com cacho de bananas ao fundo',
-        title: 'A melhor *Banoffee* do Brasil',
-        text: 'Doce de leite, banana e chantilly sobre base crocante. A torta que começou tudo.',
-      },
-      {
-        image: monoffee,
-        alt: 'Fatia de Monoffee com suspiros sobre a caixinha de fatia da Nanica',
-        title: 'Monoffee',
-        text: 'Leite condensado, morango, chantilly e uma coroa de suspiros.',
-      },
-      {
-        image: bombonoffee,
-        alt: 'Fatia de Bombonoffee com morangos, mousse de chocolate e fios de chocolate',
-        title: 'Bombonoffee, *a* novidade',
-        text: 'Inspirada no bombom de morango: leite condensado, mousse de chocolate e morango. Por tempo limitado.',
-      },
-      {
-        image: uvoffeeFatia,
-        alt: 'Fatia de Uvoffee com uvas verdes e amêndoas laminadas',
-        title: 'Uvoffee',
-        text: 'Leite condensado, uvas, chantilly e amêndoas laminadas por cima.',
-      },
-      {
-        image: doisMousses,
-        alt: 'Torta Dois Mousses cortada, com camadas de chocolate branco e meio amargo',
-        title: 'Dois *Mousses*',
-        text: 'Mousse de chocolate branco sobre mousse de meio amargo.',
-      },
-      {
-        image: limonadaCoco,
-        alt: 'Fatia de Limonada de Coco sobre a caixinha de fatia da Nanica',
-        title: 'Limonada *de* Coco',
-        text: 'Creme de limão e mousse aerado de coco.',
-      },
-      {
-        image: fondueMorango,
-        alt: 'Copo amarelo da Nanica com frutas cobertas de chocolate',
-        title: 'Fondue *no* copinho',
-        text: 'Chocolate cremoso e frutas à sua escolha.',
-      },
-      {
-        image: tortaNutella,
-        alt: 'Fatia da torta de Nutella com banana e chantilly',
-        title: 'Torta *de* Nutella',
-        text: 'Nutella, banana e chantilly.',
-      },
-    ],
+  // Abertura em vinheta (seção 'rain'): chuva de bananas, "NANICA" no meio com a banana no
+  // lugar do I, e depois o painel pastel com a mensagem entre duas pilastras de chuva.
+  rain: {
+    id: 'apresentacao',
+    ariaLabel: 'Abertura da Nanica Taubaté',
+    word: 'NANICA',
+    bananaIndex: 3,
+    // Traço fino e condensado, como as letras do logo.
+    wordFont: '"Amatic SC", var(--font-display)',
+    panelColor: '#FFF1C7',
+    eyebrow: 'Nanica · Jardim Eulália · Taubaté',
+    title: 'A melhor *Banoffee* do Brasil.',
+    text: 'Seis tortas da casa em fatia ou inteiras, café e salgados. Balcão aberto todos os dias e delivery até as 22h.',
+    primaryCta: { label: 'Ver cardápio', href: '#produtos' },
+    secondaryCta: { label: 'Conhecer a casa', href: '#inicio' },
   },
 
   hero: {

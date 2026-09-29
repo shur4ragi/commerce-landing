@@ -1,4 +1,5 @@
 import Intro from '../components/Intro/index.jsx';
+import BananaRain from '../components/BananaRain/index.jsx';
 import Hero from '../components/Hero/index.jsx';
 import About from '../components/About/index.jsx';
 import Statement from '../components/Statement/index.jsx';
@@ -13,6 +14,7 @@ import Contact from '../components/Contact/index.jsx';
 
 export const sectionRegistry = {
   intro: Intro,
+  rain: BananaRain,
   hero: Hero,
   about: About,
   statement: Statement,
