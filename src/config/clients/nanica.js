@@ -85,7 +85,6 @@ const client = {
   id: 'nanica',
   config: siteConfig,
   content,
-  // Sem 'testimonials': ainda não temos avaliações reais da unidade de Taubaté.
   sections: [
     'rain',
     'hero',
@@ -97,6 +96,7 @@ const client = {
     { id: 'products', reveal: 'drip' },
     'gallery',
     'highlights',
+    'testimonials',
     'contact',
   ],
 };

@@ -20,6 +20,9 @@ export default function Testimonials() {
   const { content } = useSite();
   const testimonials = content.testimonials;
   const rating = testimonials.rating;
+  const topics = testimonials.topics;
+  const items = testimonials.items || [];
+  const topCount = Math.max(1, ...(topics?.items || []).map((topic) => topic.count));
   const outbound = usePendingAction();
 
   return (
@@ -55,7 +58,28 @@ export default function Testimonials() {
             </div>
           ) : null}
 
-          {testimonials.items.map((item, index) => (
+          {/* Temas mais citados nas avaliações (os marcadores do Google), com o número de menções. */}
+          {topics?.items?.length ? (
+            <div className={`${styles.card} ${styles.topicsCard}`}>
+              <p className={styles.topicsTitle}>{topics.title || 'O que mais aparece nas avaliações'}</p>
+              <ul className={styles.topics}>
+                {topics.items.map((topic) => (
+                  <li key={topic.label}>
+                    <span className={styles.topicLabel}>{topic.label}</span>
+                    <span className={styles.topicBar} aria-hidden="true">
+                      <span style={{ width: `${(topic.count / topCount) * 100}%` }} />
+                    </span>
+                    <span className={styles.topicCount}>
+                      {topic.count} {topic.count === 1 ? 'menção' : 'menções'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {topics.note ? <p className={styles.topicsNote}>{topics.note}</p> : null}
+            </div>
+          ) : null}
+
+          {items.map((item, index) => (
             <blockquote key={`${item.name || 'avaliacao'}-${index}`} className={styles.card}>
               {item.stars ? <Stars value={item.stars} /> : null}
               <p>“{item.quote}”</p>

@@ -678,6 +678,31 @@ const content = {
     ],
   },
 
+  // Perfil da Nanica Taubaté no Google: nota geral e os temas que o Google destaca nas avaliações.
+  testimonials: {
+    id: 'depoimentos',
+    eyebrow: 'Avaliações no Google',
+    title: 'Quem prova, *volta*.',
+    rating: {
+      value: '4,5',
+      count: '141 avaliações no Google',
+      source: 'Google',
+      href: 'https://www.google.com/maps/search/?api=1&query=Nanica+Taubat%C3%A9+Av.+Juscelino+Kubitschek+de+Oliveira+15+Jardim+Eul%C3%A1lia',
+      linkLabel: 'Ver avaliações no Google',
+    },
+    topics: {
+      title: 'O que mais aparece nas avaliações',
+      items: [
+        { label: 'Torta', count: 27 },
+        { label: 'Banoffee', count: 10 },
+        { label: 'Ambiente agradável', count: 9 },
+        { label: 'Torta de morango', count: 2 },
+      ],
+      note: 'Temas destacados pelo Google nas avaliações da Nanica Taubaté.',
+    },
+    items: [],
+  },
+
   contact: {
     id: 'contato',
     eyebrow: 'Contato',

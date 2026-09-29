@@ -99,9 +99,81 @@
   background: color-mix(in srgb, var(--color-secondary) 12%, transparent);
 }
 
+/* Temas mais citados: barras proporcionais ao número de menções. */
+.topicsCard {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+}
+
+.card .topicsTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.topics {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topics li {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 11rem) 1fr 6.2rem;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.topicLabel {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.topicBar {
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-line) 70%, transparent);
+  overflow: hidden;
+}
+
+.topicBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+}
+
+.topicCount {
+  text-align: right;
+  font-size: 0.86rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.card .topicsNote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
 @media (max-width: 767px) {
   .grid {
     gap: 0.65rem;
+  }
+
+  .topics li {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.3rem;
+  }
+
+  .topicBar {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .card {
@@ -122,5 +194,9 @@
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .topicsCard {
+    grid-column: span 2;
   }
 }
