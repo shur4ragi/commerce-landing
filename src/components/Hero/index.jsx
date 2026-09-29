@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSite } from '../../hooks/useSite.js';
 import { useOrder } from '../../hooks/useOrder.js';
 import LocationMap from '../LocationMap';
@@ -17,6 +18,7 @@ function MapIcon() {
 
 export default function Hero() {
   const { content, config } = useSite();
+  const [mapOpen, setMapOpen] = useState(false);
   const { startTutorial } = useOrder();
   const hero = content.hero;
   const business = config.business;
@@ -32,6 +34,8 @@ export default function Hero() {
             address={business.address}
             buttonLabel={hero.eyebrow}
             className={styles.locationMap}
+            open={mapOpen}
+            onOpenChange={setMapOpen}
           >
             <span className={styles.eyebrow}>{hero.eyebrow}</span>
             <span className={styles.mapIcon}>
@@ -45,7 +49,14 @@ export default function Hero() {
           <p className={styles.lead}>{hero.description}</p>
           <div className={styles.actions}>
             <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
-            <Button href={hero.secondaryCta.href} variant="ghost">{hero.secondaryCta.label}</Button>
+            {hero.secondaryCta.action === 'map' ? (
+              <Button type="button" variant="ghost" className={styles.mapButton} onClick={() => setMapOpen(true)}>
+                <MapIcon />
+                {hero.secondaryCta.label}
+              </Button>
+            ) : (
+              <Button href={hero.secondaryCta.href} variant="ghost">{hero.secondaryCta.label}</Button>
+            )}
             {hero.tutorialCta ? (
               <Button type="button" variant="ghost" onClick={startTutorial}>
                 {hero.tutorialCta.label}

@@ -101,6 +101,20 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   background: var(--color-secondary);
+  /* Proporção fixa: fotos verticais de stories não esticam o hero. */
+  aspect-ratio: 3 / 4;
+  max-height: 640px;
+  margin-inline: auto;
+}
+
+.mapButton {
+  gap: 0.45rem;
+}
+
+.mapButton svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
 }
 
 .visual img {

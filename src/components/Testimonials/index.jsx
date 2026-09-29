@@ -1,5 +1,6 @@
+import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
-import { Reveal, Section } from '../ui';
+import { ActionSkeleton, Reveal, Section } from '../ui';
 import styles from './styles.module.css';
 
 // Estrelas com preenchimento proporcional (4,6 = 92% das cinco estrelas).
@@ -19,6 +20,7 @@ export default function Testimonials() {
   const { content } = useSite();
   const testimonials = content.testimonials;
   const rating = testimonials.rating;
+  const outbound = usePendingAction();
 
   return (
     <Section
@@ -35,7 +37,18 @@ export default function Testimonials() {
               <Stars value={rating.value} />
               <p className={styles.ratingCount}>{rating.count}</p>
               {rating.href ? (
-                <a className={styles.ratingLink} href={rating.href} target="_blank" rel="noreferrer noopener">
+                <a
+                  className={styles.ratingLink}
+                  href={rating.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    outbound.run(`Abrindo as avaliações no ${rating.source || 'Google'}`, () => {
+                      window.open(rating.href, '_blank', 'noopener,noreferrer');
+                    });
+                  }}
+                >
                   {rating.linkLabel || `Ver no ${rating.source || 'Google'}`}
                 </a>
               ) : null}
@@ -54,6 +67,7 @@ export default function Testimonials() {
           ))}
         </div>
       </Reveal>
+      {outbound.pending ? <ActionSkeleton variant="google" scope="screen" label={outbound.label} /> : null}
     </Section>
   );
 }

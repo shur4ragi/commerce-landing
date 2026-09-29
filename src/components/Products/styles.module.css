@@ -109,6 +109,12 @@
   display: none;
 }
 
+/* Folga no fim da rolagem para a sombra (e o hover) do último card não serem cortados. */
+.carousel::after {
+  content: '';
+  flex: 0 0 1rem;
+}
+
 .slide {
   flex: 0 0 min(260px, 78vw);
   scroll-snap-align: start;

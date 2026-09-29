@@ -94,7 +94,7 @@ export default function Contact() {
                 label={contact.form.consent}
                 required
               />
-              <Button type="submit" variant="whatsapp">{contact.form.submitLabel}</Button>
+              <Button type="submit" variant="whatsapp"><i className="fa-brands fa-whatsapp" aria-hidden="true" /> {contact.form.submitLabel}</Button>
             </form>
           </Reveal>
         )}

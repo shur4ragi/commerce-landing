@@ -72,7 +72,10 @@ export default function Header() {
           {navigation.map((item) => (
             <a key={item.href} className={styles.navLink} href={item.href}>{item.label}</a>
           ))}
-          <Button type="button" className={styles.reserve} onClick={reserve}>{ctaLabel}</Button>
+          <Button type="button" className={styles.reserve} onClick={reserve}>
+            <i className="fa-brands fa-whatsapp" aria-hidden="true" />
+            {ctaLabel}
+          </Button>
         </nav>
 
         {config.features?.ordering !== false ? (

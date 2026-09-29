@@ -136,6 +136,8 @@ export default function LocationMap({
   showAddress = true,
   showDirectionsButton = true,
   openByDefault = false,
+  open: controlledOpen,
+  onOpenChange,
   className = '',
   children,
 }) {
@@ -144,7 +146,17 @@ export default function LocationMap({
   const triggerRef = useRef(null);
   const closeRef = useRef(null);
   const dialogRef = useRef(null);
-  const [open, setOpen] = useState(Boolean(openByDefault));
+  // Pode ser controlado de fora (ex.: botão "Como chegar" do hero) via open/onOpenChange.
+  const [internalOpen, setInternalOpen] = useState(Boolean(openByDefault));
+  const controlled = typeof controlledOpen === 'boolean';
+  const open = controlled ? controlledOpen : internalOpen;
+  const setOpen = useCallback(
+    (value) => {
+      if (!controlled) setInternalOpen(value);
+      onOpenChange?.(value);
+    },
+    [controlled, onOpenChange],
+  );
   const outbound = usePendingAction();
 
   const valid = isValidCoordinates(latitude, longitude);
@@ -152,8 +164,8 @@ export default function LocationMap({
   const lng = valid ? Number(longitude) : null;
   const directionsUrl = valid ? getDirectionsUrl(lat, lng) : '';
 
-  const openMap = useCallback(() => setOpen(true), []);
-  const closeMap = useCallback(() => setOpen(false), []);
+  const openMap = useCallback(() => setOpen(true), [setOpen]);
+  const closeMap = useCallback(() => setOpen(false), [setOpen]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -313,6 +325,8 @@ export default function LocationMap({
 }
 
 LocationMap.propTypes = {
+  open: PropTypes.bool,
+  onOpenChange: PropTypes.func,
   latitude: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   longitude: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,

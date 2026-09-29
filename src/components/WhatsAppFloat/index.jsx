@@ -19,7 +19,7 @@ export default function WhatsAppFloat() {
           window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         })}
       >
-        WA
+        <i className="fa-brands fa-whatsapp" aria-hidden="true" />
       </button>
       {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
     </>

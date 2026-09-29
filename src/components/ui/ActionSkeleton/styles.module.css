@@ -306,6 +306,93 @@
 .bubbleIn { width: 78%; }
 .bubbleOut { width: 62%; justify-self: end; background: linear-gradient(100deg, #1f6b45 20%, #3dbe7a 48%, #145c38 72%); background-size: 220% 100%; }
 
+/* ---------- Google (avaliações) ---------- */
+
+.googleVariant.screen {
+  background: #ffffff;
+}
+
+.googleVariant .caption {
+  color: #202124;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.google {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: min(420px, 92%);
+}
+
+.googleLogo {
+  width: 56px;
+  height: 56px;
+  animation: googlePop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 250ms both;
+}
+
+.googleRating {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.googleScore {
+  width: 44px;
+  height: 22px;
+}
+
+.googleStars,
+.googleStarsSmall {
+  color: #fbbc05;
+  letter-spacing: 0.1em;
+}
+
+.googleStars {
+  font-size: 1.3rem;
+}
+
+.googleStarsSmall {
+  font-size: 0.8rem;
+}
+
+.googleReview {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0.85rem;
+  border: 1px solid #e8eaed;
+  border-radius: 12px;
+  animation: messageIn 480ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+}
+
+.googleReview:nth-of-type(1) { animation-delay: 450ms; }
+.googleReview:nth-of-type(2) { animation-delay: 600ms; }
+.googleReview:nth-of-type(3) { animation-delay: 750ms; }
+
+.googleAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.googleReviewCopy {
+  display: grid;
+  gap: 6px;
+}
+
+.googleVariant .bone {
+  background: linear-gradient(100deg, #f1f3f4 20%, #e8f0fe 48%, #e8eaed 72%);
+  background-size: 220% 100%;
+}
+
+@keyframes googlePop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-30deg);
+  }
+}
+
 .route { position: relative; }
 
 .map {
@@ -415,6 +502,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .googleLogo,
+  .googleReview,
   .coffee,
   .crema,
   .steam path,
