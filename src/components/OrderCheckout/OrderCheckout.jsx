@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { UseInputMask, UseInputPadrao } from '../ui';
+import OutboundLink from '../OutboundLink';
 import './OrderCheckout.css';
 
 function CheckoutField({ field, value, onChange, paymentMethods }) {
@@ -49,16 +50,15 @@ function DeliveryLinks({ delivery }) {
       {delivery.text ? <p>{delivery.text}</p> : null}
       <div className="order-checkout__delivery-links">
         {links.map((link) => (
-          <a
+          <OutboundLink
             key={link.label}
             className={`order-checkout__delivery-link order-checkout__delivery-link--${link.type || 'default'}`}
             href={link.href}
-            target="_blank"
-            rel="noreferrer noopener"
+            type={link.type}
           >
             {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
             {link.label}
-          </a>
+          </OutboundLink>
         ))}
       </div>
     </aside>
