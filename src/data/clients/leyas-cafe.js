@@ -84,7 +84,7 @@ const content = {
     description:
       "Café, doces e salgados da casa num cantinho feito para ficar. Do cappuccino da tarde ao Matilda Cake que virou assinatura, o Leya's é aquele café que você indica para os amigos.",
     primaryCta: { label: 'Ver cardápio', href: '#produtos' },
-    secondaryCta: { label: 'Como chegar', href: '#contato' },
+    secondaryCta: { label: 'Como chegar', href: '#contato', action: 'map' },
     tutorialCta: { label: 'Simular pedido' },
     image: cappuccino,
     imageAlt: "Cappuccino com arte no leite em frente ao letreiro do Leya's",
