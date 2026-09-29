@@ -19,6 +19,7 @@ import coxinhaAberta from '../../assets/images/nanica/coxinha-aberta.jpg';
 import paoDeQueijo from '../../assets/images/nanica/pao-de-queijo.jpg';
 import paoDeQueijoAberto from '../../assets/images/nanica/pao-de-queijo-aberto.jpg';
 import salao from '../../assets/images/nanica/salao.jpg';
+import logoCompleto from '../../assets/images/nanica/logo-completo.png';
 
 // Bebidas com leite: o cardápio permite trocar por leite vegetal (+ R$ 4).
 const milkOption = {
@@ -77,6 +78,8 @@ const content = {
     // Traço fino e condensado, como as letras do logo.
     wordFont: '"Amatic SC", var(--font-display)',
     panelColor: '#FFF1C7',
+    logo: logoCompleto,
+    logoAlt: 'Nanica',
     eyebrow: 'Nanica · Jardim Eulália · Taubaté',
     title: 'A melhor *Banoffee* do Brasil.',
     text: 'Seis tortas da casa em fatia ou inteiras, café e salgados. Balcão aberto todos os dias e delivery até as 22h.',

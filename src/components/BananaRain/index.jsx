@@ -27,8 +27,8 @@ function BananaGlyph() {
 
 // Largura de cada pilastra lateral, em px, a partir da largura da tela.
 function pillarWidth(width) {
-  if (width < 640) return Math.max(44, Math.round(width * 0.14));
-  return Math.min(280, Math.max(72, Math.round(width * 0.17)));
+  if (width < 640) return Math.max(30, Math.round(width * 0.09));
+  return Math.min(170, Math.max(56, Math.round(width * 0.1)));
 }
 
 function startRain(canvas, section, { reduced, openedRef }) {
@@ -58,7 +58,8 @@ function startRain(canvas, section, { reduced, openedRef }) {
 
   const make = (initial) => {
     const small = width < 640;
-    const size = (small ? 30 : 46) + Math.random() * (small ? 26 : 56);
+    let size = (small ? 30 : 46) + Math.random() * (small ? 26 : 56);
+    if (openedRef.current) size = Math.min(size, pillar * 0.8);
     return {
       size,
       x: spawnX(size),
@@ -227,6 +228,7 @@ export default function BananaRain() {
 
       <div className={styles.panel}>
         <div className={styles.copy}>
+          {rain.logo ? <img className={styles.logo} src={rain.logo} alt={rain.logoAlt || ''} /> : null}
           {rain.eyebrow ? <p className={styles.eyebrow}>{rain.eyebrow}</p> : null}
           <h1 className={styles.title}>
             <Emphasis>{rain.title}</Emphasis>

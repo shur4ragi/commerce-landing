@@ -124,11 +124,20 @@
 .rain[data-phase='open'] .copy > :nth-child(2) { animation-delay: 760ms; }
 .rain[data-phase='open'] .copy > :nth-child(3) { animation-delay: 880ms; }
 .rain[data-phase='open'] .copy > :nth-child(4) { animation-delay: 1000ms; }
+.rain[data-phase='open'] .copy > :nth-child(5) { animation-delay: 1100ms; }
 
 /* Sem animação ao pular direto para o fim (clique ou movimento reduzido). */
 .rain[data-phase='ready'] .copy > * {
   animation: none;
   opacity: 1;
+}
+
+.logo {
+  display: block;
+  width: clamp(150px, 16vw, 230px);
+  height: auto;
+  margin: 0 auto clamp(1rem, 2.4vh, 1.6rem);
+  filter: drop-shadow(0 10px 24px rgba(98, 40, 3, 0.16));
 }
 
 .eyebrow {
@@ -242,6 +251,10 @@
 
   .copy {
     width: min(100% - 1.6rem, 760px);
+  }
+
+  .logo {
+    width: 128px;
   }
 
   .eyebrow {

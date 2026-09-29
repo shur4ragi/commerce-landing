@@ -1,5 +1,6 @@
 import content from '../../data/clients/nanica.js';
 import logo from '../../assets/images/nanica/logo.svg';
+import wordmark from '../../assets/images/nanica/logo-completo.png';
 
 const siteConfig = {
   business: {
@@ -18,7 +19,10 @@ const siteConfig = {
 
   branding: {
     logo,
+    // Logo real (NANICA com a banana no lugar do I), usado no header e no skeleton do menu.
+    wordmark,
     favicon: logo,
+    skeleton: 'nanica',
     ogImage: '/og-nanica.jpg',
   },
 
