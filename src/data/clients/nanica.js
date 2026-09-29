@@ -687,7 +687,7 @@ const content = {
       value: '4,5',
       count: '141 avaliações no Google',
       source: 'Google',
-      href: 'https://www.google.com/maps/search/?api=1&query=Nanica+Taubat%C3%A9+Av.+Juscelino+Kubitschek+de+Oliveira+15+Jardim+Eul%C3%A1lia',
+      href: 'https://www.google.com/maps/place/Nanica+Taubat%C3%A9/@-23.0329825,-45.5610693,17z/data=!4m6!3m5!1s0x94ccf9107b3531c5:0xf64a2c9ffb231891!8m2!3d-23.0329825!4d-45.5610693!16s%2Fg%2F11z1_y796v',
       linkLabel: 'Ver avaliações no Google',
     },
     topics: {
@@ -700,7 +700,22 @@ const content = {
       ],
       note: 'Temas destacados pelo Google nas avaliações da Nanica Taubaté.',
     },
-    items: [],
+    // Comentários reais do Google (lidos em 29/09/2026), com o texto exatamente como publicado.
+    items: [
+      {
+        name: 'Carolina P.',
+        role: 'Local Guide no Google',
+        stars: 5,
+        quote:
+          'Amei o lugar, a decoração é lindinha e as tortas são maravilhosas. Pedimos a de Morango e uma de Limão, melhor do que eu esperava.',
+      },
+      {
+        name: 'Paulo M.',
+        role: 'Avaliação no Google',
+        stars: 5,
+        quote: 'Muito bom! Conheci através do tour Taubaté e virei cliente! Cuidado em cada detalhe, desde o sabor até o embrulho!',
+      },
+    ],
   },
 
   contact: {

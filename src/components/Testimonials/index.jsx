@@ -80,7 +80,11 @@ export default function Testimonials() {
           ) : null}
 
           {items.map((item, index) => (
-            <blockquote key={`${item.name || 'avaliacao'}-${index}`} className={styles.card}>
+            <blockquote
+              key={`${item.name || 'avaliacao'}-${index}`}
+              // Nota + temas ocupam a primeira linha; com dois comentários, o último alarga para fechar a grade.
+              className={`${styles.card} ${topics && items.length === 2 && index === 1 ? styles.wide : ''}`}
+            >
               {item.stars ? <Stars value={item.stars} /> : null}
               <p>“{item.quote}”</p>
               <footer>

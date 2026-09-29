@@ -196,7 +196,8 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .topicsCard {
+  .topicsCard,
+  .wide {
     grid-column: span 2;
   }
 }
