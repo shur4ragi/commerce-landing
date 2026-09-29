@@ -151,6 +151,32 @@ function GoogleShape() {
   );
 }
 
+// iFood: marca da plataforma, cabeçalho da loja e itens do cardápio carregando.
+function IfoodShape() {
+  return (
+    <span className={styles.ifood} aria-hidden="true">
+      <span className={styles.ifoodBrand}>iFood</span>
+      <span className={styles.ifoodStore}>
+        <Shimmer className={styles.ifoodStoreLogo} />
+        <span className={styles.ifoodStoreCopy}>
+          <Shimmer className={styles.line} />
+          <Shimmer className={styles.lineShort} />
+        </span>
+      </span>
+      {[0, 1, 2].map((row) => (
+        <span key={row} className={styles.ifoodItem}>
+          <span className={styles.ifoodItemCopy}>
+            <Shimmer className={styles.line} />
+            <Shimmer className={styles.lineShort} />
+            <Shimmer className={styles.ifoodPrice} />
+          </span>
+          <Shimmer className={styles.ifoodThumb} />
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function RouteShape() {
   return (
     <span className={styles.route} aria-hidden="true">
@@ -168,6 +194,7 @@ const SHAPES = {
   whatsapp: WhatsappShape,
   route: RouteShape,
   google: GoogleShape,
+  ifood: IfoodShape,
 };
 
 export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel' }) {
@@ -195,6 +222,6 @@ export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel
 
 ActionSkeleton.propTypes = {
   label: PropTypes.string.isRequired,
-  variant: PropTypes.oneOf(['cart', 'menu', 'catalog', 'whatsapp', 'route', 'google']),
+  variant: PropTypes.oneOf(['cart', 'menu', 'catalog', 'whatsapp', 'route', 'google', 'ifood']),
   scope: PropTypes.oneOf(['panel', 'screen']),
 };

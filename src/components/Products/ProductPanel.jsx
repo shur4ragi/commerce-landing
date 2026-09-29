@@ -2,6 +2,8 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Button, UseInputPadrao } from '../ui';
+import OutboundLink from '../OutboundLink';
+import buttonStyles from '../ui/Button/styles.module.css';
 import { buildLineKey, formatPrice, parsePrice } from '../../utils/order.js';
 import styles from './styles.module.css';
 
@@ -169,16 +171,15 @@ export default function ProductPanel({
                 {saved ? savedLabel : saveLabel}
               </button>
               {orderLinks.map((link) => (
-                <Button
+                <OutboundLink
                   key={link.label}
                   href={link.href}
-                  target="_blank"
-                  variant={link.type === 'whatsapp' ? 'whatsapp' : 'primary'}
-                  className={styles.orderButton}
+                  type={link.type}
+                  className={`${buttonStyles.button} ${buttonStyles[link.type === 'whatsapp' ? 'whatsapp' : 'primary']} ${styles.orderButton}`}
                 >
                   {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
                   {link.label}
-                </Button>
+                </OutboundLink>
               ))}
             </div>
           ) : (

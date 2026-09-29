@@ -8,6 +8,7 @@ import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
 import { resolveOrderLinks } from '../../utils/whatsapp.js';
+import OutboundLink from '../OutboundLink';
 
 function BookmarkIcon({ filled }) {
   return (
@@ -134,17 +135,16 @@ export default function Products() {
             </>
           ) : (
             resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
-              <a
+              <OutboundLink
                 key={link.label}
                 className={`${styles.toolbarButton} ${styles.toolbarLink} ${link.type === 'whatsapp' ? styles.toolbarWhatsapp : ''}`}
                 href={link.href}
-                target="_blank"
-                rel="noreferrer noopener"
+                type={link.type}
                 aria-label={link.label}
               >
                 {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
                 <span className={styles.toolbarLabel}>{link.shortLabel || link.label}</span>
-              </a>
+              </OutboundLink>
             ))
           )}
         </div>
