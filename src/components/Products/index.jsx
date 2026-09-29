@@ -141,6 +141,7 @@ export default function Products() {
                 target="_blank"
                 rel="noreferrer noopener"
               >
+                {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
                 {link.shortLabel || link.label}
               </a>
             ))

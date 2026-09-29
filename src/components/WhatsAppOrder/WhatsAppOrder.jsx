@@ -29,7 +29,7 @@ export default function WhatsAppOrder({
         title={disabledReason}
         disabled
       >
-        {label}
+        <i className="fa-brands fa-whatsapp" aria-hidden="true" /> {label}
       </button>
     );
   }
@@ -46,7 +46,7 @@ export default function WhatsAppOrder({
           window.open(href, '_blank', 'noopener,noreferrer');
         })}
       >
-        {label}
+        <i className="fa-brands fa-whatsapp" aria-hidden="true" /> {label}
       </Button>
       {outbound.pending ? <ActionSkeleton variant="whatsapp" scope="screen" label={outbound.label} /> : null}
     </>

@@ -176,6 +176,7 @@ export default function ProductPanel({
                   variant={link.type === 'whatsapp' ? 'whatsapp' : 'primary'}
                   className={styles.orderButton}
                 >
+                  {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
                   {link.label}
                 </Button>
               ))}

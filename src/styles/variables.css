@@ -75,6 +75,6 @@
   :root {
     --header-height: 56px;
     --radius-lg: 12px;
-    --shadow-card: 4px 5px 0 color-mix(in srgb, var(--color-primary) 10%, transparent);
+    --shadow-card: 2px 3px 0 color-mix(in srgb, var(--color-primary) 7%, transparent);
   }
 }
