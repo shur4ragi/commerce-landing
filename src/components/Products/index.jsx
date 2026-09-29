@@ -136,13 +136,14 @@ export default function Products() {
             resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
               <a
                 key={link.label}
-                className={`${styles.toolbarButton} ${styles.toolbarLink}`}
+                className={`${styles.toolbarButton} ${styles.toolbarLink} ${link.type === 'whatsapp' ? styles.toolbarWhatsapp : ''}`}
                 href={link.href}
                 target="_blank"
                 rel="noreferrer noopener"
+                aria-label={link.label}
               >
                 {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
-                {link.shortLabel || link.label}
+                <span className={styles.toolbarLabel}>{link.shortLabel || link.label}</span>
               </a>
             ))
           )}
