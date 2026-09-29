@@ -555,9 +555,35 @@
     margin-bottom: 0.7rem;
   }
 
+  /* Se as ações não couberem, a barra rola para o lado em vez de cortar o último botão. */
   .toolbarActions {
     flex: 1;
     min-width: 0;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0;
+  }
+
+  .toolbarActions::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* No celular o link de encomenda pelo WhatsApp vira só o ícone, para caber ao lado dos outros. */
+  .toolbarWhatsapp {
+    padding-inline: 0.7rem;
+  }
+
+  .toolbarWhatsapp .toolbarLabel {
+    display: none;
+  }
+
+  .toolbarWhatsapp i {
+    font-size: 1.05rem;
+  }
+
+  .toolbarActions > * {
+    flex: none;
   }
 
   .toolbarButton {
