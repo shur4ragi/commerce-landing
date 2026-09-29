@@ -1,13 +1,13 @@
 import auroraCafe from './clients/aurora-cafe.js';
-import leyasCafe from './clients/leyas-cafe.js';
+import nanica from './clients/nanica.js';
 
 const clients = {
   'aurora-cafe': auroraCafe,
-  'leyas-cafe': leyasCafe,
+  'nanica': nanica,
 };
 
 // Cliente padrão desta branch; VITE_CLIENT_ID continua podendo trocar.
-const DEFAULT_CLIENT = 'leyas-cafe';
+const DEFAULT_CLIENT = 'nanica';
 
 export function getActiveClient() {
   const clientId = import.meta.env.VITE_CLIENT_ID || DEFAULT_CLIENT;
