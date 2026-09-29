@@ -93,7 +93,8 @@ const client = {
     'statement',
     'process',
     'services',
-    'products',
+    // O cardápio entra como cobertura derretendo sobre o fim das Experiências.
+    { id: 'products', reveal: 'drip' },
     'gallery',
     'highlights',
     'contact',

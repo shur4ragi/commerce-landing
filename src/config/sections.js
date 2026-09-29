@@ -33,7 +33,9 @@ export function resolveSections(sectionIds = []) {
     .map((entry) => {
       const id = typeof entry === 'string' ? entry : entry.id;
       const enabled = typeof entry === 'string' ? true : entry.enabled !== false;
-      return { id, enabled, Component: sectionRegistry[id] };
+      // reveal: transição de entrada da seção (ex.: 'drip' = cobertura derretendo).
+      const reveal = typeof entry === 'string' ? null : entry.reveal || null;
+      return { id, enabled, reveal, Component: sectionRegistry[id] };
     })
     .filter((section) => section.enabled && section.Component);
 }
