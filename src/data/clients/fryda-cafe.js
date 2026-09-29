@@ -98,7 +98,7 @@ const content = {
     description:
       'Café da manhã, almoço e café da tarde num café inspirado na Frida Kahlo, no Centro de Taubaté. Venha tomar um café com a gente, peça pelo iFood ou encomende pelo WhatsApp.',
     primaryCta: { label: 'Ver cardápio', href: '#produtos' },
-    secondaryCta: { label: 'Como chegar', href: '#contato' },
+    secondaryCta: { label: 'Como chegar', href: '#contato', action: 'map' },
     image: cafeCoado,
     imageAlt: 'Café coado no coador de pano caindo na xícara do Fryda Café',
     metrics: [
