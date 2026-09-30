@@ -6,6 +6,7 @@ import Footer from '../components/Footer/index.jsx';
 import WhatsAppFloat from '../components/WhatsAppFloat/index.jsx';
 import OrderCart from '../components/OrderCart/index.js';
 import LandingOrderTour from '../components/OrderTutorial/LandingOrderTour.jsx';
+import DripReveal from '../components/DripReveal/index.jsx';
 
 export default function LandingPageLayout() {
   const { sections, config } = useSite();
@@ -17,9 +18,15 @@ export default function LandingPageLayout() {
       <Entrance />
       <Header />
       <main>
-        {resolved.map(({ id, Component: SectionComponent }) => (
-          <SectionComponent key={id} />
-        ))}
+        {resolved.map(({ id, reveal, Component: SectionComponent }) =>
+          reveal === 'drip' ? (
+            <DripReveal key={id}>
+              <SectionComponent />
+            </DripReveal>
+          ) : (
+            <SectionComponent key={id} />
+          ),
+        )}
       </main>
       <Footer />
       <WhatsAppFloat />

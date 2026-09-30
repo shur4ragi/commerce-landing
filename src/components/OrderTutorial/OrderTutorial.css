@@ -5,22 +5,38 @@
   pointer-events: none;
 }
 
-.order-tutorial__shade {
+/* Camada transparente que segura todos os cliques da página durante a simulação. */
+.order-tutorial__blocker {
   position: absolute;
-  background: rgb(20 12 8 / 62%);
+  inset: 0;
   pointer-events: auto;
 }
 
-.order-tutorial__shade--full {
-  inset: 0;
-}
-
+/* Recorte único: a sombra gigante escurece a tela e o recorte desliza de um passo para o outro. */
 .order-tutorial__spot {
   position: absolute;
   border-radius: 16px;
-  box-shadow: 0 0 0 2px #fff8f3, 0 0 0 6px color-mix(in srgb, var(--color-accent) 70%, white);
+  box-shadow:
+    0 0 0 2px #fff8f3,
+    0 0 0 6px color-mix(in srgb, var(--color-accent) 70%, white),
+    0 0 0 200vmax rgb(20 12 8 / 62%);
   pointer-events: none;
-  transition: top 180ms ease, left 180ms ease, width 180ms ease, height 180ms ease;
+  transition:
+    top 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.order-tutorial__spot--none {
+  box-shadow: 0 0 0 200vmax rgb(20 12 8 / 72%);
+}
+
+.order-tutorial__measure {
+  position: fixed;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .order-tutorial__card {
@@ -34,6 +50,361 @@
   box-shadow: 0 22px 50px rgb(20 12 8 / 28%);
   max-width: calc(100vw - 24px);
 }
+
+/* Cartão visível: altura travada pelo maior passo; só a posição anda entre os slides. */
+.order-tutorial__card--live {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-tutorial__card--glide {
+  transition:
+    top 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.order-tutorial__card--live .order-tutorial__actions {
+  margin-top: auto;
+  padding-top: 0.95rem;
+}
+
+.order-tutorial__slide {
+  animation: order-tutorial-slide 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Véu da preparação: mesmo tom do escurecido do tutorial, com desfoque para esconder o que
+   acontece por trás. Ao sair, revela o recorte do primeiro passo sem troca brusca. */
+.order-tutorial__veil {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.9rem;
+  background: rgb(20 12 8 / 55%);
+  backdrop-filter: blur(14px) saturate(0.9);
+  -webkit-backdrop-filter: blur(14px) saturate(0.9);
+  pointer-events: auto;
+  animation: order-tutorial-veil-in 140ms ease both;
+  transition: opacity 280ms ease, visibility 0s linear 280ms;
+}
+
+.order-tutorial__veil--out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Banoffee montada uma vez (~1,5s), camada por camada; ao terminar, a tela é liberada. */
+.order-tutorial__banoffee {
+  width: clamp(170px, 22vw, 230px);
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgb(20 12 8 / 35%));
+}
+
+.order-tutorial__plate {
+  fill: rgb(255 248 230 / 80%);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: order-tutorial-plate 260ms ease-out both;
+}
+
+.order-tutorial__layer,
+.order-tutorial__coin {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: 320ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+.order-tutorial__layer--crust { animation-name: order-tutorial-drop; animation-delay: 80ms; }
+.order-tutorial__layer--caramel { animation-name: order-tutorial-spread; animation-delay: 300ms; }
+.order-tutorial__layer--banana { animation-name: order-tutorial-fade; animation-delay: 540ms; animation-duration: 180ms; }
+.order-tutorial__layer--cream { animation-name: order-tutorial-drop-high; animation-delay: 900ms; animation-duration: 340ms; }
+.order-tutorial__layer--cocoa { animation-name: order-tutorial-sprinkle; animation-delay: 1150ms; animation-duration: 260ms; }
+
+.order-tutorial__coin {
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-coin;
+  animation-duration: 300ms;
+  animation-delay: calc(580ms + var(--i) * 55ms);
+}
+
+@keyframes order-tutorial-plate {
+  from { opacity: 0; transform: scaleX(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-drop {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* O doce de leite "sobe" como se estivesse sendo espalhado. */
+@keyframes order-tutorial-spread {
+  from { opacity: 0; transform: scaleY(0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes order-tutorial-coin {
+  from { opacity: 0; transform: translateY(-26px) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-drop-high {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-sprinkle {
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Pílula do texto: creme com brilho suave; os pontinhos são grãos de café. */
+.order-tutorial__pill {
+  --cream: #fffcf3;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.75rem 1.3rem;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+  color: var(--color-primary);
+  font-size: 0.86rem;
+  font-weight: 800;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 12%, transparent),
+    0 18px 36px -18px rgb(20 12 8 / 70%);
+  animation: order-tutorial-pill-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Banoffee: chantilly com cacau polvilhado em cima e, embaixo, banana, doce de leite
+   e base de biscoito com a borda ondulada. */
+.order-tutorial__pill--banoffee {
+  --cocoa: rgb(122 61 18 / 30%);
+
+  padding-bottom: 1.55rem;
+  background:
+    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
+    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+}
+
+.order-tutorial__pill--banoffee::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 1rem;
+  background: linear-gradient(
+    to bottom,
+    #fde58a 0%,
+    #fde58a 34%,
+    #c9803f 42%,
+    #c9803f 66%,
+    #e6bd84 74%
+  );
+  -webkit-mask: radial-gradient(9px 5px at 50% 0, transparent 98%, #000) 0 0 / 18px 100% repeat-x;
+  mask: radial-gradient(9px 5px at 50% 0, transparent 98%, #000) 0 0 / 18px 100% repeat-x;
+}
+
+.order-tutorial__dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* Grão de café: oval marrom com o sulco no meio. */
+.order-tutorial__dots i {
+  width: 8px;
+  height: 11px;
+  border-radius: 50%;
+  background:
+    linear-gradient(100deg, transparent 44%, rgb(255 240 220 / 55%) 47% 53%, transparent 56%),
+    radial-gradient(circle at 35% 30%, #8a5330, #4a2612 75%);
+  box-shadow: 0 2px 4px -2px rgb(40 20 8 / 60%);
+  animation: order-tutorial-dot 1s ease-in-out infinite;
+}
+
+/* Na banoffee, os pontinhos viram rodelas de banana. */
+.order-tutorial__pill--banoffee .order-tutorial__dots i {
+  width: 11px;
+  background:
+    radial-gradient(circle, #e0b84a 0 1.2px, transparent 1.6px),
+    radial-gradient(circle, #fff4c2 0 3.2px, #fde58a 3.6px 4.4px, #f5b21c 4.8px);
+  box-shadow: 0 2px 4px -2px rgb(98 40 3 / 50%);
+}
+
+.order-tutorial__dots i:nth-child(2) { animation-delay: 160ms; }
+.order-tutorial__dots i:nth-child(3) { animation-delay: 320ms; }
+
+@keyframes order-tutorial-dot {
+  0%, 80%, 100% { opacity: 0.45; transform: translateY(0) rotate(0deg); }
+  40% { opacity: 1; transform: translateY(-4px) rotate(40deg); }
+}
+
+/* Xícara (arte padrão): pires, xícara caindo, café subindo, espuma, coração e vapor. ~1,5s. */
+.order-tutorial__coffee {
+  width: clamp(170px, 22vw, 230px);
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgb(20 12 8 / 35%));
+}
+
+.order-tutorial__shadow {
+  fill: rgb(20 12 8 / 22%);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: order-tutorial-plate 260ms ease-out both;
+}
+
+.order-tutorial__cup-part {
+  fill: var(--color-surface);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.order-tutorial__saucer {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: order-tutorial-plate 280ms ease-out 40ms both;
+}
+
+.order-tutorial__cup-handle {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.order-tutorial__cup-band {
+  fill: color-mix(in srgb, var(--color-secondary) 70%, var(--color-accent));
+}
+
+.order-tutorial__cup-empty {
+  fill: #2b160a;
+}
+
+.order-tutorial__layer--cup { animation-name: order-tutorial-drop; animation-delay: 120ms; }
+
+/* O café "sobe" crescendo do centro da boca da xícara. */
+.order-tutorial__layer--coffee {
+  fill: #7a4424;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-pour;
+  animation-delay: 440ms;
+  animation-duration: 420ms;
+}
+
+.order-tutorial__layer--foam {
+  fill: #efdcbc;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-pour;
+  animation-delay: 820ms;
+  animation-duration: 320ms;
+}
+
+.order-tutorial__layer--heart {
+  fill: #fffaf0;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-heart;
+  animation-delay: 1060ms;
+  animation-duration: 280ms;
+}
+
+.order-tutorial__steam {
+  fill: none;
+  stroke: rgb(255 248 238 / 85%);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: order-tutorial-steam 360ms ease-out both;
+  animation-delay: calc(1150ms + var(--i) * 70ms);
+}
+
+@keyframes order-tutorial-pour {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-heart {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-steam {
+  from { stroke-dashoffset: 40; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes order-tutorial-pill-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Preparação: animações e transições da página desligadas, para os painéis já nascerem no lugar.
+   O próprio tutorial (véu e pontinhos) continua animando. */
+html[data-tour-prep] body > :not(.order-tutorial),
+html[data-tour-prep] body > :not(.order-tutorial) *,
+html[data-tour-prep] body > :not(.order-tutorial) *::before,
+html[data-tour-prep] body > :not(.order-tutorial) *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* O cartão só aparece quando a cobertura sai, já no lugar do primeiro passo. */
+.order-tutorial__card--waiting {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+.order-tutorial__card--live:not(.order-tutorial__card--waiting) {
+  animation: order-tutorial-card-in 380ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+}
+
+@keyframes order-tutorial-veil-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes order-tutorial-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes order-tutorial-slide {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 
 .order-tutorial__kicker {
   margin: 0 1.6rem 0.35rem 0;
@@ -108,7 +479,8 @@
   color: var(--color-primary);
 }
 
-.order-tutorial__ghost:disabled {
+.order-tutorial__ghost:disabled,
+.order-tutorial__next:disabled {
   opacity: 0.4;
   cursor: default;
 }
@@ -153,7 +525,30 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .order-tutorial__spot {
+  .order-tutorial__spot,
+  .order-tutorial__card--glide {
     transition: none;
+  }
+
+  .order-tutorial__slide,
+  .order-tutorial__veil,
+  .order-tutorial__dots i,
+  .order-tutorial__pill,
+  .order-tutorial__plate,
+  .order-tutorial__layer,
+  .order-tutorial__coin,
+  .order-tutorial__shadow,
+  .order-tutorial__saucer,
+  .order-tutorial__steam,
+  .order-tutorial__card--live:not(.order-tutorial__card--waiting) {
+    animation: none;
+  }
+
+  .order-tutorial__veil {
+    transition: none;
+  }
+
+  .order-tutorial__steam {
+    stroke-dashoffset: 0;
   }
 }

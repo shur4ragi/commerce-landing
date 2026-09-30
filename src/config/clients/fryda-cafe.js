@@ -85,9 +85,10 @@ const client = {
     'hero',
     'about',
     'statement',
-    'process',
     'services',
-    'products',
+    'process',
+    // O cardápio entra como cobertura derretendo logo depois do passo a passo.
+    { id: 'products', reveal: 'drip' },
     'gallery',
     'highlights',
     'testimonials',

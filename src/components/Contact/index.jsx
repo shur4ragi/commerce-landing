@@ -62,7 +62,10 @@ export default function Contact() {
 
         {config.features?.contactForm && (
           <Reveal>
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form
+              className={`${styles.form} ${contact.formStyle === 'banoffee' ? styles.formBanoffee : ''}`}
+              onSubmit={handleSubmit}
+            >
               <UseInputPadrao
                 label={contact.form.nameLabel}
                 identifier="contact-name"

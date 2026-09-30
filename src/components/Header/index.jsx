@@ -62,10 +62,17 @@ export default function Header() {
     <header className={`${styles.header} ${elevated ? styles.elevated : ''}`}>
       <Container className={styles.bar}>
         <a className={styles.brand} href="#inicio" onClick={(event) => handleNavClick(event, '#inicio')}>
-          {config.branding.logo ? (
-            <img src={config.branding.logo} alt="" width="36" height="36" />
-          ) : null}
-          <span>{config.business.name}</span>
+          {config.branding.wordmark ? (
+            // Logo horizontal com o nome: substitui o ícone + nome em texto.
+            <img className={styles.wordmark} src={config.branding.wordmark} alt={config.business.name} />
+          ) : (
+            <>
+              {config.branding.logo ? (
+                <img src={config.branding.logo} alt="" width="36" height="36" />
+              ) : null}
+              <span>{config.business.name}</span>
+            </>
+          )}
         </a>
 
         <nav className={styles.desktop} aria-label="Principal">

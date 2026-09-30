@@ -133,7 +133,8 @@ const content = {
     ],
     lead: 'Não vamos te vender algo que a gente não comeria.',
     text: 'Torta de carne da vovó, torta de frango, quiches, cucas, bolos com calda quente e brownie com sorvete dividem a vitrine com o café coado no pano, o latte e os gelados da casa.',
-    cta: { label: 'Ver o cardápio', href: '#produtos' },
+    // Cobertura na cor da casa escorrendo no hover.
+    cta: { label: 'Ver o cardápio', href: '#produtos', style: 'cover' },
   },
 
   process: {
