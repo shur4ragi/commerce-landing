@@ -148,12 +148,47 @@ function lockPage(keep) {
   };
 }
 
+// Xícara que se enche uma vez: pires, xícara, café subindo, espuma, coração de latte e vapor.
+function CoffeeBuild() {
+  return (
+    <svg className="order-tutorial__coffee" viewBox="0 0 220 150" aria-hidden="true">
+      <ellipse className="order-tutorial__shadow" cx="110" cy="140" rx="70" ry="6" />
+      <ellipse className="order-tutorial__cup-part order-tutorial__saucer" cx="110" cy="128" rx="80" ry="11" />
+      <g className="order-tutorial__layer order-tutorial__layer--cup">
+        <path className="order-tutorial__cup-handle" d="M166 64c20-2 24 28 2 36" />
+        <path className="order-tutorial__cup-part" d="M50 50h120l-10 62a14 14 0 0 1-14 12H74a14 14 0 0 1-14-12z" />
+        <path className="order-tutorial__cup-band" d="M53.2 70h113.6l-1.6 10H54.8z" />
+        <ellipse className="order-tutorial__cup-part" cx="110" cy="50" rx="60" ry="9" />
+        <ellipse className="order-tutorial__cup-empty" cx="110" cy="50" rx="53" ry="6.5" />
+      </g>
+      <ellipse className="order-tutorial__layer order-tutorial__layer--coffee" cx="110" cy="50" rx="53" ry="6.5" />
+      <ellipse className="order-tutorial__layer order-tutorial__layer--foam" cx="110" cy="50" rx="44" ry="5" />
+      <path
+        className="order-tutorial__layer order-tutorial__layer--heart"
+        d="M110 54.5c-5-3-8-5-8-7.4 0-1.7 1.4-2.8 3-2.8 1.5 0 2.5.8 5 2.8 2.5-2 3.5-2.8 5-2.8 1.6 0 3 1.1 3 2.8 0 2.4-3 4.4-8 7.4z"
+      />
+      {[92, 110, 128].map((x, index) => (
+        <path
+          key={x}
+          className="order-tutorial__steam"
+          style={{ '--i': index }}
+          d={`M${x} 38c-7-8 7-14 0-24`}
+        />
+      ))}
+    </svg>
+  );
+}
+
+const ARTS = { banoffee: BanoffeeBuild, coffee: CoffeeBuild };
+
 export default function OrderTutorial({
   open,
   steps,
   onClose,
   title = 'Como fazer um pedido?',
+  art = 'coffee',
 }) {
+  const Art = ARTS[art] || CoffeeBuild;
   const labelId = useId();
   const rootRef = useRef(null);
   const measureRef = useRef(null);
@@ -342,8 +377,8 @@ export default function OrderTutorial({
 
       {/* Véu escuro e desfocado durante a preparação: esconde os painéis abrindo e fechando por trás. */}
       <div className={`order-tutorial__veil ${ready ? 'order-tutorial__veil--out' : ''}`} aria-hidden={ready}>
-        <BanoffeeBuild key={prepareRun} />
-        <p className="order-tutorial__pill" role="status">
+        <Art key={prepareRun} />
+        <p className={`order-tutorial__pill order-tutorial__pill--${art}`} role="status">
           Preparando simulação
           <span className="order-tutorial__dots" aria-hidden="true">
             <i />
@@ -443,4 +478,5 @@ OrderTutorial.propTypes = {
   })).isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
+  art: PropTypes.oneOf(['coffee', 'banoffee']),
 };

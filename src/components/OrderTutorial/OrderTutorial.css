@@ -165,11 +165,9 @@
   to { opacity: 1; transform: none; }
 }
 
-/* Fatia de banoffee: chantilly com cacau polvilhado em cima e, embaixo, banana, doce de leite
-   e base de biscoito com a borda ondulada. */
+/* Pílula do texto: creme com brilho suave; os pontinhos são grãos de café. */
 .order-tutorial__pill {
   --cream: #fffcf3;
-  --cocoa: rgb(122 61 18 / 30%);
 
   position: relative;
   isolation: isolate;
@@ -178,23 +176,34 @@
   align-items: center;
   gap: 0.7rem;
   margin: 0;
-  padding: 0.75rem 1.3rem 1.55rem;
+  padding: 0.75rem 1.3rem;
   border-radius: 20px;
   background:
-    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
-    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
     radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
     var(--cream);
   color: var(--color-primary);
   font-size: 0.86rem;
   font-weight: 800;
   box-shadow:
-    inset 0 0 0 1px rgb(122 61 18 / 12%),
+    inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 12%, transparent),
     0 18px 36px -18px rgb(20 12 8 / 70%);
   animation: order-tutorial-pill-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.order-tutorial__pill::after {
+/* Banoffee: chantilly com cacau polvilhado em cima e, embaixo, banana, doce de leite
+   e base de biscoito com a borda ondulada. */
+.order-tutorial__pill--banoffee {
+  --cocoa: rgb(122 61 18 / 30%);
+
+  padding-bottom: 1.55rem;
+  background:
+    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
+    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+}
+
+.order-tutorial__pill--banoffee::after {
   content: '';
   position: absolute;
   inset: auto 0 0;
@@ -212,21 +221,30 @@
   mask: radial-gradient(9px 5px at 50% 0, transparent 98%, #000) 0 0 / 18px 100% repeat-x;
 }
 
-/* Os pontinhos viram rodelas de banana. */
 .order-tutorial__dots {
   display: inline-flex;
   gap: 4px;
 }
 
+/* Grão de café: oval marrom com o sulco no meio. */
 .order-tutorial__dots i {
-  width: 11px;
+  width: 8px;
   height: 11px;
   border-radius: 50%;
+  background:
+    linear-gradient(100deg, transparent 44%, rgb(255 240 220 / 55%) 47% 53%, transparent 56%),
+    radial-gradient(circle at 35% 30%, #8a5330, #4a2612 75%);
+  box-shadow: 0 2px 4px -2px rgb(40 20 8 / 60%);
+  animation: order-tutorial-dot 1s ease-in-out infinite;
+}
+
+/* Na banoffee, os pontinhos viram rodelas de banana. */
+.order-tutorial__pill--banoffee .order-tutorial__dots i {
+  width: 11px;
   background:
     radial-gradient(circle, #e0b84a 0 1.2px, transparent 1.6px),
     radial-gradient(circle, #fff4c2 0 3.2px, #fde58a 3.6px 4.4px, #f5b21c 4.8px);
   box-shadow: 0 2px 4px -2px rgb(98 40 3 / 50%);
-  animation: order-tutorial-dot 1s ease-in-out infinite;
 }
 
 .order-tutorial__dots i:nth-child(2) { animation-delay: 160ms; }
@@ -235,6 +253,101 @@
 @keyframes order-tutorial-dot {
   0%, 80%, 100% { opacity: 0.45; transform: translateY(0) rotate(0deg); }
   40% { opacity: 1; transform: translateY(-4px) rotate(40deg); }
+}
+
+/* Xícara (arte padrão): pires, xícara caindo, café subindo, espuma, coração e vapor. ~1,5s. */
+.order-tutorial__coffee {
+  width: clamp(170px, 22vw, 230px);
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgb(20 12 8 / 35%));
+}
+
+.order-tutorial__shadow {
+  fill: rgb(20 12 8 / 22%);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: order-tutorial-plate 260ms ease-out both;
+}
+
+.order-tutorial__cup-part {
+  fill: var(--color-surface);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.order-tutorial__saucer {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: order-tutorial-plate 280ms ease-out 40ms both;
+}
+
+.order-tutorial__cup-handle {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.order-tutorial__cup-band {
+  fill: color-mix(in srgb, var(--color-secondary) 70%, var(--color-accent));
+}
+
+.order-tutorial__cup-empty {
+  fill: #2b160a;
+}
+
+.order-tutorial__layer--cup { animation-name: order-tutorial-drop; animation-delay: 120ms; }
+
+/* O café "sobe" crescendo do centro da boca da xícara. */
+.order-tutorial__layer--coffee {
+  fill: #7a4424;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-pour;
+  animation-delay: 440ms;
+  animation-duration: 420ms;
+}
+
+.order-tutorial__layer--foam {
+  fill: #efdcbc;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-pour;
+  animation-delay: 820ms;
+  animation-duration: 320ms;
+}
+
+.order-tutorial__layer--heart {
+  fill: #fffaf0;
+  transform-origin: 50% 50%;
+  animation-name: order-tutorial-heart;
+  animation-delay: 1060ms;
+  animation-duration: 280ms;
+}
+
+.order-tutorial__steam {
+  fill: none;
+  stroke: rgb(255 248 238 / 85%);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: order-tutorial-steam 360ms ease-out both;
+  animation-delay: calc(1150ms + var(--i) * 70ms);
+}
+
+@keyframes order-tutorial-pour {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-heart {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes order-tutorial-steam {
+  from { stroke-dashoffset: 40; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
 }
 
 @keyframes order-tutorial-pill-in {
@@ -424,11 +537,18 @@ html[data-tour-prep] body > :not(.order-tutorial) *::after {
   .order-tutorial__plate,
   .order-tutorial__layer,
   .order-tutorial__coin,
+  .order-tutorial__shadow,
+  .order-tutorial__saucer,
+  .order-tutorial__steam,
   .order-tutorial__card--live:not(.order-tutorial__card--waiting) {
     animation: none;
   }
 
   .order-tutorial__veil {
     transition: none;
+  }
+
+  .order-tutorial__steam {
+    stroke-dashoffset: 0;
   }
 }

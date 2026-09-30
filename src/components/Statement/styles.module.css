@@ -159,14 +159,12 @@
   line-height: 1.7;
 }
 
-/* Botão em corte de banoffee: chantilly com cacau em cima e, embaixo, banana, doce de leite
-   e base de biscoito. ".body a" sobe a especificidade acima do variant ghost do Button. */
+/* Botão com cobertura (cta.style 'cover' ou 'banoffee'): creme liso que, no hover, recebe uma
+   cobertura na cor principal escorrendo de cima, com gotas na borda.
+   ".body a" sobe a especificidade acima do variant ghost do Button. */
+.body a.cover,
 .body a.banoffee {
   --cream: #fffcf3;
-  --cocoa: rgba(122, 61, 18, 0.32);
-  --banana: #fde58a;
-  --caramel: #c9803f;
-  --crust: #e6bd84;
 
   position: relative;
   isolation: isolate;
@@ -176,22 +174,35 @@
   border: 0;
   border-radius: 20px;
   background:
-    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
-    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
     radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
     var(--cream);
   color: var(--color-primary);
   font-weight: 800;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 61, 18, 0.12),
-    0 12px 26px -16px rgba(98, 40, 3, 0.55);
+    inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 14%, transparent),
+    0 12px 26px -16px color-mix(in srgb, var(--color-primary) 60%, transparent);
   transition:
     color 300ms ease 260ms,
     transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Cobertura de chocolate: fica acima do botão e escorre para baixo no hover, com gotas na borda. */
+/* Banoffee: chantilly com cacau polvilhado em cima e, embaixo, banana, doce de leite e base. */
+.body a.banoffee {
+  --cocoa: rgba(122, 61, 18, 0.32);
+  --banana: #fde58a;
+  --caramel: #c9803f;
+  --crust: #e6bd84;
+
+  background:
+    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
+    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+}
+
+/* A cobertura fica acima do botão e escorre para baixo no hover. */
+.body a.cover::before,
 .body a.banoffee::before {
   content: '';
   position: absolute;
@@ -202,13 +213,20 @@
   height: 160%;
   background:
     radial-gradient(90% 40% at 30% 8%, rgba(255, 255, 255, 0.22), transparent 70%),
-    linear-gradient(to bottom, #7a3d12, #5a2a0b 60%, #4a2108);
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-primary) 82%, white),
+      var(--color-primary) 60%,
+      color-mix(in srgb, var(--color-primary) 80%, black)
+    );
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0H200V70C193 70 191 78 188 88C186 95 179 95 178 88C177 79 172 70 154 70C143 70 140 75 138 86C136 97 126 97 125 88C124 78 120 70 104 70C90 70 87 74 85 80C83 86 75 86 74 80C72 74 66 70 48 70C37 70 34 78 32 92C31 99 21 99 20 92C19 80 14 70 0 70Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0H200V70C193 70 191 78 188 88C186 95 179 95 178 88C177 79 172 70 154 70C143 70 140 75 138 86C136 97 126 97 125 88C124 78 120 70 104 70C90 70 87 74 85 80C83 86 75 86 74 80C72 74 66 70 48 70C37 70 34 78 32 92C31 99 21 99 20 92C19 80 14 70 0 70Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   transform: translateY(-101%);
   transition: transform 800ms cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+.body a.cover:hover::before,
+.body a.cover:focus-visible::before,
 .body a.banoffee:hover::before,
 .body a.banoffee:focus-visible::before {
   transform: translateY(0);
@@ -234,19 +252,31 @@
   transition: height 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.body a.cover:hover,
 .body a.banoffee:hover {
   color: #fff1c7;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent),
+    0 18px 30px -18px color-mix(in srgb, var(--color-primary) 65%, transparent);
+  transform: translateY(-3px);
+}
+
+/* O ghost do Button troca o fundo no hover; aqui o fundo creme fica (a cobertura é que cobre). */
+.body a.cover:hover {
+  background:
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+}
+
+.body a.banoffee:hover {
   background:
     radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
     radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
     radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
     var(--cream);
-  box-shadow:
-    inset 0 0 0 1px rgba(122, 61, 18, 0.16),
-    0 18px 30px -18px rgba(98, 40, 3, 0.6);
-  transform: translateY(-3px);
 }
 
+.body a.cover:focus-visible,
 .body a.banoffee:focus-visible {
   color: #fff1c7;
   outline: 2px solid var(--color-primary);
@@ -303,6 +333,7 @@
     line-height: 1.6;
   }
 
+  .body a.cover,
   .body a.banoffee {
     min-height: 50px;
     padding: 0.85rem 1.4rem;
@@ -319,6 +350,8 @@
     animation: none;
   }
 
+  .body a.cover,
+  .body a.cover::before,
   .body a.banoffee,
   .body a.banoffee::before {
     transition-duration: 1ms;

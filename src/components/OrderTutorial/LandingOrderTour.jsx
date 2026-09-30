@@ -7,7 +7,7 @@ import OrderTutorial from './OrderTutorial.jsx';
 // Cada onEnter só monta a tela do passo (sem esperas); medir e posicionar fica com o
 // OrderTutorial, que faz isso uma vez na abertura.
 export default function LandingOrderTour() {
-  const { content } = useSite();
+  const { config, content } = useSite();
   const products = content.products?.items || [];
   const {
     tutorialActive,
@@ -73,6 +73,8 @@ export default function LandingOrderTour() {
         stopTutorial();
       }}
       title="Como fazer um pedido?"
+      // Arte montada enquanto a simulação prepara (branding.tourArt): 'coffee' (padrão) ou 'banoffee'.
+      art={config.branding?.tourArt}
     />
   );
 }

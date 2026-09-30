@@ -7,6 +7,7 @@ const COLUMNS = 6;
 const PER_COLUMN = 10;
 // Duração de uma volta por coluna (s): velocidades diferentes evitam que as colunas andem "em bloco".
 const DURATIONS = [58, 46, 64, 50, 60, 44];
+const CTA_STYLES = ['cover', 'banoffee'];
 
 function buildColumns(images) {
   if (!images.length) return [];
@@ -69,7 +70,8 @@ export default function Statement() {
               <Button
                 href={statement.cta.href}
                 variant="ghost"
-                className={statement.cta.style === 'banoffee' ? styles.banoffee : ''}
+                // style: 'cover' (cobertura no hover) ou 'banoffee' (cobertura + fatia em camadas).
+                className={CTA_STYLES.includes(statement.cta.style) ? styles[statement.cta.style] : ''}
               >
                 {statement.cta.label}
               </Button>

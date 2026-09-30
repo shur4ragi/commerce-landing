@@ -23,6 +23,8 @@ const siteConfig = {
     wordmark,
     favicon: logo,
     skeleton: 'nanica',
+    // Arte montada enquanto a simulação de pedido prepara.
+    tourArt: 'banoffee',
     ogImage: '/og-nanica.jpg',
   },
 
