@@ -137,6 +137,7 @@ export default function ProductPanel({
     <div className={styles.overlay} onClick={onClose}>
       <aside
         className={styles.panel}
+        data-tour="product-panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}

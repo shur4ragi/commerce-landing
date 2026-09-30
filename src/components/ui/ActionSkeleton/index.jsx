@@ -1,5 +1,7 @@
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { useSite } from '../../../hooks/useSite.js';
+import { NanicaCart, NanicaCatalog, NanicaMenu, NanicaRoute } from './NanicaShapes.jsx';
 import styles from './styles.module.css';
 
 // Último toque/clique na página: a tela cheia se abre em círculo a partir desse ponto.
@@ -187,6 +189,12 @@ function RouteShape() {
   );
 }
 
+// Skeletons com a identidade de uma marca (config.branding.skeleton). Os de destino externo
+// (WhatsApp, Google, iFood) continuam com a marca da plataforma.
+const BRAND_SHAPES = {
+  nanica: { cart: NanicaCart, menu: NanicaMenu, catalog: NanicaCatalog, route: NanicaRoute },
+};
+
 const SHAPES = {
   cart: CartShape,
   menu: MenuShape,
@@ -198,7 +206,9 @@ const SHAPES = {
 };
 
 export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel' }) {
-  const Shape = SHAPES[variant] || MenuShape;
+  const { config } = useSite();
+  const branded = BRAND_SHAPES[config?.branding?.skeleton]?.[variant];
+  const Shape = branded || SHAPES[variant] || MenuShape;
   const body = (
     <div
       className={`${scope === 'screen' ? styles.screen : styles.panel} ${styles[`${variant}Variant`] || ''}`}
@@ -207,7 +217,7 @@ export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel
       aria-live="polite"
       aria-busy="true"
     >
-      <Shape />
+      <Shape wordmark={config?.branding?.wordmark} />
       <p className={styles.caption}>{label}</p>
     </div>
   );

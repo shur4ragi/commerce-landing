@@ -7,6 +7,7 @@ const COLUMNS = 6;
 const PER_COLUMN = 10;
 // Duração de uma volta por coluna (s): velocidades diferentes evitam que as colunas andem "em bloco".
 const DURATIONS = [58, 46, 64, 50, 60, 44];
+const CTA_STYLES = ['cover', 'banoffee'];
 
 function buildColumns(images) {
   if (!images.length) return [];
@@ -55,23 +56,28 @@ export default function Statement() {
         </div>
         <div className={styles.fade} aria-hidden="true" />
 
-        {/* O título fica preso no centro da tela enquanto as cascatas passam por trás. */}
-        <div className={styles.pin}>
+        {/* Título e texto de apoio juntos, no centro da tela, com as cascatas passando por trás. */}
+        <div className={styles.content}>
           <h2 id={`${statement.id}-title`} className={styles.title}>
             <Emphasis>{statement.title}</Emphasis>
           </h2>
-        </div>
-      </div>
 
-      <div className={styles.body}>
-        {statement.eyebrow ? <p className={styles.eyebrow}>{statement.eyebrow}</p> : null}
-        {statement.lead ? <p className={styles.lead}>{statement.lead}</p> : null}
-        {statement.text ? <p className={styles.text}>{statement.text}</p> : null}
-        {statement.cta ? (
-          <Button href={statement.cta.href} variant="ghost">
-            {statement.cta.label}
-          </Button>
-        ) : null}
+          <div className={styles.body}>
+            {statement.eyebrow ? <p className={styles.eyebrow}>{statement.eyebrow}</p> : null}
+            {statement.lead ? <p className={styles.lead}>{statement.lead}</p> : null}
+            {statement.text ? <p className={styles.text}>{statement.text}</p> : null}
+            {statement.cta ? (
+              <Button
+                href={statement.cta.href}
+                variant="ghost"
+                // style: 'cover' (cobertura no hover) ou 'banoffee' (cobertura + fatia em camadas).
+                className={CTA_STYLES.includes(statement.cta.style) ? styles[statement.cta.style] : ''}
+              >
+                {statement.cta.label}
+              </Button>
+            ) : null}
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,50 @@
+.drip {
+  position: relative;
+  /* Antes do primeiro cálculo, a seção fica toda escondida. */
+  --fill: -400px;
+  --fill-solid: 0px;
+  --drip-h: 70px;
+}
+
+.front,
+.rim {
+  -webkit-mask-image: linear-gradient(#000 0 0), var(--drip-url, linear-gradient(#000 0 0));
+  mask-image: linear-gradient(#000 0 0), var(--drip-url, linear-gradient(#000 0 0));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.front {
+  position: relative;
+  z-index: 1;
+  -webkit-mask-size: 100% var(--fill-solid), 100% var(--drip-h);
+  mask-size: 100% var(--fill-solid), 100% var(--drip-h);
+  -webkit-mask-position: 0 0, 0 calc(var(--fill) - 1px);
+  mask-position: 0 0, 0 calc(var(--fill) - 1px);
+}
+
+/* Calda caramelo logo abaixo da borda: dá volume à cobertura que escorre. */
+.rim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-secondary) 45%, var(--color-accent)),
+    color-mix(in srgb, var(--color-secondary) 25%, var(--color-accent))
+  );
+  -webkit-mask-size: 100% calc(var(--fill-solid) + 10px), 100% calc(var(--drip-h) * 1.08);
+  mask-size: 100% calc(var(--fill-solid) + 10px), 100% calc(var(--drip-h) * 1.08);
+  -webkit-mask-position: 0 0, 0 calc(var(--fill) + 9px);
+  mask-position: 0 0, 0 calc(var(--fill) + 9px);
+}
+
+.revealed .front {
+  -webkit-mask: none;
+  mask: none;
+}
+
+.revealed .rim {
+  display: none;
+}

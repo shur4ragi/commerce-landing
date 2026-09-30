@@ -134,7 +134,8 @@ const content = {
     ],
     lead: 'Do salgado que sai do forno pela manhã ao bolo que fecha a tarde.',
     text: 'Torta de frango assada diariamente, massa folhada artesanal, brioche na chapa e bolos em camadas com calda generosa. Cada prato é pensado para combinar com o café, e para aparecer bonito na foto também.',
-    cta: { label: 'Ver o cardápio', href: '#produtos' },
+    // Cobertura na cor da casa escorrendo no hover.
+    cta: { label: 'Ver o cardápio', href: '#produtos', style: 'cover' },
   },
 
   process: {

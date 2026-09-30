@@ -34,6 +34,11 @@
   height: 36px;
 }
 
+.brand img.wordmark {
+  width: auto;
+  height: 50px;
+}
+
 .desktop {
   display: none;
   align-items: center;
@@ -173,6 +178,11 @@
   .brand {
     gap: 0.5rem;
     font-size: 0.92rem;
+  }
+
+  .brand img.wordmark {
+    width: auto;
+    height: 40px;
   }
 
   .brand img {

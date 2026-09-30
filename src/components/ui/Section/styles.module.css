@@ -54,6 +54,11 @@
   background: var(--color-secondary);
 }
 
+/* Sobre o fundo de cor secundária o muted fica apagado; o texto de apoio usa o tom de texto. */
+.accent .lead {
+  color: color-mix(in srgb, var(--color-text) 86%, transparent);
+}
+
 @media (max-width: 767px) {
   .section {
     padding: 1.6rem 0;
