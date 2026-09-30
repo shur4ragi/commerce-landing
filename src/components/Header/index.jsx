@@ -5,6 +5,7 @@ import { ActionSkeleton, Button, Container } from '../ui';
 import { CartButton } from '../OrderCart';
 import styles from './styles.module.css';
 import { openExternal } from '../../utils/openExternal.js';
+import { lockScroll } from '../../utils/scrollLock.js';
 
 export default function Header() {
   const { config, navigation, whatsappUrl } = useSite();
@@ -23,10 +24,8 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    if (!open) return undefined;
+    return lockScroll();
   }, [open]);
 
   useEffect(() => {

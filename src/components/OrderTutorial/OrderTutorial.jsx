@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { lockScroll } from '../../utils/scrollLock.js';
 import './OrderTutorial.css';
 
 const TOOLTIP_WIDTH = 340;
@@ -216,11 +217,10 @@ export default function OrderTutorial({
   useLayoutEffect(() => {
     if (!open || !rootRef.current) return undefined;
     const unlock = lockPage(rootRef.current);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlockScroll = lockScroll();
     return () => {
       unlock();
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
     };
   }, [open]);
 

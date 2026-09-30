@@ -5,6 +5,7 @@ import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton } from '../ui';
 import OrderCheckout from '../OrderCheckout';
 import { buildWhatsappUrl } from '../../utils/whatsapp.js';
+import { lockScroll } from '../../utils/scrollLock.js';
 import OrderSummary from '../OrderSummary';
 import WhatsAppOrder from '../WhatsAppOrder';
 import './OrderCart.css';
@@ -44,8 +45,7 @@ export default function OrderCart() {
 
   useEffect(() => {
     if (!cartOpen) return undefined;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlockScroll = lockScroll();
     const frame = window.requestAnimationFrame(() => closeRef.current?.focus());
     const onKeyDown = (event) => {
       if (event.key === 'Escape') closeCart();
@@ -54,7 +54,7 @@ export default function OrderCart() {
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
     };
   }, [cartOpen, closeCart]);
 
