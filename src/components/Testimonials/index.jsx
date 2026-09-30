@@ -2,6 +2,7 @@ import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton, Reveal, Section } from '../ui';
 import styles from './styles.module.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 // Estrelas com preenchimento proporcional (4,6 = 92% das cinco estrelas).
 function Stars({ value = 5 }) {
@@ -48,7 +49,7 @@ export default function Testimonials() {
                   onClick={(event) => {
                     event.preventDefault();
                     outbound.run(`Abrindo as avaliações no ${rating.source || 'Google'}`, () => {
-                      window.open(rating.href, '_blank', 'noopener,noreferrer');
+                      openExternal(rating.href);
                     });
                   }}
                 >

@@ -4,6 +4,7 @@ import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton, Button, Container } from '../ui';
 import { CartButton } from '../OrderCart';
 import styles from './styles.module.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 export default function Header() {
   const { config, navigation, whatsappUrl } = useSite();
@@ -42,7 +43,7 @@ export default function Header() {
   const reserve = (event) => {
     event.preventDefault();
     outbound.run('Abrindo o WhatsApp', () => {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      openExternal(whatsappUrl);
     });
   };
 

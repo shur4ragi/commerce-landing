@@ -7,6 +7,7 @@ import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './LocationMap.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 const OSM_TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const OSM_ATTRIBUTION =
@@ -285,7 +286,7 @@ export default function LocationMap({
                 type="button"
                 className="location-map__directions"
                 onClick={() => outbound.run('Traçando a rota', () => {
-                  window.open(directionsUrl, '_blank', 'noopener,noreferrer');
+                  openExternal(directionsUrl);
                 })}
               >
                 <PinIcon />
