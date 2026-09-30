@@ -12,6 +12,7 @@ import {
   UseInputPadrao,
 } from '../ui';
 import styles from './styles.module.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 export default function Contact() {
   const { config, content } = useSite();
@@ -34,7 +35,7 @@ export default function Contact() {
     const href = buildWhatsappUrl(business.whatsapp, text);
 
     outbound.run('Abrindo o WhatsApp', () => {
-      window.open(href, '_blank', 'noopener,noreferrer');
+      openExternal(href);
     });
   };
 
