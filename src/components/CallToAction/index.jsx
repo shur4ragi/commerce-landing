@@ -2,6 +2,7 @@ import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton, Button, Emphasis, Reveal, Section } from '../ui';
 import styles from './styles.module.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 export default function CallToAction() {
   const { content, whatsappUrl } = useSite();
@@ -20,7 +21,7 @@ export default function CallToAction() {
             type="button"
             variant="whatsapp"
             onClick={() => outbound.run('Abrindo o WhatsApp', () => {
-              window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+              openExternal(whatsappUrl);
             })}
           >
             {cta.buttonLabel}

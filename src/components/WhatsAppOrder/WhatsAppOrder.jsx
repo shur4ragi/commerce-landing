@@ -4,6 +4,7 @@ import { ActionSkeleton, Button } from '../ui';
 import { buildWhatsappUrl } from '../../utils/whatsapp.js';
 import { generateWhatsAppMessage, getOrderTotal } from '../../utils/order.js';
 import './WhatsAppOrder.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 export default function WhatsAppOrder({
   phone,
@@ -43,7 +44,7 @@ export default function WhatsAppOrder({
         data-tour="whatsapp"
         aria-label={label}
         onClick={() => outbound.run('Abrindo o WhatsApp', () => {
-          window.open(href, '_blank', 'noopener,noreferrer');
+          openExternal(href);
         })}
       >
         <i className="fa-brands fa-whatsapp" aria-hidden="true" /> {label}

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { ActionSkeleton } from '../ui';
+import { openExternal } from '../../utils/openExternal.js';
 
 // Links que levam para fora do site (WhatsApp, iFood): mostram a tela de carregamento do
 // destino antes de abrir a nova aba, como os demais botões de WhatsApp da landing.
@@ -24,7 +25,7 @@ export default function OutboundLink({ href, type, className = '', children, ...
           if (!skeleton) return;
           event.preventDefault();
           outbound.run(skeleton.label, () => {
-            window.open(href, '_blank', 'noopener,noreferrer');
+            openExternal(href);
           });
         }}
         {...props}

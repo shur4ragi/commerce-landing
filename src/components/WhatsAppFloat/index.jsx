@@ -2,6 +2,7 @@ import { usePendingAction } from '../../hooks/usePendingAction.js';
 import { useSite } from '../../hooks/useSite.js';
 import { ActionSkeleton } from '../ui';
 import styles from './styles.module.css';
+import { openExternal } from '../../utils/openExternal.js';
 
 export default function WhatsAppFloat() {
   const { config, whatsappUrl } = useSite();
@@ -16,7 +17,7 @@ export default function WhatsAppFloat() {
         className={styles.float}
         aria-label="Falar no WhatsApp"
         onClick={() => outbound.run('Abrindo o WhatsApp', () => {
-          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+          openExternal(whatsappUrl);
         })}
       >
         <i className="fa-brands fa-whatsapp" aria-hidden="true" />
