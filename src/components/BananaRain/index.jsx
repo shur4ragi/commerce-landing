@@ -65,9 +65,9 @@ function startRain(canvas, section, { reduced, openedRef }) {
       x: spawnX(size),
       // Na montagem as bananas começam acima da tela, e a chuva "começa" de verdade.
       y: initial ? -Math.random() * height * 1.1 - size : -size * 1.5,
-      vy: (small ? 170 : 220) + size * (small ? 4 : 4.5) + Math.random() * 110,
+      vy: (small ? 110 : 140) + size * (small ? 2.6 : 3) + Math.random() * 70,
       rot: Math.random() * Math.PI * 2,
-      vr: (Math.random() - 0.5) * 2.4,
+      vr: (Math.random() - 0.5) * 1.8,
       sway: Math.random() * Math.PI * 2,
       alpha: Math.min(1, 0.7 + (size / 100) * 0.3),
     };

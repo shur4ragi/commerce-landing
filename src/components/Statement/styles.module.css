@@ -1,16 +1,19 @@
 .statement {
   position: relative;
-  padding-bottom: var(--space-9);
   background: var(--color-background);
   overflow: clip;
 }
 
+/* Uma tela só: as cascatas preenchem o fundo e o conteúdo fica centralizado por cima. */
 .stage {
   --gap: 16px;
 
   position: relative;
-  height: 180svh;
-  /* clip (e não hidden) para não criar um contêiner de rolagem e o sticky do título funcionar. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100svh - var(--header-height));
+  padding-block: var(--space-8);
   overflow: clip;
 }
 
@@ -75,24 +78,34 @@
     color-mix(in srgb, var(--color-background) 22%, transparent);
 }
 
-.pin {
-  --title-size: clamp(3.2rem, 10vw, 9rem);
+/* ---------- Título + texto de apoio ---------- */
 
-  /* A área presa vai do topo da tela até a base do título (título centrado na tela).
-     Assim o título só se solta quando o texto de apoio, logo abaixo das cascatas, encosta nele. */
-  position: sticky;
-  top: var(--header-height);
+.content {
+  --title-size: clamp(3.2rem, 8vw, 7.5rem);
+
+  position: relative;
   z-index: var(--z-base);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: calc((100svh - var(--header-height)) / 2 + var(--title-size) * 0.9);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+}
+
+/* Véu atrás do título e do texto: clareia as fotos para a leitura respirar. */
+.content::before {
+  content: '';
+  position: absolute;
+  inset: -22% -16%;
+  z-index: -1;
   pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-background) 94%, transparent),
+    color-mix(in srgb, var(--color-background) 78%, transparent) 65%,
+    transparent
+  );
 }
 
 .title {
-  position: relative;
-  z-index: var(--z-base);
   margin: 0;
   padding-inline: 1.25rem;
   text-align: center;
@@ -106,34 +119,17 @@
   color: var(--color-primary);
 }
 
-/* Véu que acompanha o título: clareia as fotos atrás do texto para ele respirar. */
-.title::before {
-  content: '';
-  position: absolute;
-  inset: -45% -18%;
-  z-index: -1;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-background) 88%, transparent),
-    color-mix(in srgb, var(--color-background) 40%, transparent) 70%,
-    transparent
-  );
-}
-
 .title em {
   text-transform: none;
   font-size: 1.08em;
   color: var(--color-accent);
 }
 
-/* ---------- Texto de apoio ---------- */
-
 .body {
   display: grid;
   justify-items: center;
   gap: var(--space-4);
-  width: min(100% - 2.5rem, 38rem);
-  margin: var(--space-5) auto 0;
+  width: min(100vw - 2.5rem, 38rem);
   text-align: center;
 }
 
@@ -158,9 +154,103 @@
 
 .text {
   margin: 0 0 var(--space-3);
-  color: var(--color-muted);
+  color: var(--color-text);
   font-size: 1.05rem;
   line-height: 1.7;
+}
+
+/* Botão em corte de banoffee: chantilly com cacau em cima e, embaixo, banana, doce de leite
+   e base de biscoito. ".body a" sobe a especificidade acima do variant ghost do Button. */
+.body a.banoffee {
+  --cream: #fffcf3;
+  --cocoa: rgba(122, 61, 18, 0.32);
+  --banana: #fde58a;
+  --caramel: #c9803f;
+  --crust: #e6bd84;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 60px;
+  padding: 1.1rem 1.9rem;
+  border: 0;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
+    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+  color: var(--color-primary);
+  font-weight: 800;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 61, 18, 0.12),
+    0 12px 26px -16px rgba(98, 40, 3, 0.55);
+  transition:
+    color 300ms ease 260ms,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Cobertura de chocolate: fica acima do botão e escorre para baixo no hover, com gotas na borda. */
+.body a.banoffee::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -2px;
+  right: -2px;
+  z-index: -1;
+  height: 160%;
+  background:
+    radial-gradient(90% 40% at 30% 8%, rgba(255, 255, 255, 0.22), transparent 70%),
+    linear-gradient(to bottom, #7a3d12, #5a2a0b 60%, #4a2108);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0H200V70C193 70 191 78 188 88C186 95 179 95 178 88C177 79 172 70 154 70C143 70 140 75 138 86C136 97 126 97 125 88C124 78 120 70 104 70C90 70 87 74 85 80C83 86 75 86 74 80C72 74 66 70 48 70C37 70 34 78 32 92C31 99 21 99 20 92C19 80 14 70 0 70Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0H200V70C193 70 191 78 188 88C186 95 179 95 178 88C177 79 172 70 154 70C143 70 140 75 138 86C136 97 126 97 125 88C124 78 120 70 104 70C90 70 87 74 85 80C83 86 75 86 74 80C72 74 66 70 48 70C37 70 34 78 32 92C31 99 21 99 20 92C19 80 14 70 0 70Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  transform: translateY(-101%);
+  transition: transform 800ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.body a.banoffee:hover::before,
+.body a.banoffee:focus-visible::before {
+  transform: translateY(0);
+}
+
+/* Camadas do corte, com a borda de cima ondulada como o chantilly encostando na banana. */
+.body a.banoffee::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -2;
+  height: 1.05rem;
+  background: linear-gradient(
+    to bottom,
+    var(--banana) 0%,
+    var(--banana) 34%,
+    var(--caramel) 42%,
+    var(--caramel) 66%,
+    var(--crust) 74%
+  );
+  -webkit-mask: radial-gradient(9px 5px at 50% 0, transparent 98%, #000) 0 0 / 18px 100% repeat-x;
+  mask: radial-gradient(9px 5px at 50% 0, transparent 98%, #000) 0 0 / 18px 100% repeat-x;
+  transition: height 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.body a.banoffee:hover {
+  color: #fff1c7;
+  background:
+    radial-gradient(circle, var(--cocoa) 0.9px, transparent 1.4px) 0 0 / 13px 9px,
+    radial-gradient(circle, var(--cocoa) 0.7px, transparent 1.2px) 6px 4px / 19px 13px,
+    radial-gradient(120% 90% at 30% 0%, #ffffff, transparent 70%),
+    var(--cream);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 61, 18, 0.16),
+    0 18px 30px -18px rgba(98, 40, 3, 0.6);
+  transform: translateY(-3px);
+}
+
+.body a.banoffee:focus-visible {
+  color: #fff1c7;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
 }
 
 @keyframes flowUp {
@@ -184,13 +274,9 @@
 }
 
 @media (max-width: 767px) {
-  .statement {
-    padding-bottom: var(--space-8);
-  }
-
   .stage {
     --gap: 10px;
-    height: 150svh;
+    padding-block: var(--space-7);
   }
 
   .columns {
@@ -206,13 +292,35 @@
     filter: blur(2px) saturate(0.85);
   }
 
-  .pin {
-    --title-size: clamp(2.8rem, 15vw, 4.4rem);
+  .content {
+    --title-size: clamp(2.6rem, 13vw, 4rem);
+
+    gap: var(--space-4);
+  }
+
+  .text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .body a.banoffee {
+    min-height: 50px;
+    padding: 0.85rem 1.4rem;
+    border-radius: 16px;
+  }
+
+  .body a.banoffee::after {
+    height: 0.85rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .track {
     animation: none;
+  }
+
+  .body a.banoffee,
+  .body a.banoffee::before {
+    transition-duration: 1ms;
   }
 }

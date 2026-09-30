@@ -90,9 +90,9 @@ const client = {
     'hero',
     'about',
     'statement',
-    'process',
     'services',
-    // O cardápio entra como cobertura derretendo sobre o fim das Experiências.
+    'process',
+    // O cardápio entra como cobertura derretendo logo depois de "da base à fatia".
     { id: 'products', reveal: 'drip' },
     'gallery',
     'highlights',

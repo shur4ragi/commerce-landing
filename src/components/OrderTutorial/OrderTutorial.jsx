@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import './OrderTutorial.css';
@@ -6,6 +6,49 @@ import './OrderTutorial.css';
 const TOOLTIP_WIDTH = 340;
 const GAP = 14;
 const PAD = 8;
+// Duração da montagem da Banoffee no véu (ver OrderTutorial.css); a tela só libera depois dela.
+const ASSEMBLE_MS = 1500;
+
+const COCOA = [[40, 56], [58, 60], [77, 53], [96, 59], [118, 55], [139, 60], [160, 54], [182, 58], [68, 64], [150, 65]];
+
+// Fatia de Banoffee que se monta uma vez: base, doce de leite, banana, chantilly e cacau.
+function BanoffeeBuild() {
+  return (
+    <svg className="order-tutorial__banoffee" viewBox="0 0 220 150" aria-hidden="true">
+      <ellipse className="order-tutorial__plate" cx="110" cy="136" rx="100" ry="10" />
+      <g className="order-tutorial__layer order-tutorial__layer--crust">
+        <path d="M22 118h176v10a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4z" fill="#D9A55B" />
+        <path d="M22 118h176v4H22z" fill="#C88E42" />
+      </g>
+      <rect className="order-tutorial__layer order-tutorial__layer--caramel" x="22" y="92" width="176" height="26" fill="#9A4F17" />
+      <rect className="order-tutorial__layer order-tutorial__layer--banana" x="22" y="76" width="176" height="16" fill="#F6E7B0" />
+      {[40, 72, 104, 136, 168].map((cx, index) => (
+        <g key={cx} className="order-tutorial__coin" style={{ '--i': index }}>
+          <circle cx={cx} cy="84" r="11" fill="#FBEFC4" stroke="#EBD58A" strokeWidth="2" />
+          <circle cx={cx} cy="84" r="2.2" fill="#C9A85B" />
+        </g>
+      ))}
+      <path
+        className="order-tutorial__layer order-tutorial__layer--cream"
+        d="M22 76V52c10-6 18 2 28-3s18 4 28-1 18 3 28-1 18 4 28 0 18 3 28-1 18 3 30 1v29z"
+        fill="#FFFDF6"
+        stroke="#F1E6CF"
+        strokeWidth="1.5"
+      />
+      <g className="order-tutorial__layer order-tutorial__layer--cocoa" fill="#7A3A12">
+        {COCOA.map(([x, y]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.8" />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function nextFrame() {
+  return new Promise((resolve) => {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(resolve));
+  });
+}
 
 function waitForTarget(selector, timeout = 1400) {
   return new Promise((resolve) => {
@@ -28,6 +71,19 @@ function waitForTarget(selector, timeout = 1400) {
   });
 }
 
+// Espera a animação de entrada do alvo (painel deslizando) terminar, para medir a posição final.
+async function settle(node, timeout = 900) {
+  if (!node?.getAnimations) return;
+  const running = node.getAnimations().map((animation) => animation.finished.catch(() => {}));
+  if (!running.length) return;
+  await Promise.race([
+    Promise.all(running),
+    new Promise((resolve) => {
+      window.setTimeout(resolve, timeout);
+    }),
+  ]);
+}
+
 function measure(node) {
   if (!node) return null;
   const rect = node.getBoundingClientRect();
@@ -35,14 +91,13 @@ function measure(node) {
   return {
     top: Math.max(8, rect.top - PAD),
     left: Math.max(8, rect.left - PAD),
-    width: rect.width + PAD * 2,
-    height: rect.height + PAD * 2,
+    width: Math.min(rect.width + PAD * 2, window.innerWidth - 16),
+    height: Math.min(rect.height + PAD * 2, window.innerHeight - 16),
   };
 }
 
-function placeTooltip(hole, tooltipSize, viewport) {
+function placeTooltip(hole, height, viewport) {
   const width = Math.min(TOOLTIP_WIDTH, viewport.width - 24);
-  const height = tooltipSize.height || 220;
   const mobile = viewport.width < 720;
   let top;
   let left = hole
@@ -55,15 +110,42 @@ function placeTooltip(hole, tooltipSize, viewport) {
   } else {
     const below = hole.top + hole.height + GAP;
     const above = hole.top - GAP - height;
+    const beside = hole.left - GAP - width;
     if (below + height <= viewport.height - 12) top = below;
     else if (above >= 12) top = above;
-    else top = Math.max(12, viewport.height - height - 16);
+    // Alvo alto (painel lateral): o cartão vai ao lado, centrado na altura.
+    else if (beside >= 12) {
+      left = beside;
+      top = hole.top + hole.height / 2 - height / 2;
+    } else top = Math.max(12, viewport.height - height - 16);
   }
 
   left = Math.min(Math.max(12, left), viewport.width - width - 12);
   top = Math.min(Math.max(12, top), viewport.height - height - 12);
 
   return { top, left, width };
+}
+
+// Enquanto a simulação está aberta, todo o resto da página fica inerte (sem clique, toque ou Tab),
+// inclusive os painéis que o próprio tour abre depois (portais novos no <body>).
+function lockPage(keep) {
+  const touched = new Set();
+  const apply = (node) => {
+    if (node === keep || !(node instanceof HTMLElement) || node.inert) return;
+    node.inert = true;
+    touched.add(node);
+  };
+  Array.from(document.body.children).forEach(apply);
+  const observer = new MutationObserver((records) => {
+    records.forEach((record) => record.addedNodes.forEach(apply));
+  });
+  observer.observe(document.body, { childList: true });
+  return () => {
+    observer.disconnect();
+    touched.forEach((node) => {
+      node.inert = false;
+    });
+  };
 }
 
 export default function OrderTutorial({
@@ -73,149 +155,236 @@ export default function OrderTutorial({
   title = 'Como fazer um pedido?',
 }) {
   const labelId = useId();
-  const tooltipRef = useRef(null);
-  const closeRef = useRef(null);
+  const rootRef = useRef(null);
+  const measureRef = useRef(null);
+  const nextRef = useRef(null);
+  // Layout de cada passo calculado na preparação: { hole, box }.
+  const layoutsRef = useRef([]);
+  const [phase, setPhase] = useState('prepare');
   const [index, setIndex] = useState(0);
-  const [hole, setHole] = useState(null);
-  const [tooltipBox, setTooltipBox] = useState({ top: 24, left: 12, width: TOOLTIP_WIDTH });
+  const [cardHeight, setCardHeight] = useState(0);
+  const [prepareRun, setPrepareRun] = useState(0);
+  // O cartão só desliza entre slides; ao sair da preparação ele já nasce no lugar.
+  const [glide, setGlide] = useState(false);
+
+  const go = (update) => {
+    setGlide(true);
+    setIndex(update);
+  };
 
   const step = steps[index] || null;
   const isLast = index >= steps.length - 1;
   const isFirst = index <= 0;
+  const layout = layoutsRef.current[index];
 
-  const layout = useCallback(() => {
-    const node = document.querySelector(step?.target || '');
-    const nextHole = measure(node);
-    setHole(nextHole);
-    const size = tooltipRef.current?.getBoundingClientRect();
-    setTooltipBox(placeTooltip(nextHole, size || { height: 220 }, {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }));
-  }, [step]);
+  // Trava a página e o scroll durante toda a simulação.
+  useLayoutEffect(() => {
+    if (!open || !rootRef.current) return undefined;
+    const unlock = lockPage(rootRef.current);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      unlock();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
 
+  // Preparação (uma vez por abertura): fixa a altura do cartão pelo passo mais longo e passa por
+  // todas as telas, do último passo ao primeiro, guardando onde fica o destaque de cada uma.
+  // Depois disso, trocar de slide só aplica o que já foi medido.
   useEffect(() => {
     if (!open) {
+      setPhase('prepare');
       setIndex(0);
-      setHole(null);
+      layoutsRef.current = [];
       return undefined;
     }
 
     let cancelled = false;
-    const previousOverflow = document.body.style.overflow;
-    const frame = window.requestAnimationFrame(() => closeRef.current?.focus());
+    setGlide(false);
+    // Durante a preparação as animações da página ficam desligadas (ver OrderTutorial.css):
+    // os painéis já nascem na posição final e cada passo é medido assim que aparece.
+    const root = document.documentElement;
+    root.dataset.tourPrep = '';
+    const startedAt = performance.now();
+    const assembleMs = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : ASSEMBLE_MS;
 
     (async () => {
-      await step?.onEnter?.();
-      if (cancelled) return;
-      document.body.style.overflow = 'hidden';
-      const node = await waitForTarget(step.target);
-      if (cancelled) return;
-      node?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
-      window.requestAnimationFrame(() => {
-        if (!cancelled) layout();
-      });
-    })();
+      const cards = Array.from(measureRef.current?.children || []);
+      const height = Math.ceil(Math.max(0, ...cards.map((card) => card.getBoundingClientRect().height)));
+      setCardHeight(height);
 
-    const onReposition = () => layout();
-    window.addEventListener('resize', onReposition);
-    window.addEventListener('scroll', onReposition, true);
+      const viewport = { width: window.innerWidth, height: window.innerHeight };
+      const layouts = [];
+      for (let i = steps.length - 1; i >= 0; i -= 1) {
+        steps[i].onEnter?.();
+        const node = await waitForTarget(steps[i].target);
+        if (cancelled) return;
+        if (steps[i].scroll) node?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' });
+        await settle(node);
+        if (cancelled) return;
+        const hole = measure(node);
+        layouts[i] = { hole, box: placeTooltip(hole, height, viewport) };
+      }
+
+      // Um quadro para o passo 1 assentar (painéis fechados) antes de devolver as animações.
+      await nextFrame();
+      if (cancelled) return;
+      // Devolve as animações da página ainda atrás do véu, e só libera quando a Banoffee fica pronta.
+      delete root.dataset.tourPrep;
+      const remaining = assembleMs - (performance.now() - startedAt);
+      if (remaining > 0) {
+        await new Promise((resolve) => {
+          window.setTimeout(resolve, remaining);
+        });
+      }
+      if (cancelled) return;
+      layoutsRef.current = layouts;
+      setIndex(0);
+      setPhase('ready');
+    })();
 
     return () => {
       cancelled = true;
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('resize', onReposition);
-      window.removeEventListener('scroll', onReposition, true);
-      document.body.style.overflow = previousOverflow;
+      delete root.dataset.tourPrep;
     };
-  }, [open, index, step, layout]);
+  }, [open, steps, prepareRun]);
+
+  // Troca de slide: só monta a tela do passo; posição e tamanho já vêm da preparação.
+  useEffect(() => {
+    if (!open || phase !== 'ready') return;
+    const current = steps[index];
+    current?.onEnter?.();
+    if (current?.scroll) {
+      document.querySelector(current.target)?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' });
+    }
+    nextRef.current?.focus({ preventScroll: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, phase]);
+
+  // Se a janela mudar de tamanho, refaz a preparação.
+  useEffect(() => {
+    if (!open) return undefined;
+    let timer = 0;
+    const onResize = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        layoutsRef.current = [];
+        setPhase('prepare');
+        setPrepareRun((value) => value + 1);
+      }, 200);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
 
     const onKeyDown = (event) => {
-      const tag = event.target?.tagName;
-      const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
-
       if (event.key === 'Escape') {
         event.preventDefault();
         event.stopPropagation();
         onClose();
         return;
       }
-
-      if (typing) return;
-
+      if (phase !== 'ready') return;
       if (event.key === 'ArrowRight') {
         event.preventDefault();
+        setGlide(true);
         setIndex((value) => Math.min(value + 1, steps.length - 1));
       }
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
+        setGlide(true);
         setIndex((value) => Math.max(value - 1, 0));
       }
     };
 
     window.addEventListener('keydown', onKeyDown, true);
     return () => window.removeEventListener('keydown', onKeyDown, true);
-  }, [open, onClose, steps.length]);
+  }, [open, onClose, phase, steps.length]);
 
   if (!open || !step || typeof document === 'undefined') return null;
+
+  const ready = phase === 'ready' && layout;
+  const hole = ready ? layout.hole : null;
+  const fallbackWidth = Math.min(TOOLTIP_WIDTH, window.innerWidth - 24);
+  const box = ready
+    ? layout.box
+    : placeTooltip(null, cardHeight || 220, { width: window.innerWidth, height: window.innerHeight });
 
   const next = () => {
     if (isLast) {
       onClose();
       return;
     }
-    setIndex((value) => value + 1);
+    go((value) => value + 1);
   };
 
   return createPortal(
-    <div className="order-tutorial" role="presentation">
-      {hole ? (
-        <>
-          <div className="order-tutorial__shade" style={{ top: 0, left: 0, right: 0, height: hole.top }} />
-          <div
-            className="order-tutorial__shade"
-            style={{ top: hole.top + hole.height, left: 0, right: 0, bottom: 0 }}
-          />
-          <div
-            className="order-tutorial__shade"
-            style={{ top: hole.top, left: 0, width: hole.left, height: hole.height }}
-          />
-          <div
-            className="order-tutorial__shade"
-            style={{
-              top: hole.top,
-              left: hole.left + hole.width,
-              right: 0,
-              height: hole.height,
-            }}
-          />
-          <div
-            className="order-tutorial__spot"
-            style={{
-              top: hole.top,
-              left: hole.left,
-              width: hole.width,
-              height: hole.height,
-            }}
-          />
-        </>
-      ) : (
-        <div className="order-tutorial__shade order-tutorial__shade--full" />
-      )}
+    <div ref={rootRef} className="order-tutorial" role="presentation">
+      {/* Bloqueia qualquer clique na página, inclusive dentro do destaque. */}
+      <div className="order-tutorial__blocker" />
+
+      {/* Um único recorte: a sombra enorme escurece o resto e o recorte desliza entre os passos. */}
+      <div
+        className={`order-tutorial__spot ${hole ? '' : 'order-tutorial__spot--none'}`}
+        style={
+          hole
+            ? { top: hole.top, left: hole.left, width: hole.width, height: hole.height }
+            : { top: '50%', left: '50%', width: 0, height: 0 }
+        }
+      />
+
+      {/* Véu escuro e desfocado durante a preparação: esconde os painéis abrindo e fechando por trás. */}
+      <div className={`order-tutorial__veil ${ready ? 'order-tutorial__veil--out' : ''}`} aria-hidden={ready}>
+        <BanoffeeBuild key={prepareRun} />
+        <p className="order-tutorial__pill" role="status">
+          Preparando simulação
+          <span className="order-tutorial__dots" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+        </p>
+      </div>
+
+      {/* Medidor invisível: todos os passos no mesmo cartão, para travar a altura pelo maior. */}
+      <div ref={measureRef} className="order-tutorial__measure" aria-hidden="true">
+        {steps.map((item, i) => (
+          <div key={i} className="order-tutorial__card" style={{ width: fallbackWidth }}>
+            <p className="order-tutorial__kicker">{title}</p>
+            <h2>{item.title}</h2>
+            <p className="order-tutorial__copy">{item.content}</p>
+            <p className="order-tutorial__progress">{i + 1} de {steps.length}</p>
+            <div className="order-tutorial__actions">
+              <button type="button" className="order-tutorial__ghost" tabIndex={-1}>Pular tutorial</button>
+              <div className="order-tutorial__nav">
+                <button type="button" className="order-tutorial__ghost" tabIndex={-1}>Voltar</button>
+                <button type="button" className="order-tutorial__next" tabIndex={-1}>Próximo</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div
-        ref={tooltipRef}
-        className="order-tutorial__card"
+        className={`order-tutorial__card order-tutorial__card--live ${ready ? '' : 'order-tutorial__card--waiting'} ${ready && glide ? 'order-tutorial__card--glide' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelId}
-        style={{ top: tooltipBox.top, left: tooltipBox.left, width: tooltipBox.width }}
+        style={{
+          top: box.top,
+          left: box.left,
+          width: box.width,
+          height: cardHeight || undefined,
+        }}
       >
         <button
-          ref={closeRef}
           type="button"
           className="order-tutorial__close"
           onClick={onClose}
@@ -224,11 +393,15 @@ export default function OrderTutorial({
           ×
         </button>
         <p className="order-tutorial__kicker">{title}</p>
-        <h2 id={labelId}>{step.title}</h2>
-        <p className="order-tutorial__copy">{step.content}</p>
-        <p className="order-tutorial__progress" aria-live="polite">
-          {index + 1} de {steps.length}
-        </p>
+
+        <div key={ready ? index : 'waiting'} className="order-tutorial__slide">
+          <h2 id={labelId}>{step.title}</h2>
+          <p className="order-tutorial__copy">{step.content}</p>
+          <p className="order-tutorial__progress" aria-live="polite">
+            {index + 1} de {steps.length}
+          </p>
+        </div>
+
         <div className="order-tutorial__actions">
           <button type="button" className="order-tutorial__ghost" onClick={onClose}>
             Pular tutorial
@@ -237,12 +410,18 @@ export default function OrderTutorial({
             <button
               type="button"
               className="order-tutorial__ghost"
-              onClick={() => setIndex((value) => Math.max(value - 1, 0))}
-              disabled={isFirst}
+              onClick={() => go((value) => Math.max(value - 1, 0))}
+              disabled={!ready || isFirst}
             >
               Voltar
             </button>
-            <button type="button" className="order-tutorial__next" onClick={next}>
+            <button
+              ref={nextRef}
+              type="button"
+              className="order-tutorial__next"
+              onClick={next}
+              disabled={!ready}
+            >
               {isLast ? 'Concluir' : 'Próximo'}
             </button>
           </div>
@@ -260,6 +439,7 @@ OrderTutorial.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     onEnter: PropTypes.func,
+    scroll: PropTypes.bool,
   })).isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,

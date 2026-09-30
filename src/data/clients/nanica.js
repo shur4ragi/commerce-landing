@@ -112,6 +112,8 @@ const content = {
     text: 'A Nanica nasceu da Banoffee: doce de leite, banana e chantilly sobre uma base crocante. A receita virou marca, ganhou irmãs com morango, uva, Nutella e limão, e agora tem casa no Jardim Eulália. Aqui a fatia vem na caixinha em formato de torta, a torta inteira vem pronta pra festa e o slogan vale para qualquer mesa: amizade boa não é reta, é torta.',
     image: uvoffeeInteira,
     imageAlt: 'Uvoffee inteira com caixinhas de fatia e o logo da Nanica ao fundo',
+    // Destaques em mini fatias de banoffee.
+    factsStyle: 'slice',
     facts: [
       { value: 'Banoffee', label: 'A torta que começou tudo' },
       { value: 'Média e Grande', label: 'Tortas de 6 ou 12 fatias' },
@@ -144,7 +146,7 @@ const content = {
     ],
     lead: 'Camada por camada, do biscoito ao chantilly.',
     text: 'Base crocante, recheio cremoso, fruta de verdade e chantilly por cima. Cada torta da Nanica é montada em camadas que aparecem inteiras no corte, e é por isso que a primeira foto sempre vem antes da primeira garfada.',
-    cta: { label: 'Ver o cardápio', href: '#produtos' },
+    cta: { label: 'Ver o cardápio', href: '#produtos', style: 'banoffee' },
   },
 
   process: {
@@ -730,6 +732,8 @@ const content = {
       submitLabel: 'Enviar pelo WhatsApp',
       consent: 'Autorizo o contato pelo WhatsApp.',
     },
+    // No celular, o card do formulário vira uma fatia de banoffee.
+    formStyle: 'banoffee',
   },
 };
 
