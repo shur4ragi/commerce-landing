@@ -8,6 +8,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './LocationMap.css';
 import { openExternal } from '../../utils/openExternal.js';
+import { lockScroll } from '../../utils/scrollLock.js';
 
 const OSM_TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const OSM_ATTRIBUTION =
@@ -171,10 +172,9 @@ export default function LocationMap({
   useEffect(() => {
     if (!open) return undefined;
 
-    const previousOverflow = document.body.style.overflow;
+    const unlockScroll = lockScroll();
     const trigger = triggerRef.current;
     const dialog = dialogRef.current;
-    document.body.style.overflow = 'hidden';
 
     if (dialog && typeof dialog.showModal === 'function' && !dialog.open) {
       dialog.showModal();
@@ -213,7 +213,7 @@ export default function LocationMap({
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
       trigger?.focus();
     };
   }, [open, closeMap]);

@@ -6,6 +6,7 @@ import OutboundLink from '../OutboundLink';
 import buttonStyles from '../ui/Button/styles.module.css';
 import { buildLineKey, formatPrice, parsePrice } from '../../utils/order.js';
 import styles from './styles.module.css';
+import { lockScroll } from '../../utils/scrollLock.js';
 
 function CloseIcon() {
   return (
@@ -89,8 +90,7 @@ export default function ProductPanel({
   useEffect(() => {
     if (!open) return undefined;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlockScroll = lockScroll();
     const frame = window.requestAnimationFrame(() => closeRef.current?.focus());
     const onKeyDown = (event) => {
       if (event.key === 'Escape') onClose();
@@ -100,7 +100,7 @@ export default function ProductPanel({
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
     };
   }, [open, onClose]);
 

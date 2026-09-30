@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { ActionSkeleton, Card } from '../ui';
 import styles from './styles.module.css';
+import { lockScroll } from '../../utils/scrollLock.js';
 
 function CloseIcon() {
   return (
@@ -123,8 +124,7 @@ export default function CatalogModal({
   useEffect(() => {
     if (!open) return undefined;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const unlockScroll = lockScroll();
     const frame = window.requestAnimationFrame(() => closeRef.current?.focus());
     const onKeyDown = (event) => {
       if (event.key === 'Escape') onClose();
@@ -134,7 +134,7 @@ export default function CatalogModal({
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
     };
   }, [open, onClose]);
 
