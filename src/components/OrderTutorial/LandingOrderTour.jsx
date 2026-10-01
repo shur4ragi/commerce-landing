@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useOrder } from '../../hooks/useOrder.js';
 import { useSite } from '../../hooks/useSite.js';
 import OrderTutorial from './OrderTutorial.jsx';
+import { SIMULATION_MOBILE_QUERY } from '../../utils/simulation.js';
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -142,6 +143,18 @@ export default function LandingOrderTour() {
 
     return list;
   }, [closeCart, content.order, firstId, openCart, optionsProduct, requestProduct]);
+
+  // Simulação só no PC: se a tela cair para o layout mobile, a simulação fecha.
+  useEffect(() => {
+    if (!tutorialActive || typeof window.matchMedia !== 'function') return undefined;
+    const query = window.matchMedia(SIMULATION_MOBILE_QUERY);
+    const check = () => {
+      if (query.matches) stopTutorial();
+    };
+    check();
+    query.addEventListener('change', check);
+    return () => query.removeEventListener('change', check);
+  }, [tutorialActive, stopTutorial]);
 
   return (
     <OrderTutorial

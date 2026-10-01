@@ -47,7 +47,7 @@ export default function Hero() {
             <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
             <Button href={hero.secondaryCta.href} variant="ghost">{hero.secondaryCta.label}</Button>
             {hero.tutorialCta ? (
-              <Button type="button" variant="ghost" onClick={startTutorial}>
+              <Button type="button" variant="ghost" className={styles.simulateButton} onClick={startTutorial}>
                 {hero.tutorialCta.label}
               </Button>
             ) : null}

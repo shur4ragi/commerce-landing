@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { buildLineKey, getOrderTotal } from '../utils/order.js';
 import { OrderContext } from './OrderContext.js';
+import { isSimulationAllowed } from '../utils/simulation.js';
 
 const EMPTY_CUSTOMER = {
   name: '',
@@ -77,6 +78,8 @@ export default function OrderProvider({ children }) {
   useEffect(() => () => window.clearTimeout(bootTimer.current), []);
 
   const startTutorial = useCallback(() => {
+    // Simulação de pedido só no PC: no mobile não abre.
+    if (!isSimulationAllowed()) return;
     setTutorialActive(true);
   }, []);
 

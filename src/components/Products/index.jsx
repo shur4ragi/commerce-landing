@@ -115,7 +115,7 @@ export default function Products() {
           </button>
           <button
             type="button"
-            className={styles.toolbarButton}
+            className={`${styles.toolbarButton} ${styles.simulateButton}`}
             onClick={startTutorial}
             aria-label={orderCopy.simulateLabel || 'Simular pedido'}
           >
