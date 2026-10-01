@@ -768,6 +768,12 @@ const content = {
       { title: 'Açaí na tigela', image: acaiTigela, alt: 'Tigela de açaí com granola, banana e morango vista de cima' },
       { title: 'Bombons de morango', image: bombomMorango, alt: 'Morangos cobertos com chocolate branco em prato escuro' },
       { title: 'Baguete da casa', image: bagueteSalame, alt: 'Baguete aberta com frios, tomate e muçarela' },
+      {
+        title: 'Matilda Cake com calda',
+        image: matildaCake,
+        alt: 'Fatia de Matilda Cake com calda de chocolate servida à parte',
+        wide: true,
+      },
     ],
   },
 

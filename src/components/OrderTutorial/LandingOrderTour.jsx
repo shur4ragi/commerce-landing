@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useOrder } from '../../hooks/useOrder.js';
 import { useSite } from '../../hooks/useSite.js';
 import OrderTutorial from './OrderTutorial.jsx';
+import { SIMULATION_MOBILE_QUERY } from '../../utils/simulation.js';
 
 // Simulação em 4 passos: cardápio → item → carrinho → WhatsApp.
 // Cada onEnter só monta a tela do passo (sem esperas); medir e posicionar fica com o
@@ -63,15 +64,32 @@ export default function LandingOrderTour() {
     ];
   }, [closeCart, openCart, optionsProduct, requestProduct]);
 
+  const closeTour = () => {
+    closeCart();
+    requestProduct('');
+    stopTutorial();
+  };
+
+  // Simulação só no PC: se a tela cair para o layout mobile, a simulação fecha.
+  useEffect(() => {
+    if (!tutorialActive || typeof window.matchMedia !== 'function') return undefined;
+    const query = window.matchMedia(SIMULATION_MOBILE_QUERY);
+    const check = () => {
+      if (!query.matches) return;
+      closeCart();
+      requestProduct('');
+      stopTutorial();
+    };
+    check();
+    query.addEventListener('change', check);
+    return () => query.removeEventListener('change', check);
+  }, [tutorialActive, closeCart, requestProduct, stopTutorial]);
+
   return (
     <OrderTutorial
       open={tutorialActive}
       steps={steps}
-      onClose={() => {
-        closeCart();
-        requestProduct('');
-        stopTutorial();
-      }}
+      onClose={closeTour}
       title="Como fazer um pedido?"
       // Arte montada enquanto a simulação prepara (branding.tourArt): 'coffee' (padrão) ou 'banoffee'.
       art={config.branding?.tourArt}
