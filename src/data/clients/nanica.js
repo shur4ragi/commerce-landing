@@ -665,6 +665,12 @@ const content = {
         image: paoDeQueijoAberto,
         alt: 'Mãos abrindo um pão de queijo com o copo da Nanica ao fundo',
       },
+      {
+        title: 'Monoffee inteira, pra dividir',
+        image: monoffeeCorte,
+        alt: 'Torta Monoffee inteira cortada, com morangos, chantilly e suspiros',
+        wide: true,
+      },
     ],
   },
 

@@ -82,3 +82,29 @@
     aspect-ratio: auto;
   }
 }
+
+/* Foto larga (item.wide): fecha a última linha ocupando duas colunas,
+   sem deixar buraco ao lado da última foto. */
+.wide {
+  grid-column: span 2;
+}
+
+.wide img {
+  aspect-ratio: 8 / 3;
+}
+
+@media (max-width: 599px) {
+  .wide img {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Na linha da vizinha: acompanha a altura dela em vez de definir a própria. */
+  .wide img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
