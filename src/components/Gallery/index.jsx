@@ -11,7 +11,7 @@ export default function Gallery() {
       <Reveal>
         <div className={styles.grid}>
           {gallery.items.map((item) => (
-            <figure key={item.title} className={styles.item}>
+            <figure key={item.title} className={`${styles.item} ${item.wide ? styles.wide : ''}`.trim()}>
               <img
                 src={item.image}
                 alt={item.alt || item.title}

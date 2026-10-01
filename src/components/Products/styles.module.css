@@ -712,3 +712,10 @@
     animation: none;
   }
 }
+
+/* Simulação de pedido só na versão de PC. */
+@media (max-width: 767px) {
+  .simulateButton {
+    display: none !important;
+  }
+}

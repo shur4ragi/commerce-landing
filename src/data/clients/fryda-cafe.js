@@ -286,6 +286,12 @@ const content = {
       { title: 'Café da tarde', image: boloFrida, alt: 'Bolo de chocolate com calda ao lado de um vaso da Frida' },
       { title: 'Bem-vindo', image: latte, alt: 'Latte em camadas diante da lousa de boas-vindas' },
       { title: 'Latte gelado', image: latteGelado, alt: 'Latte gelado com espuma na luz da tarde' },
+      {
+        title: 'Torta cookie',
+        image: tortaCookie,
+        alt: 'Fatia de torta cookie com cobertura de chocolate e a xícara do Fryda ao fundo',
+        wide: true,
+      },
     ],
   },
 
