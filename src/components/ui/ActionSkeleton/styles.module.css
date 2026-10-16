@@ -1,4 +1,5 @@
 .screen,
+.cover,
 .panel {
   display: grid;
   align-content: center;
@@ -16,6 +17,38 @@
 .panel {
   min-height: 240px;
   padding: var(--space-5);
+}
+
+/* Cobre o painel/modal inteiro (cabeçalho, conteúdo e rodapé) enquanto carrega. */
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1100;
+  padding: var(--space-5);
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      color-mix(in srgb, var(--color-secondary) 55%, var(--color-surface)) 0%,
+      var(--color-surface) 70%
+    );
+  animation: coverIn 0.22s ease-out both;
+  transition: opacity 0.26s ease;
+}
+
+.cover .route {
+  width: min(560px, 92%);
+}
+
+/* Saída: some em fade e revela o conteúdo que estava por baixo. */
+.leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes coverIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .bone {
@@ -582,6 +615,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .cover {
+    animation: none;
+    transition: none;
+  }
+
   .ifoodBrand,
   .ifoodStore,
   .ifoodItem,

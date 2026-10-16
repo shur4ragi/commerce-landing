@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSite } from '../../../hooks/useSite.js';
 import { NanicaCart, NanicaCatalog, NanicaMenu, NanicaRoute } from './NanicaShapes.jsx';
+import { CafeRoute } from './CafeShapes.jsx';
 import styles from './styles.module.css';
 
 // Último toque/clique na página: a tela cheia se abre em círculo a partir desse ponto.
@@ -193,6 +194,7 @@ function RouteShape() {
 // (WhatsApp, Google, iFood) continuam com a marca da plataforma.
 const BRAND_SHAPES = {
   nanica: { cart: NanicaCart, menu: NanicaMenu, catalog: NanicaCatalog, route: NanicaRoute },
+  cafe: { route: CafeRoute },
 };
 
 const SHAPES = {
@@ -205,17 +207,19 @@ const SHAPES = {
   ifood: IfoodShape,
 };
 
-export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel' }) {
+// scope: 'panel' (bloco dentro do painel), 'cover' (cobre o painel/modal inteiro: o pai precisa de
+// position: relative) ou 'screen' (tela cheia). leaving: saindo, some em fade revelando o conteúdo.
+export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel', leaving = false }) {
   const { config } = useSite();
   const branded = BRAND_SHAPES[config?.branding?.skeleton]?.[variant];
   const Shape = branded || SHAPES[variant] || MenuShape;
   const body = (
     <div
-      className={`${scope === 'screen' ? styles.screen : styles.panel} ${styles[`${variant}Variant`] || ''}`}
+      className={`${styles[scope] || styles.panel} ${styles[`${variant}Variant`] || ''} ${leaving ? styles.leaving : ''}`}
       style={scope === 'screen' ? revealOrigin() : undefined}
       role="status"
       aria-live="polite"
-      aria-busy="true"
+      aria-busy={!leaving}
     >
       <Shape wordmark={config?.branding?.wordmark} />
       <p className={styles.caption}>{label}</p>
@@ -233,5 +237,6 @@ export default function ActionSkeleton({ label, variant = 'menu', scope = 'panel
 ActionSkeleton.propTypes = {
   label: PropTypes.string.isRequired,
   variant: PropTypes.oneOf(['cart', 'menu', 'catalog', 'whatsapp', 'route', 'google', 'ifood']),
-  scope: PropTypes.oneOf(['panel', 'screen']),
+  scope: PropTypes.oneOf(['panel', 'cover', 'screen']),
+  leaving: PropTypes.bool,
 };

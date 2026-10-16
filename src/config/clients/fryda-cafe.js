@@ -21,6 +21,8 @@ const siteConfig = {
     logo,
     favicon,
     ogImage: '/og-fryda.jpg',
+    // Skeleton do "Como chegar": rota tracejada até uma xícara de café, nas cores da marca.
+    skeleton: 'cafe',
   },
 
   // Marrom do logo, caramelo dos destaques do Instagram e o vermelho das flores da Frida.

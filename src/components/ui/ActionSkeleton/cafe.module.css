@@ -1,0 +1,153 @@
+/* ---------- Como chegar das cafeterias: rota até a xícara de café ---------- */
+
+.route {
+  height: 180px;
+}
+
+.map {
+  background:
+    linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--color-secondary) 92%, var(--color-primary)) 20%,
+      color-mix(in srgb, var(--color-secondary) 45%, var(--color-surface)) 48%,
+      color-mix(in srgb, var(--color-secondary) 82%, var(--color-primary)) 72%
+    );
+  background-size: 220% 100%;
+}
+
+.streets,
+.routeLine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 180px;
+  overflow: visible;
+}
+
+.streets path {
+  fill: none;
+  stroke: var(--color-surface);
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+
+.routeLine path {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 8 10;
+  animation: routeDash 0.9s linear infinite;
+}
+
+.origin {
+  position: absolute;
+  left: calc(12.9% - 7px);
+  top: 139px;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+.cup {
+  position: absolute;
+  left: calc(62.4% - 40px);
+  top: 32px;
+  width: 80px;
+  height: 80px;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  animation: cupDrop 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  filter: drop-shadow(0 4px 6px color-mix(in srgb, var(--color-primary) 30%, transparent));
+}
+
+.cupShadow {
+  position: absolute;
+  left: calc(62.4% - 26px);
+  top: 103px;
+  width: 52px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  animation: cupShadow 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.cupBody {
+  fill: var(--color-surface);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.cupBand {
+  stroke: var(--color-accent);
+  stroke-width: 3.5;
+}
+
+.handle {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.coffee {
+  fill: var(--color-primary);
+}
+
+.saucer {
+  fill: color-mix(in srgb, var(--color-secondary) 70%, var(--color-surface));
+  stroke: var(--color-primary);
+  stroke-width: 2.5;
+}
+
+.steam path {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: steamRise 1.8s ease-in-out infinite;
+}
+
+.steam path:nth-child(2) { animation-delay: 0.25s; }
+.steam path:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes routeDash {
+  to { stroke-dashoffset: -18; }
+}
+
+@keyframes cupDrop {
+  0% { opacity: 0; transform: translateY(-60px) rotate(-12deg); }
+  30%, 80% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+
+@keyframes cupShadow {
+  0% { opacity: 0; transform: scaleX(0.3); }
+  30%, 80% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+
+@keyframes steamRise {
+  0%, 30% { opacity: 0; transform: translateY(4px); }
+  55% { opacity: 0.55; }
+  90%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routeLine path,
+  .cup,
+  .cupShadow,
+  .steam path {
+    animation: none;
+  }
+
+  .steam path {
+    opacity: 0.45;
+  }
+}

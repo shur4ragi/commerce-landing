@@ -160,6 +160,19 @@ export default function LocationMap({
     [controlled, onOpenChange],
   );
   const outbound = usePendingAction();
+  // Skeleton do "Como chegar": cobre o modal inteiro enquanto traça a rota e, ao terminar, some
+  // em fade (leaving) revelando o mapa de novo.
+  const [routeCover, setRouteCover] = useState(null);
+
+  useEffect(() => {
+    if (outbound.pending) {
+      setRouteCover({ label: outbound.label, leaving: false });
+      return undefined;
+    }
+    setRouteCover((current) => (current ? { ...current, leaving: true } : current));
+    const timer = window.setTimeout(() => setRouteCover(null), 280);
+    return () => window.clearTimeout(timer);
+  }, [outbound.pending, outbound.label]);
 
   const valid = isValidCoordinates(latitude, longitude);
   const lat = valid ? Number(latitude) : null;
@@ -167,7 +180,12 @@ export default function LocationMap({
   const directionsUrl = valid ? getDirectionsUrl(lat, lng) : '';
 
   const openMap = useCallback(() => setOpen(true), [setOpen]);
-  const closeMap = useCallback(() => setOpen(false), [setOpen]);
+  // Fechar (X, Esc, fora) durante o skeleton cancela a ida ao Maps.
+  const { clear: clearOutbound } = outbound;
+  const closeMap = useCallback(() => {
+    clearOutbound();
+    setOpen(false);
+  }, [setOpen, clearOutbound]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -240,7 +258,7 @@ export default function LocationMap({
         if (event.target === event.currentTarget) closeMap();
       }}
     >
-      <div className="location-map__modal">
+      <div className={`location-map__modal${routeCover ? ' location-map__modal--route' : ''}`}>
         <div className="location-map__header">
           <h2 id={titleId} className="location-map__title">
             {name || buttonLabel}
@@ -250,6 +268,7 @@ export default function LocationMap({
             type="button"
             className="location-map__close"
             onClick={closeMap}
+            hidden={Boolean(routeCover && !routeCover.leaving)}
             aria-label="Fechar mapa"
           >
             <CloseIcon />
@@ -295,7 +314,14 @@ export default function LocationMap({
             ) : null}
           </div>
         ) : null}
-        {outbound.pending ? <ActionSkeleton variant="route" label={outbound.label} /> : null}
+        {routeCover ? (
+          <ActionSkeleton
+            variant="route"
+            scope="cover"
+            label={routeCover.label}
+            leaving={routeCover.leaving}
+          />
+        ) : null}
       </div>
     </dialog>
   );

@@ -60,6 +60,8 @@ function onAnchorClick(event) {
 export function startSmoothScroll() {
   if (lenis) return () => {};
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
+  // Celular/toque: rolagem 100% nativa (o Lenis no celular dava travadas).
+  if (window.matchMedia('(max-width: 767px), (hover: none) and (pointer: coarse)').matches) return () => {};
 
   lenis = new Lenis({
     lerp: 0.085,

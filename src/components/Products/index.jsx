@@ -10,6 +10,11 @@ import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
 import { resolveOrderLinks } from '../../utils/whatsapp.js';
+
+// Celular/toque: um toque só já abre o item (no PC continua o clique duplo).
+const isTouchMenu = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px), (hover: none) and (pointer: coarse)').matches;
 import OutboundLink from '../OutboundLink';
 
 function BookmarkIcon({ filled }) {
@@ -211,7 +216,7 @@ export default function Products() {
                             type="button"
                             className={styles.openHit}
                             onClick={() => {
-                              if (tutorialActive) openItem(item);
+                              if (tutorialActive || isTouchMenu()) openItem(item);
                             }}
                             onDoubleClick={() => openItem(item)}
                             onKeyDown={(event) => {
@@ -323,7 +328,7 @@ export default function Products() {
                         type="button"
                         className={styles.openHit}
                         onClick={() => {
-                          if (tutorialActive) openItem(item);
+                          if (tutorialActive || isTouchMenu()) openItem(item);
                         }}
                         onDoubleClick={() => openItem(item)}
                         onKeyDown={(event) => {

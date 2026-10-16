@@ -265,3 +265,12 @@
     filter: none;
   }
 }
+
+/* Celular: sem backdrop-filter (pesa na rolagem). */
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .header {
+    background: color-mix(in srgb, var(--color-background) 97%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

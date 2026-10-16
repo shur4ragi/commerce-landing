@@ -99,3 +99,13 @@
     font-size: 0.8rem;
   }
 }
+
+/* Toque (celular): sem "flutuar" no hover (no toque o hover gruda); só um aperto ao pressionar. */
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .card,
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+    transition: transform 120ms ease;
+  }
+}

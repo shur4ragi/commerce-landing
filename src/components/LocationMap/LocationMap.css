@@ -91,6 +91,7 @@
 }
 
 .location-map__modal {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: min(960px, 100%);
@@ -147,6 +148,7 @@
 
 .location-map__content {
   position: relative;
+  isolation: isolate;
   flex: 1 1 auto;
   min-height: 0;
   background: #edf0f3;
@@ -327,4 +329,9 @@
   .location-map__button:hover {
     transform: none;
   }
+}
+
+/* Skeleton do "Como chegar" cobre o modal inteiro (desktop e celular): X some, Esc continua fechando. */
+.location-map__modal--route .location-map__close[hidden] {
+  display: none;
 }

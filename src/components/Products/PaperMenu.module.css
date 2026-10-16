@@ -200,3 +200,31 @@
     animation: none;
   }
 }
+
+/* Celular/toque: cardápio parado (sem balançar nem endireitar no hover que gruda),
+   só afunda um pouco ao apertar e o toque abre o cardápio completo. */
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .menu,
+  .menu:hover {
+    --tilt: -3deg;
+    scale: 1;
+    transition: scale 120ms ease, opacity 300ms ease;
+  }
+  .menu:not([data-in]) {
+    translate: none;
+    rotate: var(--tilt);
+  }
+  .menu:active {
+    scale: 0.97;
+  }
+  .float {
+    animation: none;
+  }
+  .hit {
+    touch-action: manipulation;
+  }
+  .hint {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -155,3 +155,11 @@ html[data-entrance='loading'],
 html[data-entrance='loading'] body {
   overflow: hidden;
 }
+
+/* Celular: desfoques de fundo desligados (pesam na rolagem); os fundos ficam translúcidos/sólidos. */
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}

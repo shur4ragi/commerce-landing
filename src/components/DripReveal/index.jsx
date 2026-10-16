@@ -66,7 +66,8 @@ export default function DripReveal({ children }) {
   const [revealed, setRevealed] = useState(false);
 
   useLayoutEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setRevealed(true);
+    // Celular: sem a máscara animada (repinta a seção a cada quadro de rolagem e trava o scroll).
+    if (window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 767px), (hover: none) and (pointer: coarse)').matches) setRevealed(true);
   }, []);
 
   useEffect(() => {
