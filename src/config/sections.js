@@ -11,6 +11,11 @@ import Highlights from '../components/Highlights/index.jsx';
 import Testimonials from '../components/Testimonials/index.jsx';
 import CallToAction from '../components/CallToAction/index.jsx';
 import Contact from '../components/Contact/index.jsx';
+import CardHero from '../components/CardHero/index.jsx';
+import Journey from '../components/Journey/index.jsx';
+import Instagram from '../components/Instagram/index.jsx';
+import CoffeeContact from '../components/CoffeeContact/index.jsx';
+import Reviews from '../components/Reviews/index.jsx';
 
 export const sectionRegistry = {
   intro: Intro,
@@ -26,6 +31,11 @@ export const sectionRegistry = {
   testimonials: Testimonials,
   cta: CallToAction,
   contact: Contact,
+  cardHero: CardHero,
+  journey: Journey,
+  instagram: Instagram,
+  coffeeContact: CoffeeContact,
+  reviews: Reviews,
 };
 
 export function resolveSections(sectionIds = []) {

@@ -61,6 +61,17 @@
   }
 }
 
+/* Celular e tablet (2 colunas): com número ímpar de fotos, a última ocupa a linha inteira. */
+@media (max-width: 1023px) {
+  .item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .item:last-child:nth-child(odd) img {
+    aspect-ratio: 2 / 1;
+  }
+}
+
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -74,8 +85,23 @@
     aspect-ratio: 16 / 8;
   }
 
-  /* O vizinho do destaque ocupa a altura da linha (definida pelo destaque), sem esticá-la. */
-  .item:nth-child(2) img {
+  /* Última linha sem vão: o destaque ocupa 2 células, então a grade tem (fotos + 1) células.
+     Sobrando 2 células, a última foto ocupa as duas; sobrando 1, ocupa a linha inteira. */
+  .item:last-child:nth-child(3n + 1) {
+    grid-column: span 2;
+  }
+
+  .item:last-child:nth-child(3n) {
+    grid-column: 1 / -1;
+  }
+
+  .item:last-child:nth-child(3n) img {
+    aspect-ratio: 3 / 1;
+  }
+
+  /* O vizinho do destaque e a última foto alargada ocupam a altura da linha, sem esticá-la. */
+  .item:nth-child(2) img,
+  .item:last-child:nth-child(3n + 1):not(:first-child) img {
     position: absolute;
     inset: 0;
     height: 100%;

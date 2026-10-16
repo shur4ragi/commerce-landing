@@ -25,6 +25,8 @@ const siteConfig = {
 
   // Marrom do logo, caramelo dos destaques do Instagram e o vermelho das flores da Frida.
   theme: {
+    // Conteúdo mais largo: as seções aproveitam telas grandes.
+    containerWidth: '1360px',
     primaryColor: '#5A3B2C',
     secondaryColor: '#F3E7D6',
     accentColor: '#B5412F',
@@ -37,7 +39,7 @@ const siteConfig = {
     fontDisplay: '"Playfair Display", Georgia, serif',
     fontSerif: '"Playfair Display", Georgia, serif',
     fontStylesheet:
-      'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Nunito+Sans:wght@400;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Nunito+Sans:wght@400;600;700&family=Anton&family=Caveat+Brush&display=swap',
   },
 
   social: {
@@ -71,8 +73,13 @@ const siteConfig = {
   features: {
     whatsappFloat: true,
     contactForm: true,
-    // Vitrine: sem carrinho; o cardápio com preços e o delivery ficam no iFood.
-    ordering: false,
+    // Pedido pelo site (quantidade, opções e carrinho enviado pelo WhatsApp), como na Nanica.
+    // Entrega continua pelo iFood/WhatsApp (content.order.delivery).
+    ordering: true,
+    // Cada seção ocupa pelo menos uma tela.
+    fullScreenSections: true,
+    // Rolagem suave com inércia no mouse, para as animações de entrada aparecerem por inteiro.
+    smoothScroll: true,
   },
 };
 
@@ -81,18 +88,18 @@ const client = {
   config: siteConfig,
   content,
   sections: [
-    'intro',
-    'hero',
+    'cardHero',
     'about',
     'statement',
     'services',
-    'process',
+    'journey',
     // O cardápio entra como cobertura derretendo logo depois do passo a passo.
     { id: 'products', reveal: 'drip' },
     'gallery',
-    'highlights',
-    'testimonials',
-    'contact',
+    // Motivos para voltar + avaliações do Google numa seção só.
+    'reviews',
+    'instagram',
+    'coffeeContact',
   ],
 };
 

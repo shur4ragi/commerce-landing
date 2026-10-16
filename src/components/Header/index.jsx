@@ -6,6 +6,7 @@ import { CartButton } from '../OrderCart';
 import styles from './styles.module.css';
 import { openExternal } from '../../utils/openExternal.js';
 import { lockScroll } from '../../utils/scrollLock.js';
+import { scrollToTarget } from '../../utils/smoothScroll.js';
 
 export default function Header() {
   const { config, navigation, whatsappUrl } = useSite();
@@ -53,7 +54,7 @@ export default function Header() {
     if (!target) return;
     event.preventDefault();
     window.requestAnimationFrame(() => {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToTarget(target);
       window.history.replaceState(null, '', href);
     });
   };

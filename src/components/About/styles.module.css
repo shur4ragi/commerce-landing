@@ -189,3 +189,176 @@
     transform: none;
   }
 }
+
+/* ---------- Colagem (about.collage): texto maior e três fotos presas com fita ---------- */
+
+.gridCollage .text {
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+
+.gridCollage .facts strong {
+  font-family: 'Anton', var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 1.9vw, 1.9rem);
+  letter-spacing: 0.01em;
+  color: var(--color-accent);
+  overflow-wrap: anywhere;
+}
+
+.gridCollage .facts {
+  gap: 1.5rem;
+}
+
+.collage {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  aspect-ratio: 1 / 0.9;
+}
+
+.photo {
+  --rot: 0deg;
+
+  position: absolute;
+  margin: 0;
+  padding: 10px 10px 42px;
+  border-radius: 6px;
+  background: #fffdf8;
+  box-shadow: 0 26px 40px -22px rgb(46 29 21 / 0.55);
+  rotate: var(--rot);
+  transition:
+    rotate 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    scale 500ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 700ms ease,
+    translate 900ms cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+/* Fita adesiva no topo. */
+.photo::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: -12px;
+  width: 92px;
+  height: 26px;
+  translate: -50% 0;
+  rotate: -4deg;
+  background: rgb(243 231 214 / 0.75);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.08);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  object-fit: cover;
+  box-shadow: none !important;
+}
+
+.photo figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  color: var(--color-text);
+  font-family: 'Caveat Brush', cursive;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.photo:hover {
+  z-index: 5;
+  rotate: 0deg;
+  scale: 1.04;
+}
+
+.photo0 {
+  --rot: 2deg;
+  z-index: 1;
+  left: 14%;
+  top: 0;
+  width: 66%;
+  height: 70%;
+}
+
+.photo1 {
+  --rot: -7deg;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 38%;
+  height: 56%;
+}
+
+.photo2 {
+  --rot: 6deg;
+  z-index: 3;
+  right: 0;
+  bottom: 4%;
+  width: 44%;
+  height: 46%;
+}
+
+/* Entrada: as fotos sobem girando, uma de cada vez. */
+.collage:not([data-in]) .photo {
+  opacity: 0;
+  translate: 0 70px;
+  rotate: calc(var(--rot) * 3);
+}
+
+.collage[data-in] .photo1 { transition-delay: 150ms; }
+.collage[data-in] .photo2 { transition-delay: 300ms; }
+
+@media (min-width: 1024px) {
+  .gridCollage {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* A colagem sobe até a altura do título; o texto fica logo abaixo dele. */
+  .gridCollage .collage {
+    margin-top: -8rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .gridCollage .text {
+    font-size: 0.95rem;
+  }
+
+  .gridCollage .facts {
+    gap: 0.6rem;
+  }
+
+  .gridCollage .facts strong {
+    font-size: 1.05rem;
+  }
+
+  .collage {
+    min-height: 0;
+    aspect-ratio: 1 / 1.05;
+  }
+
+  .photo {
+    padding: 6px 6px 30px;
+  }
+
+  .photo figcaption {
+    bottom: 4px;
+    font-size: 1rem;
+  }
+
+  .collage .photo img {
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo {
+    transition: none;
+  }
+}

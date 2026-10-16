@@ -1,0 +1,538 @@
+/* Hero em card: fundo cor de café com grãos e o card claro na frente com lettering e selo.
+   Os grãos não reagem à rolagem nem ao mouse; só balançam de leve. */
+.hero {
+  --coffee: #6e3b22;
+  --coffee-deep: #3f2012;
+  --caramel: #b8692f;
+  --ink: #5a2e18;
+  --paper: #f6eee4;
+  --font-letter: 'Anton', 'Oswald', Impact, sans-serif;
+  --font-hand: 'Caveat Brush', 'Caveat', cursive;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.2, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Respingos claros que dão o aspecto de impressão gasta ao lettering. */
+  --speckle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.97 0 0 0 0 0.93 0 0 0 0 0.88 -9 0 0 0 3.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+
+  position: relative;
+  min-height: calc(100dvh - var(--header-height));
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vh, 44px) clamp(16px, 3vw, 48px);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%, color-mix(in srgb, var(--caramel) 32%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 0% 100%, var(--coffee-deep), transparent 70%),
+    var(--coffee);
+}
+
+/* ---------- Grãos do fundo ---------- */
+
+.beans {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bean {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  width: var(--size);
+  rotate: var(--r);
+}
+
+.bean svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 18px rgb(0 0 0 / 0.38));
+  animation: bob 7s ease-in-out calc(var(--i) * -1.3s) infinite;
+}
+
+.beanBlur {
+  z-index: 0;
+  filter: blur(3px);
+  opacity: 0.75;
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(-14px) rotate(10deg);
+  }
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(1560px, 100%);
+  min-height: calc(100dvh - var(--header-height) - 2 * clamp(20px, 4vh, 44px));
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  border-radius: clamp(24px, 3vw, 40px);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 60% 70% at 78% 60%, #fff 0%, transparent 70%),
+    var(--paper);
+  box-shadow:
+    0 40px 80px -30px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.4) inset;
+}
+
+.primary,
+.ghost,
+.story h2 {
+  font-family: var(--font-letter);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ctaDot {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--ink);
+  transition: transform 260ms var(--ease-back);
+}
+
+.ctaDot svg {
+  width: 60%;
+}
+
+/* ---------- Conteúdo ---------- */
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  padding: clamp(1.75rem, 5vh, 3.5rem) clamp(1.25rem, 5vw, 6rem);
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+}
+
+.place {
+  margin-bottom: 0.4rem;
+}
+
+.placeLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--caramel);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- Lettering ---------- */
+
+.lettering {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  margin: 1.9rem 0 0;
+  font-family: var(--font-letter);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.sticker {
+  position: absolute;
+  z-index: 2;
+  left: -0.6rem;
+  top: -1.2rem;
+  padding: 0.05em 0.55em 0.12em;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  background: #fff;
+  font-family: var(--font-hand);
+  font-size: clamp(1.15rem, 1.9vw, 1.65rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  rotate: -12deg;
+  box-shadow: 3px 4px 0 var(--ink);
+}
+
+.big {
+  display: flex;
+  font-size: clamp(4.4rem, 10.6vw, 12.5rem);
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.big > span,
+.tag {
+  background: var(--speckle), var(--ink);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.big > span {
+  display: inline-block;
+}
+
+.tagRow {
+  display: flex;
+  align-items: center;
+  margin-top: -0.12em;
+  font-size: clamp(2.9rem, 6.5vw, 7.6rem);
+}
+
+.tag {
+  position: relative;
+  z-index: 1;
+  padding: 0.04em 0.24em 0.08em;
+  color: var(--paper);
+  background: var(--speckle), var(--caramel);
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  text-transform: uppercase;
+  rotate: -4deg;
+  box-shadow: 0.08em 0.1em 0 color-mix(in srgb, var(--ink) 22%, transparent);
+}
+
+.cup {
+  width: clamp(64px, 7.5vw, 112px);
+  margin-left: 0.18em;
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  rotate: 10deg;
+  filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.16));
+  animation: wiggle 4s ease-in-out infinite;
+}
+
+.steam path {
+  stroke-dasharray: 26;
+  animation: steam 2.4s ease-in-out infinite;
+}
+
+.steam path:nth-child(2) { animation-delay: 0.4s; }
+.steam path:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes steam {
+  0% { stroke-dashoffset: 26; opacity: 0; transform: translateY(6px); }
+  40% { opacity: 1; }
+  100% { stroke-dashoffset: -26; opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes wiggle {
+  50% { rotate: 4deg; translate: 0 -4px; }
+}
+
+.story {
+  margin-top: clamp(1.5rem, 5vh, 3rem);
+  max-width: 30rem;
+}
+
+.story h2 {
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+.story p {
+  margin-top: 0.4rem;
+  color: color-mix(in srgb, var(--ink) 82%, transparent);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 1.4rem;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.45rem 0.45rem 0.45rem 1.35rem;
+  border-radius: 999px;
+  color: var(--paper);
+  background: var(--caramel);
+  font-size: 1.15rem;
+  box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--caramel) 80%, black);
+  transition: transform 220ms var(--ease-out), background 200ms ease;
+}
+
+.primary .ctaDot {
+  color: var(--caramel);
+  background: var(--paper);
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--caramel) 85%, black);
+}
+
+.primary:hover .ctaDot {
+  transform: translateX(3px) rotate(-360deg);
+}
+
+.ghost {
+  padding: 0 0 2px;
+  color: var(--ink);
+  font-size: 1.05rem;
+  border-bottom: 2px solid currentColor;
+}
+
+.ghost:hover {
+  color: var(--caramel);
+}
+
+/* ---------- Selo da logo ---------- */
+
+.visual {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 640px);
+  aspect-ratio: 1;
+}
+
+.splash {
+  position: absolute;
+  inset: -4%;
+  color: var(--caramel);
+  filter: drop-shadow(0 30px 30px rgb(90 46 24 / 0.25));
+  animation: wobble 12s ease-in-out infinite;
+}
+
+.drip {
+  transform-box: fill-box;
+  transform-origin: top;
+  animation: drip 3.6s ease-in-out infinite;
+}
+
+.dripB {
+  animation-delay: 1.4s;
+}
+
+@keyframes wobble {
+  50% { transform: rotate(8deg) scale(1.03); }
+}
+
+@keyframes drip {
+  0%, 100% { transform: scaleY(0.6); }
+  60% { transform: scaleY(1.15); }
+}
+
+.badge {
+  position: absolute;
+  inset: 9%;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: spin 30s linear infinite;
+}
+
+.ring text {
+  fill: var(--ink);
+  font-family: var(--font-letter);
+  font-size: 19px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.seal {
+  position: absolute;
+  inset: 17%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fffaf3;
+  box-shadow:
+    0 0 0 6px var(--ink),
+    0 0 0 12px var(--paper),
+    0 26px 40px -10px rgb(0 0 0 / 0.4);
+}
+
+.seal img {
+  width: 80%;
+  user-select: none;
+}
+
+.cardBean {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  rotate: var(--r);
+}
+
+.cardBean svg {
+  filter: drop-shadow(0 16px 14px rgb(0 0 0 / 0.3));
+  animation: bob 6s ease-in-out calc(var(--i) * -2s) infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Entrada depois da tela de carregamento ---------- */
+
+:global(html[data-entrance='loading']) .card,
+:global(html[data-entrance='loading']) .bean {
+  opacity: 0;
+}
+
+:global(html[data-entrance='reveal']) .card {
+  animation: cardIn 1100ms var(--ease-out) both;
+}
+
+:global(html[data-entrance='reveal']) .bean svg {
+  animation:
+    beanIn 1200ms var(--ease-out) calc(200ms + var(--i) * 90ms) both,
+    bob 7s ease-in-out calc(var(--i) * -1.3s) infinite;
+}
+
+:global(html[data-entrance='reveal']) .big > span {
+  animation: drop 800ms var(--ease-back) calc(450ms + var(--i) * 60ms) both;
+}
+
+:global(html[data-entrance='reveal']) .tag {
+  animation: slap 700ms var(--ease-back) 950ms both;
+}
+
+:global(html[data-entrance='reveal']) .sticker {
+  animation: pop 600ms var(--ease-back) 1250ms both;
+}
+
+:global(html[data-entrance='reveal']) .cup,
+:global(html[data-entrance='reveal']) .story,
+:global(html[data-entrance='reveal']) .actions,
+:global(html[data-entrance='reveal']) .place {
+  animation: fadeUp 700ms var(--ease-out) 1100ms both;
+}
+
+:global(html[data-entrance='reveal']) .badge {
+  animation: badgeIn 1200ms var(--ease-out) 600ms both;
+}
+
+:global(html[data-entrance='reveal']) .splash {
+  animation: splashIn 900ms var(--ease-back) 500ms both;
+}
+
+:global(html[data-entrance='reveal']) .cardBean svg {
+  animation: beanFall 900ms var(--ease-back) calc(900ms + var(--i) * 140ms) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(90px) scale(0.92); }
+}
+
+@keyframes beanIn {
+  from { opacity: 0; transform: translateY(-60vh) rotate(-200deg) scale(0.6); }
+}
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-80%) rotate(-8deg); }
+}
+
+@keyframes slap {
+  from { opacity: 0; transform: scale(1.6) rotate(-10deg); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0) rotate(-30deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+}
+
+@keyframes badgeIn {
+  from { opacity: 0; transform: rotate(-120deg) scale(0.6); }
+}
+
+@keyframes splashIn {
+  from { opacity: 0; transform: scale(0.3); }
+}
+
+@keyframes beanFall {
+  from { opacity: 0; transform: translateY(-140px) rotate(-90deg); }
+}
+
+/* ---------- Tablet e celular ---------- */
+
+@media (max-width: 960px) {
+  .hero {
+    padding: 14px 12px 28px;
+  }
+
+  .card {
+    min-height: auto;
+  }
+
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.6rem 1.25rem 1.5rem;
+  }
+
+  .visual {
+    width: min(78vw, 360px);
+    margin-top: -0.5rem;
+  }
+
+  .bean {
+    width: calc(var(--size) * 0.6);
+  }
+
+  /* No celular o primeiro grão cairia em cima do lettering. */
+  .bean:first-child {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .big {
+    font-size: clamp(3.6rem, 22vw, 6rem);
+  }
+
+  .tagRow {
+    font-size: clamp(2.4rem, 13.5vw, 3.6rem);
+  }
+
+  .sticker {
+    top: -1rem;
+    left: -0.3rem;
+  }
+
+  .ctaDot {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bean svg,
+  .cardBean svg,
+  .cup,
+  .steam path,
+  .splash,
+  .drip,
+  .ring {
+    animation: none;
+  }
+}

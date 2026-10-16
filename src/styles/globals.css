@@ -141,6 +141,15 @@ h3 em,
   letter-spacing: -0.01em;
 }
 
+/* Uma tela por seção (features.fullScreenSections). Seções que cuidam da própria altura (hero, passo a passo) marcam data-own-height. */
+html[data-screens] main > section:not([data-own-height]),
+html[data-screens] main > div > section:not([data-own-height]) {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* Abertura da página (componente Entrance): trava a rolagem enquanto a cortina está na tela. */
 html[data-entrance='loading'],
 html[data-entrance='loading'] body {

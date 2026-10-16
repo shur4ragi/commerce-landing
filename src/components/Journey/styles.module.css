@@ -1,0 +1,666 @@
+/* Seção alta com o palco preso: --drawn (0 → 1) é quanto da estrada já foi percorrido. */
+.journey {
+  --stage-h: calc(100dvh - var(--header-height));
+  --espresso: #2c170d;
+  --cream: #f6eee4;
+  --caramel: #c98a4b;
+  --ease-out: cubic-bezier(0.22, 0.8, 0.2, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Espaço reservado em cima e embaixo da estrada para os cartões, e o resto da tela (título,
+     dica). A largura da estrada encolhe em telas baixas para tudo caber sem encostar no título. */
+  --room: 190px;
+  --chrome: calc(220px + 2 * var(--room));
+
+  position: relative;
+  height: calc(var(--stage-h) * 4);
+  background: var(--espresso);
+}
+
+.stage {
+  --drawn: 0;
+  --p: 0;
+
+  position: sticky;
+  top: var(--header-height);
+  height: var(--stage-h);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%, color-mix(in srgb, var(--caramel) 18%, transparent), transparent 70%),
+    var(--espresso);
+}
+
+/* Marcas de xícara no "tampo" da mesa. */
+.stains {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(circle at 12% 78%, transparent 54px, rgb(201 138 75 / 0.16) 56px 60px, transparent 62px),
+    radial-gradient(circle at 88% 22%, transparent 70px, rgb(201 138 75 / 0.12) 72px 77px, transparent 79px),
+    radial-gradient(circle at 70% 88%, transparent 40px, rgb(201 138 75 / 0.1) 42px 45px, transparent 47px);
+}
+
+.deco {
+  position: absolute;
+  width: 80px;
+  opacity: 0.85;
+  filter: drop-shadow(0 16px 16px rgb(0 0 0 / 0.45));
+  pointer-events: none;
+}
+
+.decoA {
+  right: 4%;
+  bottom: 8%;
+  rotate: -24deg;
+  translate: 0 calc(var(--p) * -120px);
+}
+
+.decoB {
+  left: 3%;
+  top: 30%;
+  width: 54px;
+  rotate: 50deg;
+  filter: blur(2px);
+  translate: 0 calc(var(--p) * -60px);
+}
+
+/* ---------- Título ---------- */
+
+.head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  width: min(100% - 2.5rem, 1180px);
+  margin: 0 auto;
+  padding-top: clamp(1.25rem, 5vh, 3rem);
+}
+
+.eyebrow {
+  color: var(--caramel);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.head h2 {
+  margin-top: 0.4rem;
+  font-size: clamp(1.9rem, 4vw, 3.4rem);
+}
+
+.head h2 em {
+  color: var(--caramel);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: 'Anton', Impact, sans-serif;
+  line-height: 1;
+}
+
+.counter span {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  color: var(--caramel);
+  animation: tick 500ms var(--ease-back);
+}
+
+.counter small {
+  font-size: 1.2rem;
+  opacity: 0.6;
+}
+
+@keyframes tick {
+  from { opacity: 0; transform: translateY(40%); }
+}
+
+/* ---------- Estrada ---------- */
+
+.map {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  width: min(80vw, 1040px, calc((100dvh - var(--header-height) - var(--chrome)) * 5));
+  aspect-ratio: 1200 / 240;
+  margin: var(--room) auto;
+}
+
+.road {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.roadBase {
+  stroke: rgb(246 238 228 / 0.08);
+  stroke-width: 26;
+}
+
+.roadDash {
+  stroke: rgb(246 238 228 / 0.28);
+  stroke-width: 3;
+  stroke-dasharray: 2 16;
+}
+
+.roadDone {
+  stroke: var(--caramel);
+  stroke-width: 6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--drawn));
+  filter: drop-shadow(0 0 10px rgb(201 138 75 / 0.6));
+}
+
+.node {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-radius: 50%;
+  color: rgb(246 238 228 / 0.55);
+  background: var(--espresso);
+  box-shadow: 0 0 0 2px rgb(246 238 228 / 0.25);
+  transition: background 300ms ease, color 300ms ease, box-shadow 300ms ease, scale 500ms var(--ease-back);
+}
+
+.node svg {
+  width: 24px;
+}
+
+.nodeOn {
+  color: var(--espresso);
+  background: var(--caramel);
+  box-shadow:
+    0 0 0 6px rgb(201 138 75 / 0.25),
+    0 0 30px rgb(201 138 75 / 0.6);
+  scale: 1.12;
+}
+
+.traveler {
+  --tilt: 0deg;
+
+  position: absolute;
+  z-index: 3;
+  left: 2.5%;
+  top: 72%;
+  width: 0;
+  height: 0;
+}
+
+.travelerBody {
+  position: absolute;
+  left: -30px;
+  bottom: 6px;
+  width: 60px;
+  rotate: var(--tilt);
+  filter: drop-shadow(0 12px 12px rgb(0 0 0 / 0.5));
+  animation: hop 520ms ease-in-out infinite alternate;
+}
+
+.puff {
+  position: absolute;
+  left: -40px;
+  top: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(246 238 228 / 0.25);
+  animation: puff 900ms ease-out infinite;
+}
+
+@keyframes hop {
+  to { transform: translateY(-7px); }
+}
+
+@keyframes puff {
+  from { transform: scale(0.4); opacity: 0.8; }
+  to { transform: translate(-26px, -10px) scale(1.4); opacity: 0; }
+}
+
+/* ---------- Cartões das etapas ---------- */
+
+.cards {
+  position: absolute;
+  inset: 0;
+}
+
+.card {
+  position: absolute;
+  z-index: 4;
+  left: var(--x);
+  top: var(--y);
+  width: clamp(300px, 26vw, 400px);
+  opacity: 0;
+  pointer-events: none;
+  transform: var(--place) scale(0.6) rotate(-8deg);
+  transition:
+    opacity 400ms ease,
+    transform 700ms var(--ease-back);
+}
+
+.cardAbove {
+  top: 0;
+  --place: translate(-50%, calc(-100% - 26px));
+}
+
+.cardBelow {
+  top: 100%;
+  --place: translate(-50%, 26px);
+}
+
+.card:first-child {
+  --place: translate(-14%, calc(-100% - 26px));
+}
+
+.card:last-child {
+  --place: translate(-86%, 26px);
+}
+
+/* Pontilhado que liga cada parada ao seu cartão, por fora da estrada. */
+.tick {
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  border-left: 2px dotted rgb(246 238 228 / 0.35);
+  transform: scaleY(0);
+  transition: transform 500ms var(--ease-out), border-color 300ms ease;
+}
+
+.tickUp {
+  top: -26px;
+  height: calc(var(--y) + 26px);
+  transform-origin: bottom;
+}
+
+.tickDown {
+  top: var(--y);
+  bottom: -26px;
+  transform-origin: top;
+}
+
+.tickOn {
+  border-color: rgb(201 138 75 / 0.75);
+  transform: scaleY(1);
+}
+
+.cardOn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: var(--place) rotate(var(--rest, -1.5deg));
+}
+
+.card:nth-child(even) {
+  --rest: 1.5deg;
+}
+
+.cardOn:hover {
+  z-index: 6;
+  transform: var(--place) rotate(0deg) scale(1.04);
+}
+
+.cardButton {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(120px, 10vw, 156px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 22px;
+  color: #2e1d15;
+  text-align: left;
+  background: var(--cream);
+  box-shadow: 0 24px 40px -18px rgb(0 0 0 / 0.6);
+  cursor: zoom-in;
+}
+
+.cardButton img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.cardCopy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.step {
+  font-family: 'Anton', Impact, sans-serif;
+  color: #b8692f;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.cardText {
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: #6b5446;
+}
+
+.expand {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.8rem;
+  font-size: 0.8rem;
+  color: #b8692f;
+  opacity: 0.6;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.cardButton:hover .expand {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Telas baixas: cartões mais compactos para caberem em cima e embaixo da estrada. */
+@media (max-height: 820px) and (min-width: 821px) {
+  .journey {
+    --room: 150px;
+    --chrome: calc(130px + 2 * var(--room));
+  }
+
+  .head {
+    padding-top: 1rem;
+  }
+
+  .head h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  }
+
+  .counter span {
+    font-size: 3.6rem;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .cardButton {
+    grid-template-columns: 96px minmax(0, 1fr);
+    padding: 0.6rem;
+  }
+
+  .cardText {
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------- Cartão ampliado ---------- */
+
+.zoom {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgb(28 14 7 / 0.78);
+  backdrop-filter: blur(8px);
+  animation: zoomFade 300ms ease;
+}
+
+.zoomCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  width: min(960px, 100%);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: 30px;
+  color: #2e1d15;
+  background: var(--cream);
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.7);
+  animation: zoomIn 600ms var(--ease-back);
+}
+
+.zoomCard img {
+  width: 100%;
+  max-height: 70vh;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.zoomCopy {
+  display: grid;
+  gap: 0.8rem;
+  padding-right: 1rem;
+}
+
+.zoomStep {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: #b8692f;
+}
+
+.zoomStep small {
+  font-size: 1rem;
+  color: #8c705e;
+}
+
+.zoomCopy h3 {
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+}
+
+.zoomCopy p {
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: #5a4337;
+}
+
+.zoomNav {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.zoomNav button,
+.zoomClose {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: var(--cream);
+  background: #2e1d15;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.zoomNav button:hover,
+.zoomClose:hover {
+  background: #b8692f;
+  transform: scale(1.06);
+}
+
+.zoomClose {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+}
+
+@keyframes zoomFade {
+  from { opacity: 0; }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.8) rotate(-3deg); }
+}
+
+/* "Bom apetite!" carimbado na chegada. */
+.stamp {
+  position: absolute;
+  z-index: 5;
+  padding: 0.1em 0.6em 0.2em;
+  border: 3px solid currentColor;
+  border-radius: 12px;
+  color: var(--caramel);
+  font-family: 'Caveat Brush', cursive;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-60%, -260%) rotate(-10deg) scale(2);
+  transition: opacity 250ms ease, transform 500ms var(--ease-back);
+}
+
+.stampOn {
+  opacity: 1;
+  transform: translate(-60%, -260%) rotate(-10deg) scale(1);
+}
+
+/* ---------- Dica de rolagem ---------- */
+
+.hint {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: clamp(1rem, 4vh, 2rem);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: calc(0.75 - var(--p) * 4);
+}
+
+.hint span {
+  position: relative;
+  width: 1px;
+  height: 2.2rem;
+  overflow: hidden;
+  background: rgb(246 238 228 / 0.2);
+}
+
+.hint span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  animation: drop 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes drop {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+/* ---------- Celular: estrada em cima e um cartão por vez embaixo ---------- */
+
+@media (max-width: 820px) {
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .counter span {
+    font-size: 2.6rem;
+  }
+
+  .map {
+    width: 86vw;
+    align-self: start;
+    margin: 3rem auto 0;
+  }
+
+  .node {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+  }
+
+  .node svg {
+    width: 17px;
+  }
+
+  .travelerBody {
+    left: -20px;
+    width: 40px;
+  }
+
+  .cards {
+    inset: calc(100% + 2.5rem) 0 auto;
+  }
+
+  .card,
+  .card:first-child,
+  .card:last-child,
+  .cardAbove,
+  .cardBelow {
+    left: 50%;
+    top: 0;
+    width: min(100%, 360px);
+    --place: translate(-50%, 0);
+  }
+
+  .cardOn:not(.cardActive) {
+    opacity: 0;
+    pointer-events: none;
+    transform: var(--place) scale(0.9);
+  }
+
+  .cardButton {
+    grid-template-columns: 116px minmax(0, 1fr);
+  }
+
+  .tick {
+    display: none;
+  }
+
+  .zoomCard {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: calc(100dvh - 3rem);
+    overflow-y: auto;
+  }
+
+  .zoomCard img {
+    max-height: 42vh;
+    aspect-ratio: 4 / 3;
+  }
+
+  .zoomStep {
+    font-size: 2.2rem;
+  }
+
+  .zoomClose {
+    top: 10px;
+    right: 10px;
+  }
+
+  .stamp {
+    font-size: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .travelerBody,
+  .puff,
+  .hint span::after {
+    animation: none;
+  }
+}

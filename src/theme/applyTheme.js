@@ -10,6 +10,7 @@ const THEME_MAP = {
   fontPrimary: '--font-primary',
   fontDisplay: '--font-display',
   fontSerif: '--font-serif',
+  containerWidth: '--container',
 };
 
 export function applyTheme(theme = {}, branding = {}) {
