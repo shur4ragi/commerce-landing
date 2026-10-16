@@ -212,43 +212,6 @@ const content = {
     items: [
       // ---------- Cafés e bebidas quentes ----------
       {
-        id: 'espresso',
-        category: 'Cafés e bebidas quentes',
-        title: 'Espresso',
-        description: 'Café intenso e aromático, servido em dose curta.',
-        price: 'R$ 9',
-      },
-      {
-        id: 'especial-baggio',
-        category: 'Cafés e bebidas quentes',
-        title: 'Especial Baggio',
-        description: 'Café aromatizado Baggio.',
-        details: 'Aromas: caramelo, bourbon, chocolate trufado, chocolate com avelã e baunilha.',
-        price: 'R$ 12',
-        options: [
-          {
-            id: 'aroma',
-            label: 'Aroma',
-            type: 'single',
-            required: true,
-            choices: [
-              { id: 'caramelo', label: 'Caramelo', price: 0 },
-              { id: 'bourbon', label: 'Bourbon', price: 0 },
-              { id: 'chocolate-trufado', label: 'Chocolate trufado', price: 0 },
-              { id: 'chocolate-avela', label: 'Chocolate com avelã', price: 0 },
-              { id: 'baunilha', label: 'Baunilha', price: 0 },
-            ],
-          },
-        ],
-      },
-      {
-        id: 'cafe-coado',
-        category: 'Cafés e bebidas quentes',
-        title: 'Café coado',
-        description: 'Tradicional da máquina.',
-        price: 'R$ 10,90',
-      },
-      {
         id: 'cappuccino',
         category: 'Cafés e bebidas quentes',
         title: 'Cappuccino',
@@ -258,27 +221,6 @@ const content = {
         featured: true,
       },
       {
-        id: 'cappuccino-avela',
-        category: 'Cafés e bebidas quentes',
-        title: 'Cappuccino avelã',
-        description: 'Leite, chocolate, avelã e café.',
-        price: 'R$ 10,90',
-      },
-      {
-        id: 'cafe-com-leite',
-        category: 'Cafés e bebidas quentes',
-        title: 'Café com leite',
-        description: 'Expresso com leite.',
-        price: 'R$ 10,90',
-      },
-      {
-        id: 'chocolate-quente',
-        category: 'Cafés e bebidas quentes',
-        title: 'Chocolate quente',
-        description: 'Chocolate quente tradicional.',
-        price: 'R$ 10,90',
-      },
-      {
         id: 'chocolate-marshmallow',
         category: 'Cafés e bebidas quentes',
         title: 'Chocolate quente cremoso com marshmallow',
@@ -286,13 +228,6 @@ const content = {
         price: 'R$ 18,90',
         image: chocolateQuente,
         featured: true,
-      },
-      {
-        id: 'mocaccino',
-        category: 'Cafés e bebidas quentes',
-        title: 'Mocaccino',
-        description: 'Dose de café expresso com chocolate quente.',
-        price: 'R$ 10,90',
       },
 
       // ---------- Frappuccinos ----------
@@ -305,120 +240,8 @@ const content = {
         image: frappuccino,
         featured: true,
       },
-      {
-        id: 'frappuccino-nutella',
-        category: 'Frappuccinos',
-        title: 'Frappuccino Nutella',
-        description: 'A versão da casa com Nutella.',
-        price: 'R$ 23',
-      },
-      {
-        id: 'frappuccino-doce-leite',
-        category: 'Frappuccinos',
-        title: 'Frappuccino doce de leite',
-        description: 'A versão da casa com doce de leite.',
-        price: 'R$ 23',
-      },
-      {
-        id: 'cappuccino-gelado',
-        category: 'Frappuccinos',
-        title: 'Cappuccino gelado',
-        description: 'Cappuccino batido e servido gelado.',
-        price: 'R$ 19',
-      },
-
-      // ---------- Gelados e refrescantes ----------
-      {
-        id: 'cha-gelado',
-        category: 'Gelados e refrescantes',
-        title: 'Chá gelado',
-        description: 'Copo de 300ml.',
-        price: 'R$ 12',
-      },
-      {
-        id: 'ovomaltine-gelado',
-        category: 'Gelados e refrescantes',
-        title: 'Ovomaltine gelado',
-        description: 'Ovomaltine batido com leite gelado.',
-        price: 'R$ 14',
-      },
-      {
-        id: 'suco-polpa',
-        category: 'Gelados e refrescantes',
-        title: 'Suco de polpa',
-        description: 'Consulte os sabores do dia.',
-        price: 'R$ 14',
-      },
-      {
-        id: 'suco-natural',
-        category: 'Gelados e refrescantes',
-        title: 'Suco natural',
-        description: 'Consulte os sabores do dia.',
-        price: 'R$ 14',
-      },
-      {
-        id: 'suco-laramora',
-        category: 'Gelados e refrescantes',
-        title: 'Suco Laramora ou Maramora',
-        description: 'Laranja com morango ou maracujá com morango.',
-        price: 'R$ 18',
-        options: [
-          {
-            id: 'sabor',
-            label: 'Sabor',
-            type: 'single',
-            required: true,
-            choices: [
-              { id: 'laramora', label: 'Laramora (laranja com morango)', price: 0 },
-              { id: 'maramora', label: 'Maramora (maracujá com morango)', price: 0 },
-            ],
-          },
-        ],
-      },
-      {
-        id: 'soda-italiana',
-        category: 'Gelados e refrescantes',
-        title: 'Soda italiana',
-        description: 'Refrescante e gaseificada.',
-        price: 'R$ 14',
-      },
-      {
-        id: 'agua-com-gas',
-        category: 'Gelados e refrescantes',
-        title: 'Água com gás',
-        description: 'Garrafa individual.',
-        price: 'R$ 7',
-      },
-      {
-        id: 'agua-sem-gas',
-        category: 'Gelados e refrescantes',
-        title: 'Água sem gás',
-        description: 'Garrafa individual.',
-        price: 'R$ 6',
-      },
-      {
-        id: 'refrigerante',
-        category: 'Gelados e refrescantes',
-        title: 'Refrigerante',
-        description: 'Consulte os sabores.',
-        price: 'R$ 7,90',
-      },
-      {
-        id: 'coca-ks',
-        category: 'Gelados e refrescantes',
-        title: 'Coca KS',
-        description: 'Coca-Cola KS.',
-        price: 'R$ 7',
-      },
 
       // ---------- Salgados ----------
-      {
-        id: 'coxinhas-catupiry',
-        category: 'Salgados',
-        title: 'Coxinhas com Catupiry original (3 un.)',
-        description: 'Crocantes por fora, cremosas por dentro.',
-        price: 'R$ 15',
-      },
       {
         id: 'torta-frango',
         category: 'Salgados',
@@ -427,27 +250,6 @@ const content = {
         price: 'R$ 22',
         image: tortaFrango,
         featured: true,
-      },
-      {
-        id: 'croissant-peru',
-        category: 'Salgados',
-        title: 'Croissant peito de peru e cream cheese',
-        description: 'Massa folhada artesanal com recheio generoso.',
-        price: 'R$ 22',
-      },
-      {
-        id: 'quiche-brocolis-bacon',
-        category: 'Salgados',
-        title: 'Quiche de brócolis com bacon',
-        description: 'Equilíbrio entre o defumado e o fresco.',
-        price: 'R$ 15',
-      },
-      {
-        id: 'quiche-alho-poro',
-        category: 'Salgados',
-        title: 'Quiche de alho-poró',
-        description: 'Delicada e aromática.',
-        price: 'R$ 15',
       },
       {
         id: 'pao-queijo-folhado',
@@ -460,55 +262,6 @@ const content = {
       },
 
       // ---------- No brioche ----------
-      {
-        id: 'brioche-chapa',
-        category: 'No brioche',
-        title: 'Pão brioche na chapa',
-        description: 'Uma fatia de brioche dourada na chapa.',
-        price: 'R$ 10',
-      },
-      {
-        id: 'brioche-duas-fatias',
-        category: 'No brioche',
-        title: '2 fatias de pão brioche',
-        description: 'Com requeijão, manteiga, Nutella ou doce de leite.',
-        price: 'R$ 16',
-        options: [
-          {
-            id: 'cobertura',
-            label: 'Escolha',
-            type: 'single',
-            required: true,
-            choices: [
-              { id: 'requeijao', label: 'Requeijão', price: 0 },
-              { id: 'manteiga', label: 'Manteiga', price: 0 },
-              { id: 'nutella', label: 'Nutella', price: 0 },
-              { id: 'doce-de-leite', label: 'Doce de leite', price: 0 },
-            ],
-          },
-        ],
-      },
-      {
-        id: 'misto-brioche',
-        category: 'No brioche',
-        title: 'Misto quente no brioche',
-        description: 'Queijo, presunto e requeijão.',
-        price: 'R$ 15',
-      },
-      {
-        id: 'ovos-mexidos-brioche',
-        category: 'No brioche',
-        title: 'Ovos mexidos com pão brioche',
-        description: 'Cremosos, no ponto perfeito.',
-        price: 'R$ 19',
-      },
-      {
-        id: 'croque-monsieur',
-        category: 'No brioche',
-        title: 'Croque-monsieur',
-        description: 'Pão brioche com presunto, queijo gratinado e molho bechamel.',
-        price: 'R$ 25',
-      },
       {
         id: 'croque-madame',
         category: 'No brioche',
@@ -548,20 +301,6 @@ const content = {
         image: matildaCake,
         featured: true,
       },
-      {
-        id: 'leyas-cake',
-        category: 'Bolos',
-        title: "Leya's Cake (Kinder Bueno)",
-        description: 'Chocolate intenso com brigadeiro de Kinder Bueno, calda Kinder branca e pedaços de Kinder Bueno.',
-        price: 'R$ 29,90',
-      },
-      {
-        id: 'red-velvet',
-        category: 'Bolos',
-        title: 'Red Velvet Cake',
-        description: 'Receita original inglesa com recheio à base de cream cheese.',
-        price: 'R$ 22,90',
-      },
 
       // ---------- Doces ----------
       {
@@ -572,64 +311,6 @@ const content = {
         price: 'R$ 15',
         image: cookieNutella,
         featured: true,
-      },
-      {
-        id: 'cookie-kinder',
-        category: 'Doces',
-        title: 'Cookie Kinder',
-        description: 'Recheado com Nutella e coberto com Kinder.',
-        price: 'R$ 18',
-      },
-      {
-        id: 'cookie-dark',
-        category: 'Doces',
-        title: 'Cookie Dark',
-        description: 'Para os amantes de chocolate.',
-        price: 'R$ 15',
-      },
-      {
-        id: 'cookie-dark-alpino',
-        category: 'Doces',
-        title: 'Cookie Dark Alpino',
-        description: 'Cookie de chocolate com Alpino.',
-        price: 'R$ 18',
-      },
-      {
-        id: 'brownie-sorvete',
-        category: 'Doces',
-        title: 'Brownie com sorvete de creme',
-        description: 'A combinação que nunca falha.',
-        price: 'R$ 25',
-      },
-      {
-        id: 'brownie-casquinha',
-        category: 'Doces',
-        title: 'Brownie com casquinha',
-        description: 'Adicione brigadeiro e morango por + R$ 5.',
-        price: 'R$ 16',
-        options: [
-          {
-            id: 'extra',
-            label: 'Adicional',
-            type: 'multi',
-            choices: [{ id: 'brigadeiro-morango', label: 'Brigadeiro e morango', price: 5 }],
-          },
-        ],
-      },
-      {
-        id: 'cuca-maca',
-        category: 'Doces',
-        title: 'Cuca de maçã (ou apple pie)',
-        description: 'Sugestão da casa: adicione sorvete de creme por + R$ 5.',
-        price: 'R$ 15',
-        options: [
-          {
-            id: 'extra',
-            label: 'Adicional',
-            type: 'multi',
-            choices: [{ id: 'sorvete', label: 'Sorvete de creme', price: 5 }],
-          },
-        ],
       },
       {
         id: 'croissant-nutella-morango',
