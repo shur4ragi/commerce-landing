@@ -4,6 +4,8 @@ import { useSavedItems } from '../../hooks/useSavedItems.js';
 import { useSite } from '../../hooks/useSite.js';
 import { Card, Reveal, Section } from '../ui';
 import CatalogModal, { CategoryIcon } from './CatalogModal.jsx';
+import MenuSheet from './MenuSheet.jsx';
+import PaperMenu from './PaperMenu.jsx';
 import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
@@ -45,6 +47,8 @@ export default function Products() {
   const { clientId, content, config } = useSite();
   // features.ordering: false = vitrine (sem carrinho; pedidos pelos links do cliente).
   const ordering = config.features?.ordering !== false;
+  // features.simulation: false esconde o botão "Simular pedido" (em qualquer tela).
+  const simulation = config.features?.simulation !== false;
   const products = content.products;
   const orderCopy = content.order || {};
   const items = useMemo(() => products.items || [], [products.items]);
@@ -63,6 +67,9 @@ export default function Products() {
   const scrollerRef = useRef(null);
   const [selectedId, setSelectedId] = useState(null);
   const [catalogMode, setCatalogMode] = useState(null);
+  // products.paperMenu: "Ver todos" abre o cardápio de papel em tela cheia (MenuSheet).
+  const paperRef = useRef(null);
+  const [sheet, setSheet] = useState(null); // { origin, rotate } enquanto aberto
 
   const selected = items.find((item) => item.id === selectedId) || null;
   const savedItems = useMemo(
@@ -98,6 +105,19 @@ export default function Products() {
 
   const closePanel = useCallback(() => setSelectedId(null), []);
   const closeCatalog = useCallback(() => setCatalogMode(null), []);
+  const closeSheet = useCallback(() => setSheet(null), []);
+
+  // O cardápio sai do papel da coluna direita quando ele está na tela; senão, do botão clicado.
+  const openSheet = (event) => {
+    const paperNode = paperRef.current;
+    const paperRect = paperNode?.getBoundingClientRect();
+    const onScreen = paperRect && paperRect.width > 0 && paperRect.bottom > 0 && paperRect.top < window.innerHeight;
+    const rect = onScreen ? paperRect : event.currentTarget.getBoundingClientRect();
+    setSheet({
+      origin: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+      rotate: onScreen ? -6 : 0,
+    });
+  };
 
   return (
     <Section
@@ -106,109 +126,238 @@ export default function Products() {
       title={products.title}
       description={products.description}
       tone="accent"
+      className={products.paperMenu ? styles.withMenu : ''}
     >
-      <div className={styles.toolbar}>
-        <div className={styles.toolbarActions}>
-          <button
-            type="button"
-            className={styles.toolbarButton}
-            onClick={() => setCatalogMode('saved')}
-          >
-            <BookmarkIcon filled={count > 0} />
-            {products.savedLabel || 'Salvos'}
-            {count > 0 ? <span className={styles.count}>{count}</span> : null}
-          </button>
-          <button type="button" className={styles.toolbarButton} onClick={() => setCatalogMode('all')}>
-            {products.viewAllLabel || 'Ver todos'}
-          </button>
-          {ordering ? (
-            <>
-              <button
-                type="button"
-                className={`${styles.toolbarButton} ${styles.simulateButton}`}
-                onClick={startTutorial}
-                aria-label={orderCopy.simulateLabel || 'Simular pedido'}
-              >
-                {orderCopy.simulateLabel || 'Simular pedido'}
-              </button>
-              <CartButton variant="pill" className={styles.toolbarButton} />
-            </>
-          ) : (
-            resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
-              <OutboundLink
-                key={link.label}
-                className={`${styles.toolbarButton} ${styles.toolbarLink} ${link.type === 'whatsapp' ? styles.toolbarWhatsapp : ''}`}
-                href={link.href}
-                type={link.type}
-                aria-label={link.label}
-              >
-                {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
-                <span className={styles.toolbarLabel}>{link.shortLabel || link.label}</span>
-              </OutboundLink>
-            ))
-          )}
-        </div>
-        <div className={styles.carouselNav}>
-          <button type="button" className={styles.navButton} onClick={() => scrollBy(-1)} aria-label="Itens anteriores">
-            ‹
-          </button>
-          <button type="button" className={styles.navButton} onClick={() => scrollBy(1)} aria-label="Próximos itens">
-            ›
-          </button>
-        </div>
-      </div>
-
-      <Reveal>
-        <div
-          ref={scrollerRef}
-          className={styles.carousel}
-          tabIndex={0}
-          aria-label="Cardápio em destaque"
-        >
-          {featured.map((item, index) => {
-            const saved = has(item.id);
-            return (
-              <div key={item.id} className={styles.slide} data-tour={index === 0 ? 'product' : undefined}>
-                <div className={`${styles.cardWrap} ${selectedId === item.id ? styles.cardActive : ''}`}>
-                  <Card
-                    image={item.image}
-                    imageAlt=""
-                    title={item.title}
-                    description={item.description}
-                    meta={item.price}
-                    placeholder={<CategoryIcon category={item.category} />}
-                  />
+      {products.paperMenu ? (
+        <div className={styles.menuLayout}>
+          <PaperMenu ref={paperRef} items={items} onOpen={openSheet} away={Boolean(sheet)} />
+          <div className={styles.menuMain}>
+              <div className={styles.toolbar}>
+                <div className={styles.toolbarActions}>
                   <button
                     type="button"
-                    className={styles.openHit}
-                    onClick={() => {
-                      if (tutorialActive) openItem(item);
-                    }}
-                    onDoubleClick={() => openItem(item)}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        openItem(item);
-                      }
-                    }}
-                    aria-label={`Ver ${item.title}. Clique duas vezes para abrir.`}
-                    title="Clique duas vezes para abrir"
-                  />
-                  <button
-                    type="button"
-                    className={`${styles.saveOnCard} ${saved ? styles.saveOnCardActive : ''}`}
-                    onClick={() => toggle(item.id)}
-                    aria-label={saved ? `Remover ${item.title} dos salvos` : `Salvar ${item.title}`}
-                    aria-pressed={saved}
+                    className={styles.toolbarButton}
+                    onClick={() => setCatalogMode('saved')}
                   >
-                    <BookmarkIcon filled={saved} />
+                    <BookmarkIcon filled={count > 0} />
+                    {products.savedLabel || 'Salvos'}
+                    {count > 0 ? <span className={styles.count}>{count}</span> : null}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.toolbarButton}
+                    // Antes: modal com skeleton (CatalogModal no modo 'all').
+                    // onClick={() => setCatalogMode('all')}
+                    onClick={products.paperMenu ? openSheet : () => setCatalogMode('all')}
+                  >
+                    {products.viewAllLabel || 'Ver todos'}
+                  </button>
+                  {ordering ? (
+                    <>
+                      {simulation ? (
+                        <button
+                          type="button"
+                          className={`${styles.toolbarButton} ${styles.simulateButton}`}
+                          onClick={startTutorial}
+                          aria-label={orderCopy.simulateLabel || 'Simular pedido'}
+                        >
+                          {orderCopy.simulateLabel || 'Simular pedido'}
+                        </button>
+                      ) : null}
+                      <CartButton variant="pill" className={styles.toolbarButton} />
+                    </>
+                  ) : (
+                    resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
+                      <OutboundLink
+                        key={link.label}
+                        className={`${styles.toolbarButton} ${styles.toolbarLink} ${link.type === 'whatsapp' ? styles.toolbarWhatsapp : ''}`}
+                        href={link.href}
+                        type={link.type}
+                        aria-label={link.label}
+                      >
+                        {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
+                        <span className={styles.toolbarLabel}>{link.shortLabel || link.label}</span>
+                      </OutboundLink>
+                    ))
+                  )}
+                </div>
+                <div className={styles.carouselNav}>
+                  <button type="button" className={styles.navButton} onClick={() => scrollBy(-1)} aria-label="Itens anteriores">
+                    ‹
+                  </button>
+                  <button type="button" className={styles.navButton} onClick={() => scrollBy(1)} aria-label="Próximos itens">
+                    ›
                   </button>
                 </div>
               </div>
-            );
-          })}
+
+              <Reveal>
+                <div
+                  ref={scrollerRef}
+                  className={styles.carousel}
+                  tabIndex={0}
+                  aria-label="Cardápio em destaque"
+                >
+                  {featured.map((item, index) => {
+                    const saved = has(item.id);
+                    return (
+                      <div key={item.id} className={styles.slide} data-tour={index === 0 ? 'product' : undefined}>
+                        <div className={`${styles.cardWrap} ${selectedId === item.id ? styles.cardActive : ''}`}>
+                          <Card
+                            image={item.image}
+                            imageAlt=""
+                            title={item.title}
+                            description={item.description}
+                            meta={item.price}
+                            placeholder={<CategoryIcon category={item.category} />}
+                          />
+                          <button
+                            type="button"
+                            className={styles.openHit}
+                            onClick={() => {
+                              if (tutorialActive) openItem(item);
+                            }}
+                            onDoubleClick={() => openItem(item)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter' || event.key === ' ') {
+                                event.preventDefault();
+                                openItem(item);
+                              }
+                            }}
+                            aria-label={`Ver ${item.title}. Clique duas vezes para abrir.`}
+                            title="Clique duas vezes para abrir"
+                          />
+                          <button
+                            type="button"
+                            className={`${styles.saveOnCard} ${saved ? styles.saveOnCardActive : ''}`}
+                            onClick={() => toggle(item.id)}
+                            aria-label={saved ? `Remover ${item.title} dos salvos` : `Salvar ${item.title}`}
+                            aria-pressed={saved}
+                          >
+                            <BookmarkIcon filled={saved} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Reveal>
+          </div>
         </div>
-      </Reveal>
+      ) : (
+        <>
+          <div className={styles.toolbar}>
+            <div className={styles.toolbarActions}>
+              <button
+                type="button"
+                className={styles.toolbarButton}
+                onClick={() => setCatalogMode('saved')}
+              >
+                <BookmarkIcon filled={count > 0} />
+                {products.savedLabel || 'Salvos'}
+                {count > 0 ? <span className={styles.count}>{count}</span> : null}
+              </button>
+              <button
+                type="button"
+                className={styles.toolbarButton}
+                // Antes: modal com skeleton (CatalogModal no modo 'all').
+                // onClick={() => setCatalogMode('all')}
+                onClick={products.paperMenu ? openSheet : () => setCatalogMode('all')}
+              >
+                {products.viewAllLabel || 'Ver todos'}
+              </button>
+              {ordering ? (
+                <>
+                  {simulation ? (
+                    <button
+                      type="button"
+                      className={`${styles.toolbarButton} ${styles.simulateButton}`}
+                      onClick={startTutorial}
+                      aria-label={orderCopy.simulateLabel || 'Simular pedido'}
+                    >
+                      {orderCopy.simulateLabel || 'Simular pedido'}
+                    </button>
+                  ) : null}
+                  <CartButton variant="pill" className={styles.toolbarButton} />
+                </>
+              ) : (
+                resolveOrderLinks(orderCopy.links, config.business.whatsapp, { item: '' }).map((link) => (
+                  <OutboundLink
+                    key={link.label}
+                    className={`${styles.toolbarButton} ${styles.toolbarLink} ${link.type === 'whatsapp' ? styles.toolbarWhatsapp : ''}`}
+                    href={link.href}
+                    type={link.type}
+                    aria-label={link.label}
+                  >
+                    {link.type === 'whatsapp' ? <i className="fa-brands fa-whatsapp" aria-hidden="true" /> : null}
+                    <span className={styles.toolbarLabel}>{link.shortLabel || link.label}</span>
+                  </OutboundLink>
+                ))
+              )}
+            </div>
+            <div className={styles.carouselNav}>
+              <button type="button" className={styles.navButton} onClick={() => scrollBy(-1)} aria-label="Itens anteriores">
+                ‹
+              </button>
+              <button type="button" className={styles.navButton} onClick={() => scrollBy(1)} aria-label="Próximos itens">
+                ›
+              </button>
+            </div>
+          </div>
+
+          <Reveal>
+            <div
+              ref={scrollerRef}
+              className={styles.carousel}
+              tabIndex={0}
+              aria-label="Cardápio em destaque"
+            >
+              {featured.map((item, index) => {
+                const saved = has(item.id);
+                return (
+                  <div key={item.id} className={styles.slide} data-tour={index === 0 ? 'product' : undefined}>
+                    <div className={`${styles.cardWrap} ${selectedId === item.id ? styles.cardActive : ''}`}>
+                      <Card
+                        image={item.image}
+                        imageAlt=""
+                        title={item.title}
+                        description={item.description}
+                        meta={item.price}
+                        placeholder={<CategoryIcon category={item.category} />}
+                      />
+                      <button
+                        type="button"
+                        className={styles.openHit}
+                        onClick={() => {
+                          if (tutorialActive) openItem(item);
+                        }}
+                        onDoubleClick={() => openItem(item)}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            openItem(item);
+                          }
+                        }}
+                        aria-label={`Ver ${item.title}. Clique duas vezes para abrir.`}
+                        title="Clique duas vezes para abrir"
+                      />
+                      <button
+                        type="button"
+                        className={`${styles.saveOnCard} ${saved ? styles.saveOnCardActive : ''}`}
+                        onClick={() => toggle(item.id)}
+                        aria-label={saved ? `Remover ${item.title} dos salvos` : `Salvar ${item.title}`}
+                        aria-pressed={saved}
+                      >
+                        <BookmarkIcon filled={saved} />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Reveal>
+        </>
+      )}
 
       <ProductPanel
         item={selected}
@@ -229,6 +378,18 @@ export default function Products() {
         }
       />
 
+      {products.paperMenu ? (
+        <MenuSheet
+          open={Boolean(sheet)}
+          origin={sheet?.origin}
+          rotate={sheet?.rotate}
+          groups={groupItems(items)}
+          onClose={closeSheet}
+          onSelect={openItem}
+        />
+      ) : null}
+
+      {/* Mantido para "Salvos" (e para "Ver todos" quando não há cardápio de papel). */}
       <CatalogModal
         open={Boolean(catalogMode)}
         onClose={closeCatalog}

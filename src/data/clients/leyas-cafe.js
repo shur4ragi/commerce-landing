@@ -77,6 +77,98 @@ const content = {
     ],
   },
 
+  // Abertura em card: fundo verde-oliva com grãos (o grão do apóstrofo da logo), lettering
+  // "Seu lugar favorito" e a foto do Matilda Cake em arco com o selo da logo.
+  cardHero: {
+    id: 'inicio',
+    eyebrow: 'Independência · Taubaté',
+    sticker: 'Matilda Cake ♥',
+    title: 'Seu lugar',
+    tag: 'favorito',
+    storyTitle: 'Feito para ficar',
+    story:
+      'Café bem tirado, salgados que saem do forno todos os dias e bolos em camadas que viraram assunto no Instagram. Puxa uma cadeira: o Leya’s é aquele café que você indica para os amigos.',
+    primaryCta: { label: 'Ver cardápio', href: '#produtos' },
+    secondaryCta: { label: 'Como chegar' },
+    badgeText: 'Seu lugar favorito em Taubaté',
+    visual: 'photo',
+    photo: matildaCake,
+  },
+
+  // Passo a passo preso na rolagem: a caixinha percorre o caminho até o story do cliente.
+  journey: {
+    id: 'do-forno-ao-story',
+    eyebrow: 'Passo a passo',
+    title: 'Do forno *ao* seu story.',
+    hint: 'Role para acompanhar',
+    done: 'Hora da foto!',
+    steps: [
+      {
+        title: 'Sai do forno',
+        text: 'Salgados e tortas com receita da casa, assados todos os dias.',
+        image: tortaFrango,
+        alt: 'Fatia de torta de frango com um café ao fundo',
+        icon: 'oven',
+      },
+      {
+        title: 'Montado com capricho',
+        text: 'Croque gratinado, croissant com Nutella e morango, bolo em camadas com calda generosa.',
+        image: croissantNutella,
+        alt: 'Croissant recheado com Nutella e morangos',
+        icon: 'bag',
+      },
+      {
+        title: 'Chega na mesa',
+        text: 'Servido na hora, com o cappuccino que combina. Ou embalado para viagem e delivery.',
+        image: cappuccino,
+        alt: "Cappuccino com arte no leite em frente ao letreiro do Leya's",
+        icon: 'home',
+      },
+      {
+        title: 'Vira story',
+        text: 'Matilda Cake com calda extra: difícil não fotografar antes da primeira garfada.',
+        image: matildaCake,
+        alt: 'Matilda Cake com calda de chocolate',
+        icon: 'phone',
+      },
+    ],
+  },
+
+  // "Estamos no Instagram": celular flutuante com o perfil @leyascaffe.
+  instagram: {
+    id: 'instagram',
+    eyebrow: 'Estamos no Instagram',
+    title: 'Bonito *de* postar, melhor de comer.',
+    text: 'O bolo do dia, os frappuccinos novos e os bastidores do forno. Siga e marque a gente na sua foto.',
+    handle: 'leyascaffe',
+    cta: 'Seguir @leyascaffe',
+    profile: {
+      name: "Leya's Café",
+      followers: '9,9 mil',
+      bio: ['Seu lugar favorito em Taubaté ☕', 'Av. Francisco Alves Monteiro, 701', 'Café da manhã sáb. e dom. às 8h'],
+    },
+    highlights: [
+      { title: 'Bolos da casa', text: 'Matilda Cake, Red Velvet e companhia.', image: matildaCake },
+      { title: 'Gelados', text: 'Frappuccinos, sodas e açaí.', image: frappuccino },
+      { title: 'Nosso cantinho', text: 'O mural de memórias dos clientes.', image: mural },
+    ],
+    chips: ['Matilda Cake saindo agora', 'Novo frappuccino nos stories'],
+    posts: [
+      { image: matildaCake, alt: 'Matilda Cake com calda de chocolate' },
+      { image: frappuccino, alt: 'Frappuccino da casa com chantilly' },
+      { image: croqueMadame, alt: 'Croque-madame gratinado com ovo' },
+      { image: cookieNutella, alt: 'Cookies recheados com Nutella' },
+      { image: chocolateQuente, alt: 'Chocolate quente com marshmallow tostado' },
+      { image: toastParma, alt: 'Toast Parma com creme de ricota' },
+      { image: copoFelicidade, alt: 'Copo da Felicidade' },
+      { image: acai, alt: 'Açaí na tigela com frutas' },
+      { image: croissantNutella, alt: 'Croissant com Nutella e morango' },
+      { image: bombomMorango, alt: 'Bombons de morango' },
+      { image: fachada, alt: "Fachada do Leya's Café" },
+      { image: cappuccino, alt: 'Cappuccino com arte no leite' },
+    ],
+  },
+
   hero: {
     eyebrow: 'Independência · Taubaté',
     title: 'Seu lugar favorito em Taubaté.',
@@ -102,6 +194,12 @@ const content = {
     text: "O Leya's nasceu para ser o seu lugar favorito em Taubaté: mesa boa, café bem tirado e uma vitrine que faz a gente mudar de ideia na hora de pedir. Os salgados saem do forno todos os dias, a massa folhada é artesanal e os bolos em camadas viraram assunto no Instagram.",
     image: croqueMesa,
     imageAlt: "Croque-madame servido no salão do Leya's Café",
+    // Colagem de fotos no lugar da foto única (a primeira é a principal).
+    collage: [
+      { image: croqueMesa, alt: "Croque-madame servido no salão do Leya's Café", caption: 'Nosso salão' },
+      { image: mural, alt: 'Mural com fotos e bilhetes de clientes', caption: 'Cantinho das memórias' },
+      { image: cookiesBalcao, alt: 'Cookies recheados no balcão', caption: 'Cookies da casa' },
+    ],
     facts: [
       { value: 'Matilda Cake', label: 'A estrela da casa' },
       { value: 'Forno diário', label: 'Salgados e tortas da casa' },
@@ -173,6 +271,8 @@ const content = {
     id: 'servicos',
     eyebrow: 'Experiências',
     title: 'Um Leya’s *para* cada hora.',
+    // Painéis grandes de foto que se expandem ao passar o mouse.
+    layout: 'panels',
     description: 'Do café da manhã de fim de semana ao doce do fim da tarde.',
     items: [
       {
@@ -204,6 +304,12 @@ const content = {
     title: 'O que tem *no* Leya’s hoje.',
     description: 'Cardápio completo em "Ver todos". Preços e disponibilidade podem mudar; confirme no balcão.',
     viewAllLabel: 'Ver todos',
+    // Cardápio de lousa ao lado do carrossel; "Ver todos" abre a lousa em tela cheia.
+    paperMenu: {
+      style: 'chalk',
+      subtitle: 'Independência · Taubaté',
+      footer: 'Seu lugar favorito em Taubaté ♥',
+    },
     savedLabel: 'Salvos',
     orderLabel: 'Pedir no WhatsApp',
     saveLabel: 'Salvar',
@@ -477,17 +583,22 @@ const content = {
     title: 'Quem vem, *volta*.',
     rating: {
       value: '5,0',
-      count: '51 avaliações no Google',
+      count: '51 avaliações',
+      place: "Leya's Café · Independência, Taubaté",
       source: 'Google',
       href: "https://www.google.com/maps/place/Leya's+Caf%C3%A9/@-23.0376963,-45.5947859,17z/data=!4m6!3m5!1s0x94ccf9aff38326e1:0x6bd4d21543e69a86!8m2!3d-23.0376963!4d-45.5947859!16s%2Fg%2F11nb9_l56q",
-      linkLabel: 'Ver avaliações no Google',
+      linkLabel: 'Ver todas no Google',
     },
     items: [
       {
+        name: 'Cliente',
+        role: 'Avaliação no Google',
         quote: 'O ambiente é gostoso, a moça que atendeu a gente super SUPER simpática.',
         stars: 5,
       },
       {
+        name: 'Cliente',
+        role: 'Avaliação no Google',
         quote: 'Foi a primeira vez que fui e a primeira vez que o clube do livro foi lá!',
         stars: 5,
       },
@@ -505,6 +616,25 @@ const content = {
       messageLabel: 'Mensagem',
       submitLabel: 'Enviar pelo WhatsApp',
       consent: 'Autorizo o contato pelo WhatsApp.',
+    },
+    // Formulário final (CoffeeContact): a comanda entra na caixinha de doce, que fecha com a fita.
+    order: {
+      container: 'box',
+      title: 'Bora *marcar* um café?',
+      text: 'Encomenda de bolo, pedido para retirar ou só uma pergunta: a gente anota na comanda, fecha a caixinha e você envia pelo WhatsApp.',
+      types: ['Encomenda de bolo', 'Pedido para retirar', 'Café da manhã', 'Outro assunto'],
+      typeLegend: 'Sobre o que é?',
+      dateLabel: 'Para quando?',
+      messagePlaceholder: 'Ex.: Matilda Cake inteiro para sábado, retirar às 15h',
+      concludeLabel: 'Fechar a caixinha',
+      closingLabel: 'Fechando a caixinha…',
+      sendLabel: 'Enviar pelo WhatsApp',
+      editLabel: 'Editar',
+      hints: {
+        open: 'Sua comanda está sendo anotada…',
+        closing: 'Amarrando a fita…',
+        closed: 'Caixinha fechada com carinho, é só enviar!',
+      },
     },
   },
 };

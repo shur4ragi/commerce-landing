@@ -713,6 +713,53 @@
   }
 }
 
+/* products.paperMenu: cardápio de papel à esquerda e o carrossel com a largura normal do
+   conteúdo; em telas largas a grade passa da largura do container para os cards não encolherem. */
+.withMenu {
+  position: relative;
+}
+
+.menuLayout {
+  display: grid;
+  grid-template-columns: clamp(250px, 19vw, 320px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(2rem, 3.5vw, 4rem);
+}
+
+.menuMain {
+  min-width: 0;
+}
+
+@media (min-width: 961px) {
+  .menuLayout {
+    /* Quanto a grade avança para a esquerda: a coluna do papel + o espaço, sem passar da tela. */
+    --pull: min(
+      calc(clamp(250px, 19vw, 320px) + clamp(2rem, 3.5vw, 4rem)),
+      calc((100vw - 100%) / 2 - 3rem)
+    );
+    width: calc(100% + var(--pull));
+    margin-left: calc(-1 * var(--pull));
+  }
+
+  /* Cards no tamanho de sempre (~300px), mesmo com o carrossel mais estreito ao lado do papel. */
+  .menuLayout .slide {
+    flex-basis: clamp(290px, calc((100% - 3.75rem) / 4), 340px);
+  }
+}
+
+/* No celular o papel fica abaixo do carrossel, menor e centralizado. */
+@media (max-width: 960px) {
+  .menuLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .menuLayout > :first-child {
+    order: 2;
+    justify-self: center;
+    max-width: 300px;
+  }
+}
+
 /* Simulação de pedido só na versão de PC. */
 @media (max-width: 767px) {
   .simulateButton {

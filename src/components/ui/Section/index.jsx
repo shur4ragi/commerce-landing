@@ -10,9 +10,10 @@ export default function Section({
   description,
   children,
   tone = 'default',
+  className = '',
 }) {
   return (
-    <section id={id} className={`${styles.section} ${styles[tone]}`}>
+    <section id={id} className={`${styles.section} ${styles[tone]} ${className}`.trim()}>
       <Container>
         {(eyebrow || title || description) && (
           <header className={styles.header}>
@@ -34,4 +35,5 @@ Section.propTypes = {
   description: PropTypes.string,
   children: PropTypes.node,
   tone: PropTypes.oneOf(['default', 'inverse', 'accent']),
+  className: PropTypes.string,
 };

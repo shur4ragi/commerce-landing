@@ -37,7 +37,32 @@ const siteConfig = {
     fontDisplay: '"Oswald", system-ui, sans-serif',
     fontSerif: '"Instrument Serif", Georgia, serif',
     fontStylesheet:
-      'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap',
+      'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Bebas+Neue&family=Caveat:wght@600;700&display=swap',
+    // Conteúdo mais largo: as seções aproveitam telas grandes.
+    containerWidth: '1360px',
+    // "Pele" do Leya's nos componentes de destaque (o Fryda usa os valores padrão, em marrom).
+    vars: {
+      '--skin-hero-bg': '#5B604A',
+      '--skin-hero-deep': '#3B3F2E',
+      '--skin-warm': '#B06B3C',
+      '--skin-ink': '#3E412F',
+      '--skin-ink-dark': '#2C2E23',
+      '--skin-paper': '#F3EEE3',
+      '--skin-dark': '#2F3226',
+      '--skin-glow': '#D9A066',
+      '--skin-kraft': '#7C8466',
+      '--skin-kraft-dark': '#5B604A',
+      '--skin-ribbon': '#C98552',
+      '--skin-pop': '#B06B3C',
+      '--skin-pop-2': '#D9A066',
+      '--skin-pop-3': '#8E9A6B',
+      '--skin-menu-paper': '#2F3428',
+      '--skin-menu-ink': '#F1ECDF',
+      '--skin-menu-accent': '#E3A970',
+      '--skin-menu-glow': 'rgb(255 255 255 / 0.06)',
+      '--skin-font-letter': "'Bebas Neue', 'Oswald', Impact, sans-serif",
+      '--skin-font-hand': "'Caveat', cursive",
+    },
   },
 
   social: {
@@ -71,6 +96,12 @@ const siteConfig = {
   features: {
     whatsappFloat: true,
     contactForm: true,
+    // Cada seção ocupa pelo menos uma tela.
+    fullScreenSections: true,
+    // Rolagem suave com inércia no mouse, para as animações de entrada aparecerem por inteiro.
+    smoothScroll: true,
+    // Simulação de pedido desligada (desktop e mobile) até ser refeita.
+    simulation: false,
   },
 };
 
@@ -79,18 +110,18 @@ const client = {
   config: siteConfig,
   content,
   sections: [
-    'intro',
-    'hero',
+    'cardHero',
     'about',
     'statement',
     'services',
-    'process',
+    'journey',
     // O cardápio entra como cobertura derretendo logo depois do passo a passo.
     { id: 'products', reveal: 'drip' },
     'gallery',
-    'highlights',
-    'testimonials',
-    'contact',
+    // Motivos para voltar + avaliações do Google numa seção só.
+    'reviews',
+    'instagram',
+    'coffeeContact',
   ],
 };
 

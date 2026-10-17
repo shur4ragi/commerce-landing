@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef } from 'react';
+import { scrollToTarget } from '../../utils/smoothScroll.js';
 import { createPortal } from 'react-dom';
 import { useOrder } from '../../hooks/useOrder.js';
 import { useSite } from '../../hooks/useSite.js';
@@ -124,6 +125,12 @@ export default function OrderCart() {
                     onRemove={removeItem}
                     onCheckout={() => setView('checkout')}
                     checkoutLabel={orderCopy.checkoutLabel || 'Finalizar pedido'}
+                    // Sem itens: o botão vira "Começar pedido" e leva ao cardápio.
+                    startLabel={orderCopy.startLabel || 'Começar pedido'}
+                    onStart={() => {
+                      closeCart();
+                      window.setTimeout(() => scrollToTarget(document.getElementById('produtos')), 60);
+                    }}
                   />
                 )}
               </div>

@@ -10,6 +10,7 @@ const THEME_MAP = {
   fontPrimary: '--font-primary',
   fontDisplay: '--font-display',
   fontSerif: '--font-serif',
+  containerWidth: '--container',
 };
 
 export function applyTheme(theme = {}, branding = {}) {
@@ -22,6 +23,11 @@ export function applyTheme(theme = {}, branding = {}) {
   });
 
   // Folha de fontes do cliente (ex.: Google Fonts), injetada uma única vez.
+  // Variáveis extras da "pele" do cliente (ex.: --skin-hero-bg), usadas pelos componentes de destaque.
+  Object.entries(theme.vars || {}).forEach(([cssVar, value]) => {
+    root.style.setProperty(cssVar, value);
+  });
+
   if (theme.fontStylesheet && !document.querySelector('link[data-theme-fonts]')) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
