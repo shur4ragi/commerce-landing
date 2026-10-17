@@ -52,6 +52,8 @@ export default function Products() {
   const { clientId, content, config } = useSite();
   // features.ordering: false = vitrine (sem carrinho; pedidos pelos links do cliente).
   const ordering = config.features?.ordering !== false;
+  // features.simulation: false esconde o botão "Simular pedido" (em qualquer tela).
+  const simulation = config.features?.simulation !== false;
   const products = content.products;
   const orderCopy = content.order || {};
   const items = useMemo(() => products.items || [], [products.items]);
@@ -157,14 +159,16 @@ export default function Products() {
                   </button>
                   {ordering ? (
                     <>
-                      <button
-                        type="button"
-                        className={`${styles.toolbarButton} ${styles.simulateButton}`}
-                        onClick={startTutorial}
-                        aria-label={orderCopy.simulateLabel || 'Simular pedido'}
-                      >
-                        {orderCopy.simulateLabel || 'Simular pedido'}
-                      </button>
+                      {simulation ? (
+                        <button
+                          type="button"
+                          className={`${styles.toolbarButton} ${styles.simulateButton}`}
+                          onClick={startTutorial}
+                          aria-label={orderCopy.simulateLabel || 'Simular pedido'}
+                        >
+                          {orderCopy.simulateLabel || 'Simular pedido'}
+                        </button>
+                      ) : null}
                       <CartButton variant="pill" className={styles.toolbarButton} />
                     </>
                   ) : (
@@ -269,14 +273,16 @@ export default function Products() {
               </button>
               {ordering ? (
                 <>
-                  <button
-                    type="button"
-                    className={`${styles.toolbarButton} ${styles.simulateButton}`}
-                    onClick={startTutorial}
-                    aria-label={orderCopy.simulateLabel || 'Simular pedido'}
-                  >
-                    {orderCopy.simulateLabel || 'Simular pedido'}
-                  </button>
+                  {simulation ? (
+                    <button
+                      type="button"
+                      className={`${styles.toolbarButton} ${styles.simulateButton}`}
+                      onClick={startTutorial}
+                      aria-label={orderCopy.simulateLabel || 'Simular pedido'}
+                    >
+                      {orderCopy.simulateLabel || 'Simular pedido'}
+                    </button>
+                  ) : null}
                   <CartButton variant="pill" className={styles.toolbarButton} />
                 </>
               ) : (

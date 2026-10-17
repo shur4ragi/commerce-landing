@@ -82,6 +82,8 @@ const siteConfig = {
     fullScreenSections: true,
     // Rolagem suave com inércia no mouse, para as animações de entrada aparecerem por inteiro.
     smoothScroll: true,
+    // Simulação de pedido desligada (desktop e mobile) até ser refeita.
+    simulation: false,
   },
 };
 

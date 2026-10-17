@@ -133,7 +133,7 @@ export default function CardHero() {
               <span className={styles.big} aria-label={hero.title}>
                 {[...hero.title].map((char, index) => (
                   <span key={index} aria-hidden="true" style={{ '--i': index }}>
-                    {char}
+                    {char === ' ' ? ' ' : char}
                   </span>
                 ))}
               </span>

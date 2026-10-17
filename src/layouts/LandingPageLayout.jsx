@@ -48,7 +48,7 @@ export default function LandingPageLayout() {
       <Footer />
       <WhatsAppFloat />
       {ordering ? <OrderCart /> : null}
-      {ordering ? <LandingOrderTour /> : null}
+      {ordering && config.features?.simulation !== false ? <LandingOrderTour /> : null}
     </>
   );
 }

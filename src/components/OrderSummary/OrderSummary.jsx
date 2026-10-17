@@ -30,6 +30,8 @@ export default function OrderSummary({
   onRemove,
   onCheckout,
   checkoutLabel,
+  onStart,
+  startLabel,
 }) {
   if (!items.length) {
     return (
@@ -39,9 +41,9 @@ export default function OrderSummary({
           type="button"
           className="order-summary__checkout"
           data-tour="checkout"
-          onClick={onCheckout}
+          onClick={onStart || onCheckout}
         >
-          {checkoutLabel}
+          {startLabel || checkoutLabel}
         </button>
       </div>
     );
@@ -128,4 +130,6 @@ OrderSummary.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onCheckout: PropTypes.func.isRequired,
   checkoutLabel: PropTypes.string,
+  onStart: PropTypes.func,
+  startLabel: PropTypes.string,
 };

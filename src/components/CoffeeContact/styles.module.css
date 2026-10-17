@@ -492,7 +492,7 @@
   border-radius: 50%;
   background: #fffaf3;
   box-shadow:
-    0 0 0 4px #b5412f,
+    0 0 0 4px var(--skin-pop, #b5412f),
     0 8px 16px -4px rgb(0 0 0 / 0.5);
   scale: 0;
   rotate: -40deg;
