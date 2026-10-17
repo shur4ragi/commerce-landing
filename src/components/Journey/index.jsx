@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useSite } from '../../hooks/useSite.js';
 import { useScrollProgress } from '../../hooks/useScrollProgress.js';
 import { lockScroll } from '../../utils/scrollLock.js';
@@ -109,6 +110,30 @@ export default function Journey() {
 
   useScrollProgress(sectionRef, handleProgress);
 
+  // Se a seção já saiu (ou ainda não chegou) da tela, primeiro rola de volta até a etapa clicada,
+  // com o palco preso, e só então abre o cartão. Evita o cartão aparecer cortado fora da seção.
+  const zoomTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(zoomTimer.current), []);
+
+  const openZoom = (index) => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
+    const rect = section.getBoundingClientRect();
+    const pinned = rect.top <= header + 2 && rect.bottom >= window.innerHeight - 2;
+    if (pinned) {
+      setZoom(index);
+      return;
+    }
+    const distance = section.offsetHeight - (window.innerHeight - header);
+    const progress = Math.min(0.04 + (STOPS[index] ?? 1) * 0.86 + 0.01, 1);
+    const top = rect.top + window.scrollY - header + Math.max(distance, 0) * progress;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    window.clearTimeout(zoomTimer.current);
+    zoomTimer.current = window.setTimeout(() => setZoom(index), reduce ? 0 : 650);
+  };
+
   useEffect(() => {
     if (zoom < 0) {
       lastCard.current?.focus?.();
@@ -212,7 +237,7 @@ export default function Journey() {
                     tabIndex={shown ? 0 : -1}
                     onClick={(event) => {
                       lastCard.current = event.currentTarget;
-                      setZoom(index);
+                      openZoom(index);
                     }}
                     aria-label={`Ampliar etapa ${index + 1}: ${step.title}`}
                   >
@@ -240,37 +265,40 @@ export default function Journey() {
           ) : null}
         </div>
 
-        {zoom >= 0 ? (
-          <div
-            className={styles.zoom}
-            role="dialog"
-            aria-modal="true"
-            aria-label={steps[zoom].title}
-            onClick={() => setZoom(-1)}
-          >
-            <article key={zoom} className={styles.zoomCard} onClick={(event) => event.stopPropagation()}>
-              <img src={steps[zoom].image} alt={steps[zoom].alt} />
-              <div className={styles.zoomCopy}>
-                <span className={styles.zoomStep}>
-                  {String(zoom + 1).padStart(2, '0')} <small>/ {String(steps.length).padStart(2, '0')}</small>
-                </span>
-                <h3>{steps[zoom].title}</h3>
-                <p>{steps[zoom].text}</p>
-                <div className={styles.zoomNav}>
-                  <button type="button" onClick={() => setZoom((zoom - 1 + steps.length) % steps.length)} aria-label="Etapa anterior">
-                    <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+        {zoom >= 0 && typeof document !== 'undefined'
+          ? createPortal(
+              <div
+                className={styles.zoom}
+                role="dialog"
+                aria-modal="true"
+                aria-label={steps[zoom].title}
+                onClick={() => setZoom(-1)}
+              >
+                <article key={zoom} className={styles.zoomCard} onClick={(event) => event.stopPropagation()}>
+                  <img src={steps[zoom].image} alt={steps[zoom].alt} />
+                  <div className={styles.zoomCopy}>
+                    <span className={styles.zoomStep}>
+                      {String(zoom + 1).padStart(2, '0')} <small>/ {String(steps.length).padStart(2, '0')}</small>
+                    </span>
+                    <h3>{steps[zoom].title}</h3>
+                    <p>{steps[zoom].text}</p>
+                    <div className={styles.zoomNav}>
+                      <button type="button" onClick={() => setZoom((zoom - 1 + steps.length) % steps.length)} aria-label="Etapa anterior">
+                        <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+                      </button>
+                      <button type="button" onClick={() => setZoom((zoom + 1) % steps.length)} aria-label="Próxima etapa">
+                        <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                  <button ref={closeRef} type="button" className={styles.zoomClose} onClick={() => setZoom(-1)} aria-label="Fechar">
+                    <i className="fa-solid fa-xmark" aria-hidden="true" />
                   </button>
-                  <button type="button" onClick={() => setZoom((zoom + 1) % steps.length)} aria-label="Próxima etapa">
-                    <i className="fa-solid fa-chevron-right" aria-hidden="true" />
-                  </button>
-                </div>
-              </div>
-              <button ref={closeRef} type="button" className={styles.zoomClose} onClick={() => setZoom(-1)} aria-label="Fechar">
-                <i className="fa-solid fa-xmark" aria-hidden="true" />
-              </button>
-            </article>
-          </div>
-        ) : null}
+                </article>
+              </div>,
+              document.body,
+            )
+          : null}
 
         <p className={styles.hint} aria-hidden="true">
           {journey.hint}
