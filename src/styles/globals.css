@@ -144,7 +144,7 @@ h3 em,
 /* Uma tela por seção (features.fullScreenSections). Seções que cuidam da própria altura (hero, passo a passo) marcam data-own-height. */
 html[data-screens] main > section:not([data-own-height]),
 html[data-screens] main > div > section:not([data-own-height]) {
-  min-height: 100dvh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;

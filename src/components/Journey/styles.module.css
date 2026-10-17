@@ -1,6 +1,6 @@
 /* Seção alta com o palco preso: --drawn (0 → 1) é quanto da estrada já foi percorrido. */
 .journey {
-  --stage-h: calc(100dvh - var(--header-height));
+  --stage-h: calc(100svh - var(--header-height));
   --espresso: var(--skin-dark, #2c170d);
   --cream: var(--skin-paper, #f6eee4);
   --caramel: var(--skin-glow, #c98a4b);
@@ -128,7 +128,7 @@
   position: relative;
   z-index: 1;
   align-self: center;
-  width: min(80vw, 1040px, calc((100dvh - var(--header-height) - var(--chrome)) * 5));
+  width: min(80vw, 1040px, calc((100svh - var(--header-height) - var(--chrome)) * 5));
   aspect-ratio: 1200 / 240;
   margin: var(--room) auto;
 }
@@ -410,6 +410,9 @@
 /* ---------- Cartão ampliado ---------- */
 
 .zoom {
+  --cream: var(--skin-paper, #f6eee4);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
