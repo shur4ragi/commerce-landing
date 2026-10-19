@@ -20,7 +20,7 @@ const siteConfig = {
   branding: {
     logo,
     favicon,
-    ogImage: '/og-fryda.jpg',
+    ogImage: 'https://fryda-cafe.vercel.app/og.png',
     // Skeleton do "Como chegar": rota tracejada até uma xícara de café, nas cores da marca.
     skeleton: 'cafe',
   },
@@ -55,9 +55,9 @@ const siteConfig = {
     title: 'Fryda Café — Café inspirado na Frida Kahlo no Centro de Taubaté',
     description:
       'Café da manhã, almoço e café da tarde no Centro de Taubaté: torta de carne da vovó, bolos com calda, café coado no pano e estacionamento grátis. Delivery pelo iFood e encomendas pelo WhatsApp.',
-    ogTitle: 'Fryda Café',
-    ogDescription: 'Não vamos te vender algo que a gente não comeria.',
-    ogImage: '/og-fryda.jpg',
+    ogTitle: "Fryda Café — Taubaté",
+    ogDescription: "Café coado no pano, torta de carne da vovó e bolos com calda num café inspirado na Frida Kahlo, no Centro de Taubaté. Delivery pelo iFood e encomendas pelo WhatsApp.",
+    ogImage: 'https://fryda-cafe.vercel.app/og.png',
     locale: 'pt_BR',
     themeColor: '#5A3B2C',
   },

@@ -1,0 +1,11 @@
+{
+  "siteUrl": "https://fryda-cafe.vercel.app",
+  "siteName": "Fryda Café",
+  "title": "Fryda Café — Taubaté",
+  "description": "Café coado no pano, torta de carne da vovó e bolos com calda num café inspirado na Frida Kahlo, no Centro de Taubaté. Delivery pelo iFood e encomendas pelo WhatsApp.",
+  "image": "/og.png",
+  "imageAlt": "Fryda Café — “Passado na hora”, café inspirado na Frida Kahlo no Centro de Taubaté",
+  "themeColor": "#5A3B2C",
+  "icon": "/favicon.png",
+  "appleTouchIcon": "/apple-touch-icon.png"
+}
