@@ -20,7 +20,7 @@ const siteConfig = {
   branding: {
     logo,
     favicon,
-    ogImage: '/og-leyas.jpg',
+    ogImage: 'https://leyas-cafe.vercel.app/og.png',
   },
 
   // Verde-oliva e creme do logo e do cardápio; caramelo dos cafés e doces como destaque.
@@ -76,9 +76,9 @@ const siteConfig = {
     title: "Leya's Café — Seu lugar favorito em Taubaté",
     description:
       "Cafés, frappuccinos, Matilda Cake, salgados da casa e açaí no Independência, em Taubaté. Veja o cardápio e peça pelo WhatsApp.",
-    ogTitle: "Leya's Café",
-    ogDescription: 'Seu lugar favorito em Taubaté. Cardápio completo e pedidos pelo WhatsApp.',
-    ogImage: '/og-leyas.jpg',
+    ogTitle: "Leya's Café — Taubaté",
+    ogDescription: "Cafés, frappuccinos, Matilda Cake, salgados da casa e açaí no Independência, em Taubaté. Veja o cardápio e peça pelo WhatsApp.",
+    ogImage: 'https://leyas-cafe.vercel.app/og.png',
     locale: 'pt_BR',
     themeColor: '#5B604A',
   },

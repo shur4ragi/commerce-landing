@@ -1,0 +1,11 @@
+{
+  "siteUrl": "https://leyas-cafe.vercel.app",
+  "siteName": "Leya's Café",
+  "title": "Leya's Café — Taubaté",
+  "description": "Cafés, frappuccinos, Matilda Cake, salgados da casa e açaí no Independência, em Taubaté. Veja o cardápio e peça pelo WhatsApp.",
+  "image": "/og.png",
+  "imageAlt": "Leya's Café — “Seu lugar favorito”, café no Independência em Taubaté",
+  "themeColor": "#5B604A",
+  "icon": "/favicon.png",
+  "appleTouchIcon": "/apple-touch-icon.png"
+}
