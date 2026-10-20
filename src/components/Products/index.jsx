@@ -10,6 +10,7 @@ import ProductPanel from './ProductPanel.jsx';
 import styles from './styles.module.css';
 import { CartButton } from '../OrderCart';
 import { resolveOrderLinks } from '../../utils/whatsapp.js';
+import { isTouchMenu } from './touch.js';
 import OutboundLink from '../OutboundLink';
 
 function BookmarkIcon({ filled }) {
@@ -215,7 +216,7 @@ export default function Products() {
                             type="button"
                             className={styles.openHit}
                             onClick={() => {
-                              if (tutorialActive) openItem(item);
+                              if (tutorialActive || isTouchMenu()) openItem(item);
                             }}
                             onDoubleClick={() => openItem(item)}
                             onKeyDown={(event) => {
@@ -329,7 +330,7 @@ export default function Products() {
                         type="button"
                         className={styles.openHit}
                         onClick={() => {
-                          if (tutorialActive) openItem(item);
+                          if (tutorialActive || isTouchMenu()) openItem(item);
                         }}
                         onDoubleClick={() => openItem(item)}
                         onKeyDown={(event) => {

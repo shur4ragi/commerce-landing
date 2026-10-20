@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { ActionSkeleton, Card } from '../ui';
 import styles from './styles.module.css';
+import { isTouchMenu } from './touch.js';
 import { lockScroll } from '../../utils/scrollLock.js';
 
 function CloseIcon() {
@@ -193,6 +194,9 @@ export default function CatalogModal({
                       <button
                         type="button"
                         className={styles.openHit}
+                        onClick={() => {
+                          if (isTouchMenu()) onSelect(item);
+                        }}
                         onDoubleClick={() => onSelect(item)}
                         onKeyDown={(event) => {
                           if (event.key === 'Enter' || event.key === ' ') {
